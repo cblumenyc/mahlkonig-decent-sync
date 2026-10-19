@@ -79,9 +79,14 @@ namespace eval ::plugins::mahlkonig_decent_sync {
         if {[dict get $manifest files plugin.tcl sha256] ne [::sha2::sha256 -hex [update_read_binary $plugin_file]]} {
             update_problem "Loader update requires assisted installation";return
         }
-        if {![update_newer $candidate $version]} {set update_phase current;set update_status "Up to date";return}
+        set update_manifest $manifest
+        if {![update_newer $candidate $version]} {
+            set update_phase current
+            set update_status [expr {[update_newer $version $candidate] ? "Newer than server" : "Up to date"}]
+            return
+        }
         set update_generation [::sha2::sha256 -hex $bytes]
-        set update_manifest $manifest;set update_phase available;set update_status "Update available"
+        set update_phase available;set update_status "Update available"
     }
     proc update_idle_reason {} {
         variable shot_id;variable pending_scale;variable active_cycle;variable last_server_ack;variable busy;variable outbox;variable server_testing
@@ -207,7 +212,7 @@ namespace eval ::plugins::mahlkonig_decent_sync {
     }
     proc update_version_label {} {
         variable update_manifest;variable update_phase
-        if {$update_phase in {available downloading installed} && $update_manifest ne ""} {return [dict get $update_manifest version]}
+        if {$update_phase in {current available downloading installed} && $update_manifest ne ""} {return [dict get $update_manifest version]}
         return "—"
     }
 }

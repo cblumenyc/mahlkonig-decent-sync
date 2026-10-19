@@ -39,10 +39,16 @@ wait_update
 
 if {$scenario in {current older}} {
     if {$::plugins::mahlkonig_decent_sync::update_phase ne "current"} {error {current/older version offered for install}}
+    set latest [expr {$scenario eq "current" ? "1.0.0" : "0.9.0"}]
+    if {[::plugins::mahlkonig_decent_sync::update_version_label] ne $latest} {error {checked version hidden when no update is available}}
+    set status [expr {$scenario eq "current" ? "Up to date" : "Newer than server"}]
+    if {$::plugins::mahlkonig_decent_sync::update_status ne $status} {error {server version comparison is misleading}}
 } elseif {$scenario in {bad_manifest incompatible wrong_health manifest_redirect}} {
     if {$::plugins::mahlkonig_decent_sync::update_phase ne "error"} {error {invalid catalogue accepted}}
+    if {[::plugins::mahlkonig_decent_sync::update_version_label] ne "—"} {error {unverified version shown as latest}}
 } else {
     if {$::plugins::mahlkonig_decent_sync::update_phase ne "available"} {error "No candidate: $::plugins::mahlkonig_decent_sync::update_status"}
+    if {[::plugins::mahlkonig_decent_sync::update_version_label] ne "1.1.0-beta.1"} {error {available version hidden}}
     switch -- $scenario {
         local_busy {set ::plugins::mahlkonig_decent_sync::shot_id shot-in-progress}
         pending_scale {set ::plugins::mahlkonig_decent_sync::pending_scale {shot_id final-weight-pending}}
