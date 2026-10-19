@@ -35,6 +35,8 @@ jobs:
       - name: Portable offline delivery smoke
         run: python ops/deployment/deploy_smoke.py bridge
       - name: Build declared release packages
-        run: python ops/release.py --version 0.0.0-beta.1 --output "$RUNNER_TEMP/packages"
+        run: |
+          python ops/release.py --version 0.0.0-beta.1 --output "$RUNNER_TEMP/packages"
+          python ops/release.py --version 0.0.0-beta.2 --output "$RUNNER_TEMP/packages-next"
       - name: Fresh container install and recovery
-        run: python ops/container/verify_install.py "$RUNNER_TEMP/packages/mahlkonig-decent-sync-0.0.0-beta.1-linux-compose.tar.gz"
+        run: python ops/container/verify_install.py "$RUNNER_TEMP/packages/mahlkonig-decent-sync-0.0.0-beta.1-linux-compose.tar.gz" --next-package "$RUNNER_TEMP/packages-next/mahlkonig-decent-sync-0.0.0-beta.2-linux-compose.tar.gz"

@@ -17,6 +17,9 @@ def main():
     else:
         config = json.loads(config_path.read_text())
     with socket.socket() as probe:
+        # Match aiohttp's listener behavior: TIME_WAIT from our prior process
+        # must not be mistaken for another service already listening here.
+        probe.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
         try:probe.bind((config['listen_host'],80))
         except PermissionError:
             raise SystemExit('Port 80 binding capability is missing. Use the supplied runtime entrypoint and Compose capabilities.') from None

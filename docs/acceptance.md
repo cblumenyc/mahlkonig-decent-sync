@@ -13,7 +13,7 @@ python ops/deployment/deploy_smoke.py bridge
 python ops/release.py --version VERSION --output /outside/source/release
 ```
 
-The suite includes real Tcl execution, real JavaScript host behavior, JavaScript-to-Python delivery, duplicate/reordered events, disconnect/restart reconciliation, expired/replaced cycles, uncertain delivery, setup, recovery and package reproducibility. Tests and demos use fake devices only. The CI matrix installs the packaged runtime on fresh AMD64 and ARM64 Linux runners, verifies nonroot startup, disabled feedback, reboot identity and backup restoration. Read the actual CI results before claiming either architecture passed.
+The suite includes real Tcl execution, real JavaScript host behavior, JavaScript-to-Python delivery, duplicate/reordered events, disconnect/restart reconciliation, expired/replaced cycles, uncertain delivery, setup, recovery and package reproducibility. Tests and demos use fake devices only. The CI matrix installs the packaged runtime on fresh AMD64 and ARM64 Linux runners, verifies nonroot startup, the port-binding-only capability, disabled feedback, process-restart identity, backup restoration, the actual update idle gate, and image upgrade/rollback with current data in an unconfigured test volume. A real host reboot and hardware-active updates still require acceptance. Read the actual CI results before claiming either architecture passed.
 
 ## Hardware record
 

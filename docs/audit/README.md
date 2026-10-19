@@ -1,6 +1,6 @@
 # Consolidation audit
 
-Baseline: 19 October 2026. The original tree contained 882 non-cache files. A private, byte-verified snapshot retains all 882. The file ledger assigns every original item a disposition: 50 retain, 29 consolidate, 5 remove, 4 replace, 1 migrate, and 793 preserve privately. Every original item now has a resolved disposition and current owner or private preservation reason. The final counts in the private ledger supersede this initial classification. Hardware acceptance is a separate release gate.
+Baseline: 19 October 2026. The original tree contained 882 non-cache files. A private, byte-verified snapshot retains all 882. The file ledger assigns every original item a disposition: 49 retain, 30 consolidate, 5 remove, 4 replace, 1 migrate, and 793 preserve privately. Every original item now has a resolved disposition and current owner or private preservation reason. Hardware acceptance is a separate release gate.
 
 The public first-party ledger is `baseline-files.json`; `baseline-tests.json` maps 97 original Python test functions to their behavior and intended disposition. Parametrization produced 316 passing baseline tests, with actual Tcl execution and no skips. The portable deployment smoke check also passed. Private inventory, operational status, historical manifests and the original instructions remain outside the public tree. No credentials, live journals, firmware, downloaded implementations or rendered design previews belong in the release allowlist.
 
