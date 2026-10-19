@@ -5,11 +5,15 @@ const show = (id, visible) => $(id).classList.toggle('hidden', !visible);
 const text = (id, value) => { $(id).textContent = value; };
 const number = value => Number.isFinite(value) ? Number(value.toFixed(1)).toString() : '—';
 async function api(path, body) {
-  const response = await fetch('/api/v1/' + path, {method:body === undefined ? 'GET' : 'POST',
-    headers:{'Content-Type':'application/json'}, body:body === undefined ? undefined : JSON.stringify(body)});
-  const data = await response.json();
-  if (!response.ok) throw new Error(data.error || 'Request failed');
-  return data;
+  const controller=new AbortController(),deadline=setTimeout(()=>controller.abort(),5000);
+  try {
+    const response = await fetch('/api/v1/' + path, {method:body === undefined ? 'GET' : 'POST',
+      signal:controller.signal, headers:{'Content-Type':'application/json'},
+      body:body === undefined ? undefined : JSON.stringify(body)});
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Request failed');
+    return data;
+  } finally {clearTimeout(deadline);}
 }
 const labels = {adjusted:'Burrs adjusted', within_tolerance:'Target updated · within tolerance', movement_pending:'Burr movement unconfirmed', held:'Setting held', recorded:'History only',
   unchanged:'Target unchanged', validating:'Checking shot', delivering:'Verifying on grinder', verified:'Recorded', rejected:'Not sent', uncertain:'Check grinder'};
@@ -79,8 +83,8 @@ function renderAutomation(auto) {
     + (auto.validation?.daily_use ? ' · Validation incomplete' : '');
   text('mode-label','MAHLKÖNIG E64 WS · '+operating.toUpperCase());text('footer-mode',operating+' · Native target verification');
   text('profile-title',auto.profile?.title || 'No profile');
-  text('controller-connection',!serverOffline && auto.event_connected ? 'TABLET ONLINE' : 'TABLET OFFLINE');
-  $('controller-connection').classList.toggle('connected',!serverOffline && auto.event_connected);
+  text('controller-connection',serverOffline ? 'STATUS UNAVAILABLE' : auto.event_connected ? 'TABLET ONLINE' : 'TABLET OFFLINE');
+  $('controller-connection').classList.toggle('connected',!serverOffline && auto.event_connected && auto.sync_ready);
   text('automation-summary',auto.summary);
   text('validation-notice',auto.validation?.daily_use ? 'Validation pending: '+auto.validation.outstanding_checks.join('; ')+'.' : '');
   show('validation-notice',!!auto.validation?.daily_use);
@@ -92,7 +96,7 @@ function renderAutomation(auto) {
   show('target-check',t.confirmed || t.reason==='set_grinder_targets');
   text('measurement-mode',auto.profile?.mode === 'auto' ? 'Scale preferred · '+number(auto.profile.fallback_target.value)+' mL automatic backup · uncalibrated estimate' : auto.profile?.mode === 'scale' ? 'Finalized scale grams' : 'Pour volume × '+number(t.grams_per_ml || 1)+' g/mL · uncalibrated');
   text('time-basis','After preinfusion');text('yield-basis',auto.profile?.mode === 'volume' ? 'Grinder target · estimated grams' : 'Grinder target · grams');
-  text('machine-state',auto.machine.reachable ? words(auto.machine.state)+' / '+words(auto.machine.substate) : 'Tablet unreachable · feedback paused');
+  text('machine-state',serverOffline ? '—' : auto.machine.reachable ? words(auto.machine.state)+' / '+words(auto.machine.substate) : 'Tablet unreachable · feedback paused');
   text('wake-state',words(auto.wake.state));
   if (effective) text('automation-summary',auto.summary+' · Target '+number(effective.value)+' '+effective.unit+'.');
   const slots=JSON.stringify(auto.recipes);
@@ -129,7 +133,7 @@ function renderAutomation(auto) {
   }
   if (!auto.shots.length) {const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=6;td.textContent='No captures';tr.append(td);body.append(tr);}
 }
-async function refresh() {try {const [status,setup]=await Promise.all([api('status'),api('setup')]);serverOffline=false;render(status);renderSetup(setup);} catch(error) {serverOffline=true;if(current)render(current);if(!$('dashboard').classList.contains('hidden')) {text('notice', 'Server offline · '+error.message);show('notice',true);$('submit').disabled=true;}}}
+async function refresh() {try {const [status,setup]=await Promise.all([api('status'),api('setup')]);serverOffline=false;render(status);renderSetup(setup);} catch(error) {serverOffline=true;if(current)render(current);if(!$('dashboard').classList.contains('hidden')) {text('notice', 'Server unavailable · Retrying');show('notice',true);$('submit').disabled=true;}}}
 $('shot-form').addEventListener('submit', async event=>{
   event.preventDefault(); if(busy || !current?.active) return; busy=true;$('submit').disabled=true;text('form-error','');
   // Keep the same ID after an uncertain HTTP response; retries cannot double-submit.

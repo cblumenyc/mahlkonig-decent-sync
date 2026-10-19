@@ -4,7 +4,7 @@ A community integration that sends Decent Espresso results to a Mahlkönig E64 W
 
 The community beta uses a local Python/aiohttp server and SQLite journal, with plugins for Classic de1app and Decaid 0.9.0. A Raspberry Pi or compatible Linux/NAS host runs the server; tablet-only hosting is future work. Each installation supports one Decent, one E64 WS and one active controller.
 
-**Implementation and release validation are in progress. No community beta is hardware-accepted yet.** Release evidence and gates are recorded in [Acceptance](docs/acceptance.md). Do not confuse passing automated tests with verified physical operation.
+**Software checks pass on Linux ARM64 and AMD64. Hardware acceptance is still pending; no community beta has been published.** Release evidence and gates are recorded in [Acceptance](docs/acceptance.md). Do not confuse passing automated tests with verified physical operation.
 
 [Installation](docs/installation.md) · [Architecture](docs/architecture.md) · [API](docs/controller-api.md) · [Compatibility](docs/compatibility.md) · [Recovery](docs/recovery.md) · [Troubleshooting](docs/troubleshooting.md) · [Audit](docs/audit/README.md)
 

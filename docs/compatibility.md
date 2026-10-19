@@ -5,7 +5,7 @@
 | Grinder | Mahlkönig E64 WS, one per installation | Existing native integration; new release hardware acceptance pending |
 | Classic | de1app plugin API, Tcl 8.5+, DUI / Streamline integration | Actual Tcl tests; exact app, tablet and firmware combination must be recorded during acceptance |
 | Decaid | **v0.9.0**, plugin API 1 | Pinned source/API review, actual JavaScript host tests and Python delivery integration; physical validation pending |
-| Linux server | AMD64 or ARM64, Docker Engine + Compose host networking | Native architecture CI required; a manifest supporting both architectures is not installation evidence |
+| Linux server | AMD64 or ARM64, Docker Engine + Compose host networking | Native AMD64 and ARM64 clean-package installation, restart, recovery and image rollback passed in [CI](https://github.com/cblumenyc/mahlkonig-decent-sync/actions/runs/39294711668); real host/hardware acceptance pending |
 | Python | 3.13+ | Development checks also run on 3.14; exact dependencies in `bridge/requirements.lock` |
 | Test tools | Tcl/Tcllib `json`, `sha256`, `http`; Node.js 22+; pytest 9.1.1 | Tests must execute, never count skips as passes |
 | Delivery | Xenia one-press, cached two-second polling | Supported automatic route |

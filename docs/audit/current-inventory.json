@@ -153,7 +153,23 @@
   },
   "bridge/tests/decaid.test.cjs": {
     "disposition": "retain",
-    "responsibility": "Actual Node.js Decaid host/capture/storage regression runner."
+    "responsibility": "Actual Node.js Decaid host/capture/storage regression runner.",
+    "cases": [
+      "canonical hashing",
+      "durable queue and identity",
+      "live boundaries and final mass",
+      "scale loss",
+      "manual stop",
+      "edited record",
+      "workflow change",
+      "imported shot",
+      "late record",
+      "reconnect snapshot",
+      "stale shot frame",
+      "host storage and fresh-scale readiness",
+      "corrupt storage and missing storage ACK",
+      "mid-shot reconnect and reordered machine frames"
+    ]
   },
   "bridge/tests/decaid_support.cjs": {
     "disposition": "retain",
@@ -405,7 +421,7 @@
   },
   "ops/container/runtime.sh": {
     "disposition": "retain",
-    "responsibility": "Portable unprivileged Linux installation: runtime.sh."
+    "responsibility": "Distribution setpriv entrypoint: drops to UID/GID 10001 and port-binding-only capability before any application or health-check code."
   },
   "ops/container/update.py": {
     "disposition": "retain",
