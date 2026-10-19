@@ -211,7 +211,7 @@ namespace eval ::plugins::mahlkonig_decent_sync {
         .can create text [dui platform rescale_x [expr {$x+115}]] [dui platform rescale_y [expr {$y+80}]] \
             -text [dict get $banner_record text] -font Helv_12 -anchor w -fill [dict get $p ink] -tags coffee_sync_banner
         .can create text [dui platform rescale_x [expr {$x+$width-75}]] [dui platform rescale_y [expr {$y+80}]] \
-            -text × -font Helv_14 -fill [dict get $p muted] -tags coffee_sync_banner
+            -text × -font Helv_15 -fill [dict get $p muted] -tags coffee_sync_banner
         .can bind coffee_sync_banner <ButtonPress-1> "[list [namespace current]::clear_banner]; break"
         .can raise coffee_sync_banner
     }

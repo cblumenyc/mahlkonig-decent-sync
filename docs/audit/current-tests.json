@@ -516,7 +516,7 @@
   },
   "bridge/tests/test_tablet.py::test_panels_appearance_status_and_existing_settings_are_preserved": {
     "area": "capture",
-    "behavior": "Panels themes, status, settings and queued bytes remain intact; the logo is loaded before scaling through Classic public APIs at tablet resolution.",
+    "behavior": "Panels themes, status, settings and queued bytes remain intact; all text uses defined Classic fonts and the logo loads before scaling through public APIs at tablet resolution.",
     "assertions": 2
   },
   "bridge/tests/test_tablet.py::test_custom_banners_preserve_native_notifications_and_queued_events": {

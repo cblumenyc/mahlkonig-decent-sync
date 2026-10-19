@@ -24,14 +24,26 @@ proc save_plugin_settings {name} {
 }
 proc rescale_x_skin {x} {return [expr {$x * 0.5}]}
 source [file join [file dirname [info script]] classic_image_fixture.tcl]
+# Named fonts created by Classic 1.46.1.1 setup_environment on Android and desktop.
+# Unknown names silently become fallback font families in Tk.
+proc assert_classic_font {name} {
+    if {$name ni {Helv_1 Helv_4 Helv_5 Helv_6 Helv_6_bold Helv_7 Helv_7_bold
+        Helv_8 Helv_8_bold Helv_9 Helv_9_bold Helv_10 Helv_10_bold Helv_11
+        Helv_11_bold Helv_12 Helv_12_bold Helv_15 Helv_15_bold Helv_16_bold
+        Helv_17_bold Helv_18_bold Helv_19_bold Helv_20_bold Helv_30 Helv_30_bold}} {
+        error "undefined Classic font: $name"
+    }
+}
 proc add_de1_text {page x y args} {
     array set opts $args
+    assert_classic_font $opts(-font)
     if {[info exists opts(-textvariable)]} {error {canvas text does not accept -textvariable}}
     dict set ::items [lindex $opts(-tags) 0] [list page $page type text tags $opts(-tags) options $args]
 }
 proc add_de1_variable {page x y args} {
     if {[lindex $args end-1] ne "-textvariable"} {error {variable code must be last}}
     array set opts $args
+    assert_classic_font $opts(-font)
     dict set ::bindings [lindex $opts(-tags) 0] $opts(-textvariable)
     dict set ::items [lindex $opts(-tags) 0] [list page $page type text tags $opts(-tags) options [lrange $args 0 end-2]]
 }
@@ -63,6 +75,7 @@ proc dui {family operation args} {
         } elseif {$operation eq "entry"} {
             set opts [lrange $args 3 end]
             array set options $opts
+            assert_classic_font $options(-font)
             if {$options(-textvariable) ne "::plugins::mahlkonig_decent_sync::server_input"} {error {entry rebound}}
             return .panels_entry
         } else {error "unsupported DUI add: $operation"}

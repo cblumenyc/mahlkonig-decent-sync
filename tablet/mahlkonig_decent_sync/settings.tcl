@@ -155,11 +155,11 @@ namespace eval ::plugins::mahlkonig_decent_sync {
         settings_shape cs_up_card 160 310 2240 900 card 36 $page
         settings_text cs_up_about 245 1120 "Community integration · GPL-3.0-or-later" Helv_9 muted w $page
         settings_text cs_up_about_logo 245 1280 "Logo: Hemro Group / Oelna · CC BY-SA 3.0" Helv_9 muted w $page
-        settings_text cs_up_plugin 245 440 "Mahlkönig - Decent sync" Helv_14 ink w $page
+        settings_text cs_up_plugin 245 440 "Mahlkönig - Decent sync" Helv_15 ink w $page
         settings_text cs_up_installed_label 245 640 Installed Helv_12 muted w $page
-        settings_text cs_up_installed 2280 640 $version Helv_14 ink e $page
+        settings_text cs_up_installed 2280 640 $version Helv_15 ink e $page
         settings_text cs_up_latest_label 245 810 Latest Helv_12 muted w $page
-        add_de1_variable $page 2280 810 -font Helv_14 -anchor e -tags {cs_up_latest cs_settings_ink} -fill [dict get $p ink] \
+        add_de1_variable $page 2280 810 -font Helv_15 -anchor e -tags {cs_up_latest cs_settings_ink} -fill [dict get $p ink] \
             -textvariable {[::plugins::mahlkonig_decent_sync::update_version_label]}
         add_de1_variable $page 245 1020 -font Helv_12 -anchor w -tags {cs_up_status cs_settings_muted} -fill [dict get $p muted] \
             -textvariable {$::plugins::mahlkonig_decent_sync::update_status}
@@ -183,16 +183,16 @@ namespace eval ::plugins::mahlkonig_decent_sync {
         dui add canvas_item rect $page 0 0 2560 1600 -fill [dict get $p bg] -width 0 -tags cs_bo_bg
         settings_text cs_bo_title 180 175 Banners Helv_20_bold ink w $page
         settings_shape cs_bo_card 160 310 2240 900 card 36 $page
-        settings_text cs_bo_position 245 425 Position Helv_14 ink w $page
+        settings_text cs_bo_position 245 425 Position Helv_15 ink w $page
         foreach {position x title} {top_center 245 {Top centre} top_right 965 {Top right} bottom_center 1685 {Bottom centre}} {
             settings_shape cs_bo_${position}_fill $x 510 630 160 bg 30 $page
             settings_text cs_bo_${position}_text [expr {$x+315}] 590 $title Helv_12 ink center $page
             add_de1_button $page [list ::plugins::mahlkonig_decent_sync::save_banner_preference banner_position $position] $x 510 [expr {$x+630}] 670 ""
         }
-        settings_text cs_bo_duration 245 840 Duration Helv_14 ink w $page
+        settings_text cs_bo_duration 245 840 Duration Helv_15 ink w $page
         foreach {tag x label delta} {minus 245 − -1 plus 930 + 1} {
             settings_shape cs_bo_${tag}_fill $x 920 220 160 bg 30 $page
-            settings_text cs_bo_${tag}_text [expr {$x+110}] 1000 $label Helv_14 ink center $page
+            settings_text cs_bo_${tag}_text [expr {$x+110}] 1000 $label Helv_15 ink center $page
             add_de1_button $page [list ::plugins::mahlkonig_decent_sync::change_banner_duration $delta] $x 920 [expr {$x+220}] 1080 ""
         }
         add_de1_variable $page 700 1000 -font Helv_20_bold -anchor center -tags {cs_bo_seconds cs_settings_ink} -fill [dict get $p ink] \
@@ -284,7 +284,7 @@ namespace eval ::plugins::mahlkonig_decent_sync {
         set logo_scale [expr {[rescale_x_skin 220]/220.0}]
         ::photoscale $logo_image $logo_scale $logo_scale
         dui add canvas_item image $page 160 112 -image $logo_image -anchor nw -tags cs_logo
-        settings_text cs_title 430 175 "Mahlkönig - Decent sync" Helv_14
+        settings_text cs_title 430 175 "Mahlkönig - Decent sync" Helv_15
         settings_text cs_updates_link 1820 1455 "Updates ›" Helv_11 muted center
         add_de1_button $page {page_to_show_when_off plugin_mahlkonig_decent_sync_updates} 1670 1395 2010 1513 ""
         settings_shape cs_sync_fill 1710 112 670 126 selected 126
@@ -294,7 +294,7 @@ namespace eval ::plugins::mahlkonig_decent_sync {
 
         settings_shape {cs_connection_card cs_settings_card} 160 310 1090 780
         settings_shape {cs_measurement_card cs_settings_card} 1310 310 1090 780
-        settings_text cs_connection_title 230 405 Connection Helv_14
+        settings_text cs_connection_title 230 405 Connection Helv_15
         settings_text cs_server_label 230 535 Server
         settings_text cs_grinder_label 230 645 Grinder
         foreach {device y} {server 535 grinder 645} {
@@ -313,7 +313,7 @@ namespace eval ::plugins::mahlkonig_decent_sync {
         settings_text cs_connect_text 705 1019 "Save & connect" Helv_12 ink center
         add_de1_button $page {::plugins::mahlkonig_decent_sync::save_server} 225 960 1185 1080 ""
 
-        settings_text cs_measurement_title 1380 405 Measurement Helv_14
+        settings_text cs_measurement_title 1380 405 Measurement Helv_15
         foreach {mode y title subtitle} {auto 478 {Scale + backup} {Backup · uncalibrated} scale 685 {Scale only} {} volume 878 {Volume estimate} Uncalibrated} {
             settings_shape cs_measure_${mode}_border 1375 $y 960 182 card 32
             settings_shape cs_measure_${mode}_fill 1378 [expr {$y+3}] 954 176 card 28
@@ -326,7 +326,7 @@ namespace eval ::plugins::mahlkonig_decent_sync {
         }
 
         settings_shape {cs_display_card cs_settings_card} 160 1145 2240 200
-        settings_text cs_display_title 230 1245 Display Helv_14
+        settings_text cs_display_title 230 1245 Display Helv_15
         settings_text cs_popups_label 700 1245 "Banners ›"
         add_de1_button $page {page_to_show_when_off plugin_mahlkonig_decent_sync_banners} 650 1165 1170 1325 ""
         settings_text cs_badge_label 1600 1245 "Status badge"
