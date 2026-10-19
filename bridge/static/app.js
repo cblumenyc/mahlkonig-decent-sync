@@ -1,6 +1,6 @@
 'use strict';
 const $ = id => document.getElementById(id);
-let current = null, busy = false, activeId = null, requestId = null;
+let current = null, busy = false, activeId = null, requestId = null, serverOffline = false;
 const show = (id, visible) => $(id).classList.toggle('hidden', !visible);
 const text = (id, value) => { $(id).textContent = value; };
 const number = value => Number.isFinite(value) ? Number(value.toFixed(1)).toString() : '—';
@@ -15,12 +15,12 @@ const labels = {adjusted:'Burrs adjusted', within_tolerance:'Target updated · w
   unchanged:'Target unchanged', validating:'Checking shot', delivering:'Verifying on grinder', verified:'Recorded', rejected:'Not sent', uncertain:'Check grinder'};
 function render(data) {
   current = data;
-  const ready = data.automation?.sync_ready === true;
-  text('connection', ready ? '● READY' : data.automation ? ({automatic_feedback_disabled:'Feedback disabled',tablet_connection_unavailable:'Tablet offline',grinder_connection_unavailable:'Grinder offline'}[data.automation.sync_warning] || 'Action needed') : 'Manual input');
+  const ready = !serverOffline && data.automation?.sync_ready === true;
+  text('connection', serverOffline ? 'Server offline' : ready ? '● READY' : data.automation ? ({automatic_feedback_disabled:'Feedback disabled',tablet_connection_unavailable:'Tablet offline',grinder_connection_unavailable:'Grinder offline'}[data.automation.sync_warning] || 'Action needed') : 'Manual input');
   $('connection').classList.toggle('connected', ready);
   const r = data.recipe, a = data.active;
   text('dose', number(r.dose_g) + ' g'); text('yield', number(r.yield_g) + ' g'); text('target-time', number(r.time_s) + ' s');
-  text('physical', data.sensor_valid ? number(data.physical_um) + ' µm' : '—');
+  text('physical', !serverOffline && data.sensor_valid ? number(data.physical_um) + ' µm' : '—');
   text('target-gap', 'Target ' + number(r.target_um) + ' µm');
   text('workflow-note', data.automation ? 'Preinfusion end → extraction stop' :
     'First drip → extraction stop · Target '+number(r.yield_g)+' g');
@@ -40,7 +40,7 @@ function render(data) {
   if (a?.cycle_id !== activeId) {
     activeId = a?.cycle_id; requestId = null; $('weight').value = ''; $('seconds').value = ''; $('record-only').checked = false; text('form-error', '');
   }
-  const canSend = phase === 'brewing' && !!a?.grind_uuid && data.grinder_connected;
+  const canSend = phase === 'brewing' && !!a?.grind_uuid && data.grinder_connected && !serverOffline;
   show('record-only-wrap', canSend && !a.adjustment_eligible);
   $('submit').disabled = !canSend || busy || (!a.adjustment_eligible && !$('record-only').checked);
   show('cancel', !!a && ['armed','brewing','attention'].includes(phase));
@@ -77,10 +77,10 @@ function renderAutomation(auto) {
   const modes = {observe:'Observation only',xenia_one_press:'One arming press'};
   const operating = (auto.supervised_test ? 'Supervised test · ' : !auto.enabled ? 'Feedback disabled · ' : 'Automatic sync · ') + modes[auto.feedback_mode]
     + (auto.validation?.daily_use ? ' · Validation incomplete' : '');
-  text('mode-label','MAHLKÖNIG E64 WS · '+operating.toUpperCase());text('footer-mode',operating+' · Manual targets, verified automatically');
+  text('mode-label','MAHLKÖNIG E64 WS · '+operating.toUpperCase());text('footer-mode',operating+' · Native target verification');
   text('profile-title',auto.profile?.title || 'No profile');
-  text('controller-connection',auto.event_connected ? 'TABLET ONLINE' : 'TABLET OFFLINE');
-  $('controller-connection').classList.toggle('connected',auto.event_connected);
+  text('controller-connection',!serverOffline && auto.event_connected ? 'TABLET ONLINE' : 'TABLET OFFLINE');
+  $('controller-connection').classList.toggle('connected',!serverOffline && auto.event_connected);
   text('automation-summary',auto.summary);
   text('validation-notice',auto.validation?.daily_use ? 'Validation pending: '+auto.validation.outstanding_checks.join('; ')+'.' : '');
   show('validation-notice',!!auto.validation?.daily_use);
@@ -89,6 +89,7 @@ function renderAutomation(auto) {
   text('target-check', t.confirmed ? 'Verified · Slot '+t.recipe_index+' · '+number(t.yield_g)+' g / '+number(t.target_time_s)+' s' :
     t.reason === 'set_grinder_targets' ? 'Set grinder slot '+t.recipe_index+' to '+number(t.yield_g)+' g / '+number(t.target_time_s)+' s · Current: '+number(t.native?.recipe_brew_weight/1000)+' g / '+number(t.native?.recipe_brew_time/1000)+' s.' :
     auto.profile ? 'Profile setup required' : 'Enable tablet plugin');
+  show('target-check',t.confirmed || t.reason==='set_grinder_targets');
   text('measurement-mode',auto.profile?.mode === 'auto' ? 'Scale preferred · '+number(auto.profile.fallback_target.value)+' mL automatic backup · uncalibrated estimate' : auto.profile?.mode === 'scale' ? 'Finalized scale grams' : 'Pour volume × '+number(t.grams_per_ml || 1)+' g/mL · uncalibrated');
   text('time-basis','After preinfusion');text('yield-basis',auto.profile?.mode === 'volume' ? 'Grinder target · estimated grams' : 'Grinder target · grams');
   text('machine-state',auto.machine.reachable ? words(auto.machine.state)+' / '+words(auto.machine.substate) : 'Tablet unreachable · feedback paused');
@@ -107,8 +108,8 @@ function renderAutomation(auto) {
   $('commission').disabled=!auto.profile || !!current.active || auto.machine.state==='Espresso';
   const latest=auto.shots[0],delivery=latest?.delivery;
   const phase=current.active?.phase || 'idle';
-  text('shot-heading',phase==='idle' ? (auto.sync_ready ? 'Ready to grind' : 'Action needed') : phase==='armed' && auto.feedback_mode==='xenia_one_press' ? 'Arm feedback' :
-    phase==='armed' || phase==='brewing' ? 'Extract on Decent' : phase==='attention' ? 'Check cycle' : 'Result saved. Checking grinder');
+  text('shot-heading',phase==='idle' ? (!serverOffline && auto.sync_ready ? 'Ready to grind' : 'Action needed') : phase==='armed' && auto.feedback_mode==='xenia_one_press' ? 'Arm feedback' :
+    phase==='armed' || phase==='brewing' ? 'Extract on Decent' : phase==='attention' ? 'Check cycle' : 'Verifying result');
   text('shot-instruction',phase==='attention' ? current.active.message : auto.summary);
   if (latest?.feedback_status==='awaiting_arm') text('shot-heading','Press grinder to send');
   if (current.maintenance) text('shot-heading','Updating');
@@ -128,7 +129,7 @@ function renderAutomation(auto) {
   }
   if (!auto.shots.length) {const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=6;td.textContent='No captures';tr.append(td);body.append(tr);}
 }
-async function refresh() {try {const [status,setup]=await Promise.all([api('status'),api('setup')]);render(status);renderSetup(setup);} catch(error) {if(!$('dashboard').classList.contains('hidden')) {text('notice', 'Connection to the server was interrupted. '+error.message);show('notice',true);$('submit').disabled=true;}}}
+async function refresh() {try {const [status,setup]=await Promise.all([api('status'),api('setup')]);serverOffline=false;render(status);renderSetup(setup);} catch(error) {serverOffline=true;if(current)render(current);if(!$('dashboard').classList.contains('hidden')) {text('notice', 'Server offline · '+error.message);show('notice',true);$('submit').disabled=true;}}}
 $('shot-form').addEventListener('submit', async event=>{
   event.preventDefault(); if(busy || !current?.active) return; busy=true;$('submit').disabled=true;text('form-error','');
   // Keep the same ID after an uncertain HTTP response; retries cannot double-submit.

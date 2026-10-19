@@ -26,7 +26,12 @@ def main():
         (folder/'.env').write_text(f'SYNC_VERSION={version}\nSYNC_ORIGIN=http://{address}\nSYNC_LAN_CIDR={address}/32\n')
         project='sync-check-'+uuid.uuid4().hex[:12]
         prefix=['docker','compose','-p',project,'--project-directory',str(folder),'--env-file',str(folder/'.env'),'-f',str(folder/'compose.yaml')]
-        def run(*args):return subprocess.run([*prefix,*args],check=True,capture_output=True,text=True,timeout=180).stdout.strip()
+        def run(*args):
+            result=subprocess.run([*prefix,*args],capture_output=True,text=True,timeout=180)
+            if result.returncode:
+                print(result.stdout[-16000:]);print(result.stderr[-16000:])
+                result.check_returncode()
+            return result.stdout.strip()
         def get(path):
             with urllib.request.build_opener(urllib.request.ProxyHandler({})).open('http://'+address+path,timeout=5) as response:return json.load(response)
         try:
@@ -49,6 +54,10 @@ with Store('/data/bridge.sqlite3').db as a,Store('/data/recovery-check.sqlite3')
             run('exec','-T','sync','python','-c',check)
             print(json.dumps({'passed':True,'architecture':os.uname().machine,
                 'checks':['clean-package-install','nonroot','health','feedback-disabled','restart-identity','backup-restore']}))
+        except Exception:
+            try:print(run('logs','--no-color','--tail','80'))
+            except subprocess.SubprocessError:pass
+            raise
         finally:
             try:run('down','--volumes','--remove-orphans')
             except subprocess.SubprocessError:pass
