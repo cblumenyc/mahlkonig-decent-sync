@@ -1,0 +1,40 @@
+[Unit]
+Description=Mahlkönig - Decent sync
+Wants=network-online.target
+After=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=coffee-bridge
+Group=coffee-bridge
+WorkingDirectory=/opt/coffee-bridge/app
+ExecStart=/opt/coffee-bridge/venv/bin/python /opt/coffee-bridge/app/app.py --config /etc/coffee-bridge/config.json
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=20
+UMask=0077
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=PYTHONUNBUFFERED=1
+StateDirectory=coffee-bridge
+StateDirectoryMode=0700
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictRealtime=true
+LockPersonality=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+ReadWritePaths=/var/lib/coffee-bridge
+MemoryMax=256M
+TasksMax=32
+
+[Install]
+WantedBy=multi-user.target

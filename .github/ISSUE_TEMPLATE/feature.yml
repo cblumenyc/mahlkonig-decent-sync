@@ -1,0 +1,10 @@
+name: Feature
+description: Supported workflow improvement
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Workflow / expected behavior
+      description: Describe the user need and affected controller or installation.
+    validations:
+      required: true

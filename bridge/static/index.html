@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f5f2eb"><title>Mahlkönig - Decent sync</title><link rel="stylesheet" href="/static/style.css"><script src="/static/app.js" defer></script></head>
+<body><main>
+<header><a class="brand" href="/" aria-label="Mahlkönig - Decent sync home"><img src="/static/mahlkonig.svg" alt="Mahlkönig" width="110" height="61"><span>Mahlkönig - Decent sync<small>COMMUNITY INTEGRATION</small></span></a><div class="header-right"><label for="appearance" class="sr-only">Appearance</label><select id="appearance"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select><span id="connection" class="pill">Connecting</span></div></header>
+<div id="dashboard">
+<section class="intro"><div><p id="mode-label" class="eyebrow">MAHLKÖNIG E64 WS · MANUAL INPUT</p><h1>Status</h1></div><button id="refresh" class="secondary">Refresh grinder</button></section>
+<div id="notice" class="notice hidden" role="status"></div>
+<section class="metrics" aria-label="Active recipe"><div class="metric"><span>DOSE</span><strong id="dose">—</strong><small>Grinder recipe dose</small></div><div class="metric"><span>YIELD</span><strong id="yield">—</strong><small id="yield-basis">Target beverage weight</small></div><div class="metric"><span>TIME</span><strong id="target-time">—</strong><small id="time-basis">From first drip</small></div><div class="metric"><span>GRIND</span><strong id="physical">—</strong><small id="target-gap">Waiting for grinder</small></div></section>
+<section id="automation" class="card automation hidden" aria-label="Decent synchronization">
+<div class="section-top"><div><p class="eyebrow">DECENT SYNC</p><h2 id="profile-title">No profile</h2></div><span id="controller-connection" class="pill">Connecting</span></div>
+<p id="automation-summary" role="status"></p><p id="validation-notice" class="notice hidden"></p><p id="target-check" class="notice"></p>
+<div class="sync-details"><p><strong>Machine</strong><span id="machine-state">—</span></p><p><strong>Wake</strong><span id="wake-state">—</span></p><p><strong>Measurement</strong><span id="measurement-mode">—</span></p></div>
+<details id="profile-setup"><summary>Profile setup</summary><p class="muted">Existing recipe · Set yield/time on grinder · Keep dose</p>
+<form id="commission-form"><div class="input-pair"><div><label for="recipe-slot">Grinder recipe slot</label><select id="recipe-slot" required></select></div><div><label for="sync-time">Time after preinfusion (seconds)</label><input id="sync-time" type="number" min="10.1" max="80" step="0.1" value="24" required></div></div>
+<label class="checkbox suitability"><input id="suitable" type="checkbox" required> Shot duration responds to grind changes</label><p class="form-note">Fixed-duration profiles: history only. Scale is the default; estimates require selection in Classic.</p><button id="commission" type="submit">Save profile setup</button><p id="commission-error" class="error" role="alert"></p></form></details></section>
+<div class="workspace"><section class="card shot-card"><div class="section-top"><p class="eyebrow">CURRENT SHOT</p><span id="grind-label" class="subtle">No active grind</span></div><h2 id="shot-heading">Ready to grind</h2><p id="shot-instruction" class="muted">Grind → arm feedback → extract.</p>
+<ol class="steps"><li id="step-1"><b>1</b><span>Grind</span></li><li id="step-2"><b>2</b><span id="step-two-text">Arm feedback</span></li><li id="step-3"><b>3</b><span id="step-three-text">Enter result</span></li></ol>
+<div id="auto-shot" class="hidden"><p id="auto-shot-result" role="status"></p><p class="muted">Extraction: Decent · Feedback: grinder press</p></div>
+<form id="shot-form"><div class="input-pair"><div><label for="weight">Beverage weight</label><div class="unit-input"><input id="weight" type="number" inputmode="decimal" min="1" max="250" step="0.1" placeholder="33.0" required><span>g</span></div></div><div><label for="seconds">Time from first drip</label><div class="unit-input"><input id="seconds" type="number" inputmode="decimal" min="10.1" max="80" step="0.1" placeholder="24.0" required><span>sec</span></div></div></div>
+<div id="record-only-wrap" class="notice hidden"><label class="checkbox"><input id="record-only" type="checkbox"> History only</label><small>No pending native adjustment.</small></div>
+<button id="submit" type="submit" disabled>Send result</button><p id="form-error" class="error" role="alert"></p><p class="form-note">Actual measurements · One cycle at a time</p></form>
+<button id="cancel" class="text-button hidden">Cancel wait</button></section>
+<aside class="card feedback-card"><p class="eyebrow">LATEST RESULT</p><h2 id="outcome-title">No result</h2><p id="outcome-message" class="muted"></p><div id="outcome-detail" class="outcome-detail hidden"></div><div class="workflow-note"><strong>Timing</strong><p id="workflow-note">Manual: first drip → stop</p></div></aside></div>
+<section id="controller-journal" class="card history hidden"><div class="section-top"><div><h2>Decent history</h2></div><span class="subtle">All captures</span></div><div class="table-scroll"><table><thead><tr><th>Time / grind</th><th>Pour volume</th><th>Estimated mass</th><th>Scale mass</th><th>Extraction</th><th>Outcome</th></tr></thead><tbody id="controller-history"></tbody></table></div></section>
+<section class="card history"><div class="section-top"><div><h2>Grinder history</h2></div><span class="subtle">Local journal</span></div><div class="table-scroll"><table><thead><tr><th>Shot</th><th>Yield</th><th>Time</th><th>Target gap</th><th>Result</th></tr></thead><tbody id="history"></tbody></table></div></section>
+
+<section id="device-settings" class="card settings-card"><details id="setup-panel"><summary>Device setup</summary>
+<p id="setup-summary" role="status"></p><p class="muted">Xenia host: this server · Port 80 · Trusted LAN</p>
+<form id="devices-form"><div class="input-pair"><div><label for="controller-type">Decent app</label><select id="controller-type"><option value="classic">Classic de1app</option><option value="decaid">Decaid 0.9.0</option></select></div><div><label for="controller-url">Tablet REST address</label><input id="controller-url" type="url" placeholder="http://tablet.local:8888" required></div></div>
+<div class="input-pair"><div><label for="grinder-host">Grinder hostname or IP</label><input id="grinder-host" placeholder="grinder.local" required></div><div><label for="owner-password">Owner password</label><input id="owner-password" type="password" autocomplete="off"><small class="muted">Blank = retain current credential</small></div></div>
+<button id="inspect-certificates" type="button" class="secondary">Read grinder certificates</button><pre id="certificate-fingerprints"></pre>
+<label class="checkbox"><input id="confirm-certificates" type="checkbox" required> Grinder fingerprints verified</label>
+<button id="save-devices" type="submit" disabled>Save devices</button><p id="setup-error" class="error" role="alert"></p></form>
+<hr><form id="feedback-form"><label class="checkbox"><input id="feedback-enabled" type="checkbox"> Enable feedback</label>
+<label class="checkbox"><input id="acknowledge-beta" type="checkbox"> Accept incomplete beta validation</label>
+<button type="submit">Save feedback</button><p id="feedback-error" class="error" role="alert"></p></form></details>
+<details><summary>About</summary><p>Community integration · One Decent + E64 WS · Local server · Native grinder algorithm</p><p>Software: GPL-3.0-or-later. Logo: Hemro Group; SVG by Oelna, CC BY-SA 3.0. Independent community project. <a href="/api/v1/notices">License and asset notices</a>.</p></details></section>
+<footer><span>Mahlkönig - Decent sync</span><span id="footer-mode">Manual mode · Controller is not connected</span><span id="updated">Connecting…</span></footer>
+</div></main></body></html>

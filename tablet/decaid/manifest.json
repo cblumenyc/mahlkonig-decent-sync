@@ -1,0 +1,14 @@
+{
+  "id": "mahlkonig_decent_sync.reaplugin",
+  "name": "Mahlkönig - Decent sync",
+  "author": "Mahlkönig - Decent sync contributors",
+  "description": "Community E64 WS integration. Requires a local sync server; never starts extraction.",
+  "version": "0.0.0",
+  "apiVersion": 1,
+  "permissions": ["api", "pluginStorage", "events.shots", "events.workflow", "network.websocket"],
+  "settings": {
+    "serverAddress": {"type":"string","label":"Server address","description":"Local sync server HTTP address, using port 80. Select Decaid in its device setup first."},
+    "appearance": {"type":"enum","label":"Appearance","description":"Theme for the sync settings and status page.","values":["auto","light","dark"],"default":"auto"}
+  },
+  "api": [{"id":"settings","type":"http","data":{}},{"id":"status","type":"http","data":{}}]
+}

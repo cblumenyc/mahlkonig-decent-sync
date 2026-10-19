@@ -1,0 +1,1267 @@
+[
+  {
+    "file": "bridge/tests/test_contract.py",
+    "name": "test_controller_http_hostname_and_durable_ack",
+    "line": 17,
+    "disposition": "retain",
+    "behavior": "controller http hostname and durable ack",
+    "assertions": 6,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_contract.py::test_controller_http_hostname_and_durable_ack"
+    ],
+    "resolution": "Retained regression for controller http hostname and durable ack."
+  },
+  {
+    "file": "bridge/tests/test_contract.py",
+    "name": "test_classic_wake_accepts_plain_text_then_verifies_status",
+    "line": 43,
+    "disposition": "retain",
+    "behavior": "classic wake accepts plain text then verifies status",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_contract.py::test_classic_wake_accepts_plain_text_then_verifies_status"
+    ],
+    "resolution": "Retained regression for classic wake accepts plain text then verifies status."
+  },
+  {
+    "file": "bridge/tests/test_contract.py",
+    "name": "test_additive_migration_keeps_old_history_and_rejects_future_schema",
+    "line": 57,
+    "disposition": "retain",
+    "behavior": "additive migration keeps old history and rejects future schema",
+    "assertions": 3,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_contract.py::test_additive_migration_keeps_old_history_and_rejects_future_schema"
+    ],
+    "resolution": "Retained regression for additive migration keeps old history and rejects future schema."
+  },
+  {
+    "file": "bridge/tests/test_contract.py",
+    "name": "test_historical_reconciliation_is_idempotent_opaque_and_never_feedback",
+    "line": 72,
+    "disposition": "retain",
+    "behavior": "historical reconciliation is idempotent opaque and never feedback",
+    "assertions": 3,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_contract.py::test_historical_reconciliation_is_idempotent_opaque_and_never_feedback"
+    ],
+    "resolution": "Retained regression for historical reconciliation is idempotent opaque and never feedback."
+  },
+  {
+    "file": "bridge/tests/test_control_and_display.py",
+    "name": "test_grind_display_uses_only_fresh_cached_measured_position",
+    "line": 13,
+    "disposition": "retain",
+    "behavior": "grind display uses only fresh cached measured position",
+    "assertions": 5,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_control_and_display.py::test_grind_display_uses_only_fresh_cached_measured_position"
+    ],
+    "resolution": "Retained regression for grind display uses only fresh cached measured position."
+  },
+  {
+    "file": "bridge/tests/test_control_and_display.py",
+    "name": "test_late_arm_blocks_maintenance_and_display_distinguishes_receipt",
+    "line": 46,
+    "disposition": "retain",
+    "behavior": "late arm blocks maintenance and display distinguishes receipt",
+    "assertions": 12,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_control_and_display.py::test_late_arm_blocks_maintenance_and_display_distinguishes_receipt"
+    ],
+    "resolution": "Retained regression for late arm blocks maintenance and display distinguishes receipt."
+  },
+  {
+    "file": "bridge/tests/test_control_and_display.py",
+    "name": "test_connected_devices_do_not_imply_sync_ready",
+    "line": 74,
+    "disposition": "retain",
+    "behavior": "connected devices do not imply sync ready",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_control_and_display.py::test_connected_devices_do_not_imply_sync_ready"
+    ],
+    "resolution": "Retained regression for connected devices do not imply sync ready."
+  },
+  {
+    "file": "bridge/tests/test_control_and_display.py",
+    "name": "test_maintenance_gate_atomic_and_new_grind_cancels_lease",
+    "line": 94,
+    "disposition": "retain",
+    "behavior": "maintenance gate atomic and new grind cancels lease",
+    "assertions": 4,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_control_and_display.py::test_maintenance_gate_atomic_and_new_grind_cancels_lease"
+    ],
+    "resolution": "Retained regression for maintenance gate atomic and new grind cancels lease."
+  },
+  {
+    "file": "bridge/tests/test_controllers.py",
+    "name": "test_scale_finalization_waits_for_cup_mass_without_extending_extraction",
+    "line": 62,
+    "disposition": "retain",
+    "behavior": "scale finalization waits for cup mass without extending extraction",
+    "assertions": 15,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_scale_finalization_waits_for_cup_mass_without_extending_extraction"
+    ],
+    "resolution": "Retained regression for scale finalization waits for cup mass without extending extraction."
+  },
+  {
+    "file": "bridge/tests/test_controllers.py",
+    "name": "test_automatic_measurement_fallback_has_explicit_source_and_matching_stop",
+    "line": 122,
+    "disposition": "retain",
+    "behavior": "automatic measurement fallback has explicit source and matching stop",
+    "assertions": 7,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_automatic_measurement_fallback_has_explicit_source_and_matching_stop"
+    ],
+    "resolution": "Retained regression for automatic measurement fallback has explicit source and matching stop."
+  },
+  {
+    "file": "bridge/tests/test_controllers.py",
+    "name": "test_automatic_result_keeps_measurements_and_native_verification",
+    "line": 153,
+    "disposition": "retain",
+    "behavior": "automatic result keeps measurements and native verification",
+    "assertions": 9,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_automatic_result_keeps_measurements_and_native_verification"
+    ],
+    "resolution": "Retained regression for automatic result keeps measurements and native verification."
+  },
+  {
+    "file": "bridge/tests/test_controllers.py",
+    "name": "test_ineligible_shots_never_expose_feedback",
+    "line": 176,
+    "disposition": "retain",
+    "behavior": "ineligible shots never expose feedback",
+    "assertions": 3,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_ineligible_shots_never_expose_feedback"
+    ],
+    "resolution": "Retained regression for ineligible shots never expose feedback."
+  },
+  {
+    "file": "bridge/tests/test_controllers.py",
+    "name": "test_target_override_change_requires_native_match_not_new_commission",
+    "line": 206,
+    "disposition": "retain",
+    "behavior": "target override change requires native match not new commission",
+    "assertions": 3,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_target_override_change_requires_native_match_not_new_commission"
+    ],
+    "resolution": "Retained regression for target override change requires native match not new commission."
+  },
+  {
+    "file": "bridge/tests/test_controllers.py",
+    "name": "test_event_identity_and_nested_transaction_rollback",
+    "line": 219,
+    "disposition": "retain",
+    "behavior": "event identity and nested transaction rollback",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_event_identity_and_nested_transaction_rollback"
+    ],
+    "resolution": "Retained regression for event identity and nested transaction rollback."
+  },
+  {
+    "file": "bridge/tests/test_controllers.py",
+    "name": "test_reordered_start_and_missing_preinfusion_are_history_only",
+    "line": 238,
+    "disposition": "retain",
+    "behavior": "reordered start and missing preinfusion are history only",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_reordered_start_and_missing_preinfusion_are_history_only"
+    ],
+    "resolution": "Retained regression for reordered start and missing preinfusion are history only."
+  },
+  {
+    "file": "bridge/tests/test_controllers.py",
+    "name": "test_restart_at_saved_and_exposed_phases_never_replays",
+    "line": 253,
+    "disposition": "retain",
+    "behavior": "restart at saved and exposed phases never replays",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_restart_at_saved_and_exposed_phases_never_replays"
+    ],
+    "resolution": "Retained regression for restart at saved and exposed phases never replays."
+  },
+  {
+    "file": "bridge/tests/test_controllers.py",
+    "name": "test_changes_between_validation_and_poll_block_feedback",
+    "line": 264,
+    "disposition": "retain",
+    "behavior": "changes between validation and poll block feedback",
+    "assertions": 3,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_changes_between_validation_and_poll_block_feedback"
+    ],
+    "resolution": "Retained regression for changes between validation and poll block feedback."
+  },
+  {
+    "file": "bridge/tests/test_controllers.py",
+    "name": "test_wake_fresh_grind_once_and_never_purge_or_replay",
+    "line": 284,
+    "disposition": "retain",
+    "behavior": "wake fresh grind once and never purge or replay",
+    "assertions": 5,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_wake_fresh_grind_once_and_never_purge_or_replay"
+    ],
+    "resolution": "Retained regression for wake fresh grind once and never purge or replay."
+  },
+  {
+    "file": "bridge/tests/test_controllers.py",
+    "name": "test_production_cannot_enable_unverified_transport",
+    "line": 301,
+    "disposition": "retain",
+    "behavior": "production cannot enable unverified transport",
+    "assertions": 0,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_production_cannot_enable_unverified_transport"
+    ],
+    "resolution": "Retained regression for production cannot enable unverified transport."
+  },
+  {
+    "file": "bridge/tests/test_controllers.py",
+    "name": "test_history_measurements_are_kept_without_a_match_or_automatic_stop",
+    "line": 308,
+    "disposition": "retain",
+    "behavior": "history measurements are kept without a match or automatic stop",
+    "assertions": 6,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_history_measurements_are_kept_without_a_match_or_automatic_stop"
+    ],
+    "resolution": "Retained regression for history measurements are kept without a match or automatic stop."
+  },
+  {
+    "file": "bridge/tests/test_controllers.py",
+    "name": "test_scale_mode_delivers_measured_grams_and_keeps_volume_separate",
+    "line": 328,
+    "disposition": "retain",
+    "behavior": "scale mode delivers measured grams and keeps volume separate",
+    "assertions": 3,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_scale_mode_delivers_measured_grams_and_keeps_volume_separate"
+    ],
+    "resolution": "Retained regression for scale mode delivers measured grams and keeps volume separate."
+  },
+  {
+    "file": "bridge/tests/test_controllers.py",
+    "name": "test_retired_session_cannot_take_control_and_delayed_start_is_history_only",
+    "line": 345,
+    "disposition": "retain",
+    "behavior": "retired session cannot take control and delayed start is history only",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_retired_session_cannot_take_control_and_delayed_start_is_history_only"
+    ],
+    "resolution": "Retained regression for retired session cannot take control and delayed start is history only."
+  },
+  {
+    "file": "bridge/tests/test_controllers.py",
+    "name": "test_warmup_coalesces_wake_and_uncertain_request_is_not_replayed",
+    "line": 358,
+    "disposition": "retain",
+    "behavior": "warmup coalesces wake and uncertain request is not replayed",
+    "assertions": 5,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_warmup_coalesces_wake_and_uncertain_request_is_not_replayed"
+    ],
+    "resolution": "Retained regression for warmup coalesces wake and uncertain request is not replayed."
+  },
+  {
+    "file": "bridge/tests/test_controllers.py",
+    "name": "test_cycle_stays_ineligible_after_profile_changes_back",
+    "line": 377,
+    "disposition": "retain",
+    "behavior": "cycle stays ineligible after profile changes back",
+    "assertions": 1,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_cycle_stays_ineligible_after_profile_changes_back"
+    ],
+    "resolution": "Retained regression for cycle stays ineligible after profile changes back."
+  },
+  {
+    "file": "bridge/tests/test_controllers.py",
+    "name": "test_targets_must_already_match_the_recorded_grind",
+    "line": 389,
+    "disposition": "retain",
+    "behavior": "targets must already match the recorded grind",
+    "assertions": 1,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_targets_must_already_match_the_recorded_grind"
+    ],
+    "resolution": "Retained regression for targets must already match the recorded grind."
+  },
+  {
+    "file": "bridge/tests/test_controllers.py",
+    "name": "test_failed_exposure_commit_cannot_skip_durable_intent_on_next_poll",
+    "line": 399,
+    "disposition": "retain",
+    "behavior": "failed exposure commit cannot skip durable intent on next poll",
+    "assertions": 4,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_failed_exposure_commit_cannot_skip_durable_intent_on_next_poll"
+    ],
+    "resolution": "Retained regression for failed exposure commit cannot skip durable intent on next poll."
+  },
+  {
+    "file": "bridge/tests/test_correlation_recovery.py",
+    "name": "test_final_scale_weight_preserves_original_binding_failure",
+    "line": 13,
+    "disposition": "retain",
+    "behavior": "final scale weight preserves original binding failure",
+    "assertions": 8,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_correlation_recovery.py::test_final_scale_weight_preserves_original_binding_failure"
+    ],
+    "resolution": "Retained regression for final scale weight preserves original binding failure."
+  },
+  {
+    "file": "bridge/tests/test_correlation_recovery.py",
+    "name": "test_only_expired_unsent_native_idle_waits_clear",
+    "line": 50,
+    "disposition": "retain",
+    "behavior": "only expired unsent native idle waits clear",
+    "assertions": 5,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_correlation_recovery.py::test_only_expired_unsent_native_idle_waits_clear"
+    ],
+    "resolution": "Retained regression for only expired unsent native idle waits clear."
+  },
+  {
+    "file": "bridge/tests/test_correlation_recovery.py",
+    "name": "test_attention_status_does_not_claim_automatic_capture_is_ready",
+    "line": 86,
+    "disposition": "retain",
+    "behavior": "attention status does not claim automatic capture is ready",
+    "assertions": 1,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_correlation_recovery.py::test_attention_status_does_not_claim_automatic_capture_is_ready"
+    ],
+    "resolution": "Retained regression for attention status does not claim automatic capture is ready."
+  },
+  {
+    "file": "bridge/tests/test_cycle_ids.py",
+    "name": "test_press_before_during_after_shot_preserves_original_measurements",
+    "line": 54,
+    "disposition": "retain",
+    "behavior": "press before during after shot preserves original measurements",
+    "assertions": 11,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_cycle_ids.py::test_press_before_during_after_shot_preserves_original_measurements"
+    ],
+    "resolution": "Retained regression for press before during after shot preserves original measurements."
+  },
+  {
+    "file": "bridge/tests/test_cycle_ids.py",
+    "name": "test_identity_survives_delayed_reordered_events_and_old_cache",
+    "line": 88,
+    "disposition": "retain",
+    "behavior": "identity survives delayed reordered events and old cache",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_cycle_ids.py::test_identity_survives_delayed_reordered_events_and_old_cache"
+    ],
+    "resolution": "Retained regression for identity survives delayed reordered events and old cache."
+  },
+  {
+    "file": "bridge/tests/test_cycle_ids.py",
+    "name": "test_late_press_cannot_resurrect_wrong_or_invalid_cycle",
+    "line": 109,
+    "disposition": "retain",
+    "behavior": "late press cannot resurrect wrong or invalid cycle",
+    "assertions": 4,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_cycle_ids.py::test_late_press_cannot_resurrect_wrong_or_invalid_cycle"
+    ],
+    "resolution": "Retained regression for late press cannot resurrect wrong or invalid cycle."
+  },
+  {
+    "file": "bridge/tests/test_cycle_ids.py",
+    "name": "test_restart_resumes_only_unexposed_cycle_facts",
+    "line": 141,
+    "disposition": "retain",
+    "behavior": "restart resumes only unexposed cycle facts",
+    "assertions": 5,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_cycle_ids.py::test_restart_resumes_only_unexposed_cycle_facts"
+    ],
+    "resolution": "Retained regression for restart resumes only unexposed cycle facts."
+  },
+  {
+    "file": "bridge/tests/test_daily_update.py",
+    "name": "test_daily_update_retains_live_data_and_rolls_back_failed_code",
+    "line": 16,
+    "disposition": "remove",
+    "behavior": "daily update retains live data and rolls back failed code",
+    "assertions": 10,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_managed_deployment.py::test_health_failure_rolls_back_code_and_retains_new_evidence",
+      "bridge/tests/test_compose_update.py::test_update_restart_response_loss_and_code_only_rollback"
+    ],
+    "resolution": "Retired implementation-specific test; supported data preservation, validation or packaging behavior is covered by the listed regressions. Trial journal merging and installation-specific address repair have no current consumer."
+  },
+  {
+    "file": "bridge/tests/test_daily_use.py",
+    "name": "test_daily_authorization_keeps_actual_evidence_and_incomplete_status",
+    "line": 32,
+    "disposition": "retain",
+    "behavior": "daily authorization keeps actual evidence and incomplete status",
+    "assertions": 1,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_daily_use.py::test_daily_authorization_keeps_actual_evidence_and_incomplete_status"
+    ],
+    "resolution": "Retained regression for daily authorization keeps actual evidence and incomplete status."
+  },
+  {
+    "file": "bridge/tests/test_daily_use.py",
+    "name": "test_persistent_feedback_retains_cycle_guards",
+    "line": 56,
+    "disposition": "retain",
+    "behavior": "persistent feedback retains cycle guards",
+    "assertions": 5,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_daily_use.py::test_persistent_feedback_retains_cycle_guards"
+    ],
+    "resolution": "Retained regression for persistent feedback retains cycle guards."
+  },
+  {
+    "file": "bridge/tests/test_daily_use.py",
+    "name": "test_incomplete_authorization_cannot_enable_no_button",
+    "line": 83,
+    "disposition": "retain",
+    "behavior": "incomplete authorization cannot enable no button",
+    "assertions": 0,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_daily_use.py::test_incomplete_authorization_cannot_enable_no_button"
+    ],
+    "resolution": "Retained regression for incomplete authorization cannot enable no button."
+  },
+  {
+    "file": "bridge/tests/test_daily_use.py",
+    "name": "test_daily_cutover_preserves_both_histories_and_enables_normal_startup",
+    "line": 91,
+    "disposition": "remove",
+    "behavior": "daily cutover preserves both histories and enables normal startup",
+    "assertions": 12,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_backup.py::test_backup_restore_preserves_identity_payload_and_uncertain_state",
+      "bridge/tests/test_contract.py::test_additive_migration_keeps_old_history_and_rejects_future_schema"
+    ],
+    "resolution": "Retired implementation-specific test; supported data preservation, validation or packaging behavior is covered by the listed regressions. Trial journal merging and installation-specific address repair have no current consumer."
+  },
+  {
+    "file": "bridge/tests/test_daily_use.py",
+    "name": "test_daily_activation_rejects_unverified_evidence_before_changing_services",
+    "line": 139,
+    "disposition": "remove",
+    "behavior": "daily activation rejects unverified evidence before changing services",
+    "assertions": 1,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_daily_use.py::test_daily_authorization_keeps_actual_evidence_and_incomplete_status",
+      "bridge/tests/test_acceptance.py::test_promotion_requires_journal_and_hardware_observations"
+    ],
+    "resolution": "Retired implementation-specific test; supported data preservation, validation or packaging behavior is covered by the listed regressions. Trial journal merging and installation-specific address repair have no current consumer."
+  },
+  {
+    "file": "bridge/tests/test_managed_deployment.py",
+    "name": "test_archive_boundary_and_immutable_seal",
+    "line": 52,
+    "disposition": "retain",
+    "behavior": "archive boundary and immutable seal",
+    "assertions": 5,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_managed_deployment.py::test_archive_boundary_and_immutable_seal"
+    ],
+    "resolution": "Retained regression for archive boundary and immutable seal."
+  },
+  {
+    "file": "bridge/tests/test_managed_deployment.py",
+    "name": "test_inbox_symlink_and_bad_digest_rejected",
+    "line": 69,
+    "disposition": "retain",
+    "behavior": "inbox symlink and bad digest rejected",
+    "assertions": 0,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_managed_deployment.py::test_inbox_symlink_and_bad_digest_rejected"
+    ],
+    "resolution": "Retained regression for inbox symlink and bad digest rejected."
+  },
+  {
+    "file": "bridge/tests/test_managed_deployment.py",
+    "name": "test_cli_cannot_become_shell_or_worker",
+    "line": 77,
+    "disposition": "retain",
+    "behavior": "cli cannot become shell or worker",
+    "assertions": 1,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_managed_deployment.py::test_cli_cannot_become_shell_or_worker"
+    ],
+    "resolution": "Retained regression for cli cannot become shell or worker."
+  },
+  {
+    "file": "bridge/tests/test_managed_deployment.py",
+    "name": "test_checker_uses_fixed_unprivileged_offline_unit",
+    "line": 85,
+    "disposition": "retain",
+    "behavior": "checker uses fixed unprivileged offline unit",
+    "assertions": 3,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_managed_deployment.py::test_checker_uses_fixed_unprivileged_offline_unit"
+    ],
+    "resolution": "Retained regression for checker uses fixed unprivileged offline unit."
+  },
+  {
+    "file": "bridge/tests/test_managed_deployment.py",
+    "name": "test_success_and_repeat_worker_do_not_reinstall_or_rewind_journal",
+    "line": 114,
+    "disposition": "retain",
+    "behavior": "success and repeat worker do not reinstall or rewind journal",
+    "assertions": 4,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_managed_deployment.py::test_success_and_repeat_worker_do_not_reinstall_or_rewind_journal"
+    ],
+    "resolution": "Retained regression for success and repeat worker do not reinstall or rewind journal."
+  },
+  {
+    "file": "bridge/tests/test_managed_deployment.py",
+    "name": "test_health_failure_rolls_back_code_and_retains_new_evidence",
+    "line": 124,
+    "disposition": "retain",
+    "behavior": "health failure rolls back code and retains new evidence",
+    "assertions": 3,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_managed_deployment.py::test_health_failure_rolls_back_code_and_retains_new_evidence"
+    ],
+    "resolution": "Retained regression for health failure rolls back code and retains new evidence."
+  },
+  {
+    "file": "bridge/tests/test_managed_deployment.py",
+    "name": "test_racing_shot_cancels_update_and_restarts_existing_code",
+    "line": 138,
+    "disposition": "retain",
+    "behavior": "racing shot cancels update and restarts existing code",
+    "assertions": 3,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_managed_deployment.py::test_racing_shot_cancels_update_and_restarts_existing_code"
+    ],
+    "resolution": "Retained regression for racing shot cancels update and restarts existing code."
+  },
+  {
+    "file": "bridge/tests/test_managed_deployment.py",
+    "name": "test_crash_after_switch_recovers_without_restarting_healthy_app",
+    "line": 148,
+    "disposition": "retain",
+    "behavior": "crash after switch recovers without restarting healthy app",
+    "assertions": 3,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_managed_deployment.py::test_crash_after_switch_recovers_without_restarting_healthy_app"
+    ],
+    "resolution": "Retained regression for crash after switch recovers without restarting healthy app."
+  },
+  {
+    "file": "bridge/tests/test_managed_deployment.py",
+    "name": "test_busy_system_defers_without_stopping_service",
+    "line": 162,
+    "disposition": "retain",
+    "behavior": "busy system defers without stopping service",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_managed_deployment.py::test_busy_system_defers_without_stopping_service"
+    ],
+    "resolution": "Retained regression for busy system defers without stopping service."
+  },
+  {
+    "file": "bridge/tests/test_managed_deployment.py",
+    "name": "test_submit_is_idempotent_but_can_reinstall_after_intentional_rollback",
+    "line": 172,
+    "disposition": "retain",
+    "behavior": "submit is idempotent but can reinstall after intentional rollback",
+    "assertions": 3,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_managed_deployment.py::test_submit_is_idempotent_but_can_reinstall_after_intentional_rollback"
+    ],
+    "resolution": "Retained regression for submit is idempotent but can reinstall after intentional rollback."
+  },
+  {
+    "file": "bridge/tests/test_managed_deployment.py",
+    "name": "test_first_migration_keeps_legacy_code_accessible_under_worker_umask",
+    "line": 188,
+    "disposition": "consolidate",
+    "behavior": "first migration keeps legacy code accessible under worker umask",
+    "assertions": 4,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_managed_deployment.py::test_retired_bootstrap_release_is_rejected"
+    ],
+    "resolution": "Retired implementation-specific test; supported data preservation, validation or packaging behavior is covered by the listed regressions. Trial journal merging and installation-specific address repair have no current consumer."
+  },
+  {
+    "file": "bridge/tests/test_movement_confirmation.py",
+    "name": "test_delayed_motion_stays_quiet_then_confirms_without_resending",
+    "line": 34,
+    "disposition": "retain",
+    "behavior": "delayed motion stays quiet then confirms without resending",
+    "assertions": 10,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_movement_confirmation.py::test_delayed_motion_stays_quiet_then_confirms_without_resending"
+    ],
+    "resolution": "Retained regression for delayed motion stays quiet then confirms without resending."
+  },
+  {
+    "file": "bridge/tests/test_movement_confirmation.py",
+    "name": "test_persistent_uncertainty_deadline_survives_restart_and_later_resolves",
+    "line": 61,
+    "disposition": "retain",
+    "behavior": "persistent uncertainty deadline survives restart and later resolves",
+    "assertions": 8,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_movement_confirmation.py::test_persistent_uncertainty_deadline_survives_restart_and_later_resolves"
+    ],
+    "resolution": "Retained regression for persistent uncertainty deadline survives restart and later resolves."
+  },
+  {
+    "file": "bridge/tests/test_movement_confirmation.py",
+    "name": "test_real_problems_do_not_wait_for_movement_grace",
+    "line": 95,
+    "disposition": "retain",
+    "behavior": "real problems do not wait for movement grace",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_movement_confirmation.py::test_real_problems_do_not_wait_for_movement_grace"
+    ],
+    "resolution": "Retained regression for real problems do not wait for movement grace."
+  },
+  {
+    "file": "bridge/tests/test_movement_confirmation.py",
+    "name": "test_replaced_grind_ends_fast_checks_and_cannot_confirm_old_motion",
+    "line": 119,
+    "disposition": "retain",
+    "behavior": "replaced grind ends fast checks and cannot confirm old motion",
+    "assertions": 3,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_movement_confirmation.py::test_replaced_grind_ends_fast_checks_and_cannot_confirm_old_motion"
+    ],
+    "resolution": "Retained regression for replaced grind ends fast checks and cannot confirm old motion."
+  },
+  {
+    "file": "bridge/tests/test_movement_tolerance.py",
+    "name": "test_tiny_target_and_position_boundaries",
+    "line": 21,
+    "disposition": "retain",
+    "behavior": "tiny target and position boundaries",
+    "assertions": 1,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_movement_tolerance.py::test_tiny_target_and_position_boundaries"
+    ],
+    "resolution": "Retained regression for tiny target and position boundaries."
+  },
+  {
+    "file": "bridge/tests/test_movement_tolerance.py",
+    "name": "test_tolerance_never_hides_missing_evidence_or_native_problem",
+    "line": 30,
+    "disposition": "retain",
+    "behavior": "tolerance never hides missing evidence or native problem",
+    "assertions": 1,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_movement_tolerance.py::test_tolerance_never_hides_missing_evidence_or_native_problem"
+    ],
+    "resolution": "Retained regression for tolerance never hides missing evidence or native problem."
+  },
+  {
+    "file": "bridge/tests/test_movement_tolerance.py",
+    "name": "test_latest_pending_result_reclassified_after_restart_without_resending",
+    "line": 53,
+    "disposition": "retain",
+    "behavior": "latest pending result reclassified after restart without resending",
+    "assertions": 6,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_movement_tolerance.py::test_latest_pending_result_reclassified_after_restart_without_resending"
+    ],
+    "resolution": "Retained regression for latest pending result reclassified after restart without resending."
+  },
+  {
+    "file": "bridge/tests/test_movement_tolerance.py",
+    "name": "test_tablet_result_and_warning_distinguish_tolerance",
+    "line": 85,
+    "disposition": "retain",
+    "behavior": "tablet result and warning distinguish tolerance",
+    "assertions": 3,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_movement_tolerance.py::test_tablet_result_and_warning_distinguish_tolerance"
+    ],
+    "resolution": "Retained regression for tablet result and warning distinguish tolerance."
+  },
+  {
+    "file": "bridge/tests/test_native_refresh_binding.py",
+    "name": "test_slow_read_keeps_ack_and_polls_fast_then_delivers_once",
+    "line": 26,
+    "disposition": "retain",
+    "behavior": "slow read keeps ack and polls fast then delivers once",
+    "assertions": 17,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_native_refresh_binding.py::test_slow_read_keeps_ack_and_polls_fast_then_delivers_once"
+    ],
+    "resolution": "Retained regression for slow read keeps ack and polls fast then delivers once."
+  },
+  {
+    "file": "bridge/tests/test_native_refresh_binding.py",
+    "name": "test_refresh_cannot_rebind_or_bypass_delivery_guards",
+    "line": 82,
+    "disposition": "retain",
+    "behavior": "refresh cannot rebind or bypass delivery guards",
+    "assertions": 8,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_native_refresh_binding.py::test_refresh_cannot_rebind_or_bypass_delivery_guards"
+    ],
+    "resolution": "Retained regression for refresh cannot rebind or bypass delivery guards."
+  },
+  {
+    "file": "bridge/tests/test_native_refresh_binding.py",
+    "name": "test_second_shot_cannot_take_reserved_grind_and_old_events_never_reserve",
+    "line": 125,
+    "disposition": "retain",
+    "behavior": "second shot cannot take reserved grind and old events never reserve",
+    "assertions": 4,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_native_refresh_binding.py::test_second_shot_cannot_take_reserved_grind_and_old_events_never_reserve"
+    ],
+    "resolution": "Retained regression for second shot cannot take reserved grind and old events never reserve."
+  },
+  {
+    "file": "bridge/tests/test_rollout.py",
+    "name": "test_promotion_requires_journal_and_hardware_observations",
+    "line": 40,
+    "disposition": "consolidate",
+    "behavior": "promotion requires journal and hardware observations",
+    "assertions": 1,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_acceptance.py::test_promotion_requires_journal_and_hardware_observations"
+    ],
+    "resolution": "Retired implementation-specific test; supported data preservation, validation or packaging behavior is covered by the listed regressions. Trial journal merging and installation-specific address repair have no current consumer."
+  },
+  {
+    "file": "bridge/tests/test_rollout.py",
+    "name": "test_cutover_replacement_is_validated_and_preserves_committed_history",
+    "line": 52,
+    "disposition": "remove",
+    "behavior": "cutover replacement is validated and preserves committed history",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_managed_deployment.py::test_health_failure_rolls_back_code_and_retains_new_evidence"
+    ],
+    "resolution": "Retired implementation-specific test; supported data preservation, validation or packaging behavior is covered by the listed regressions. Trial journal merging and installation-specific address repair have no current consumer."
+  },
+  {
+    "file": "bridge/tests/test_rollout.py",
+    "name": "test_cutover_merges_intervening_manual_history_without_restoring_active_state",
+    "line": 65,
+    "disposition": "remove",
+    "behavior": "cutover merges intervening manual history without restoring active state",
+    "assertions": 5,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_backup.py::test_backup_restore_preserves_identity_payload_and_uncertain_state"
+    ],
+    "resolution": "Retired implementation-specific test; supported data preservation, validation or packaging behavior is covered by the listed regressions. Trial journal merging and installation-specific address repair have no current consumer."
+  },
+  {
+    "file": "bridge/tests/test_rollout.py",
+    "name": "test_history_merge_rolls_back_on_conflicting_delivery_identity",
+    "line": 85,
+    "disposition": "remove",
+    "behavior": "history merge rolls back on conflicting delivery identity",
+    "assertions": 3,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py::test_event_identity_and_nested_transaction_rollback"
+    ],
+    "resolution": "Retired implementation-specific test; supported data preservation, validation or packaging behavior is covered by the listed regressions. Trial journal merging and installation-specific address repair have no current consumer."
+  },
+  {
+    "file": "bridge/tests/test_rollout.py",
+    "name": "test_candidate_update_keeps_journals_and_rolls_back_unit_on_failure",
+    "line": 108,
+    "disposition": "remove",
+    "behavior": "candidate update keeps journals and rolls back unit on failure",
+    "assertions": 8,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_managed_deployment.py::test_health_failure_rolls_back_code_and_retains_new_evidence"
+    ],
+    "resolution": "Retired implementation-specific test; supported data preservation, validation or packaging behavior is covered by the listed regressions. Trial journal merging and installation-specific address repair have no current consumer."
+  },
+  {
+    "file": "bridge/tests/test_service.py",
+    "name": "test_success_duplicate_and_restart",
+    "line": 73,
+    "disposition": "retain",
+    "behavior": "success duplicate and restart",
+    "assertions": 11,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_service.py::test_success_duplicate_and_restart"
+    ],
+    "resolution": "Retained regression for success duplicate and restart."
+  },
+  {
+    "file": "bridge/tests/test_service.py",
+    "name": "test_invalid_input_never_finishes",
+    "line": 99,
+    "disposition": "retain",
+    "behavior": "invalid input never finishes",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_service.py::test_invalid_input_never_finishes"
+    ],
+    "resolution": "Retained regression for invalid input never finishes."
+  },
+  {
+    "file": "bridge/tests/test_service.py",
+    "name": "test_validation_failures_never_expose_result",
+    "line": 110,
+    "disposition": "retain",
+    "behavior": "validation failures never expose result",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_service.py::test_validation_failures_never_expose_result"
+    ],
+    "resolution": "Retained regression for validation failures never expose result."
+  },
+  {
+    "file": "bridge/tests/test_service.py",
+    "name": "test_record_only_and_unconfirmed_restart",
+    "line": 124,
+    "disposition": "retain",
+    "behavior": "record only and unconfirmed restart",
+    "assertions": 4,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_service.py::test_record_only_and_unconfirmed_restart"
+    ],
+    "resolution": "Retained regression for record only and unconfirmed restart."
+  },
+  {
+    "file": "bridge/tests/test_service.py",
+    "name": "test_unrelated_native_brew_does_not_confirm",
+    "line": 140,
+    "disposition": "retain",
+    "behavior": "unrelated native brew does not confirm",
+    "assertions": 1,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_service.py::test_unrelated_native_brew_does_not_confirm"
+    ],
+    "resolution": "Retained regression for unrelated native brew does not confirm."
+  },
+  {
+    "file": "bridge/tests/test_service.py",
+    "name": "test_no_press_no_send_and_abort",
+    "line": 149,
+    "disposition": "retain",
+    "behavior": "no press no send and abort",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_service.py::test_no_press_no_send_and_abort"
+    ],
+    "resolution": "Retained regression for no press no send and abort."
+  },
+  {
+    "file": "bridge/tests/test_service.py",
+    "name": "test_open_http_origin_peer_and_end_to_end",
+    "line": 160,
+    "disposition": "retain",
+    "behavior": "open http origin peer and end to end",
+    "assertions": 17,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_service.py::test_open_http_origin_peer_and_end_to_end"
+    ],
+    "resolution": "Retained regression for open http origin peer and end to end."
+  },
+  {
+    "file": "bridge/tests/test_service.py",
+    "name": "test_native_pending_must_be_consumed",
+    "line": 203,
+    "disposition": "retain",
+    "behavior": "native pending must be consumed",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_service.py::test_native_pending_must_be_consumed"
+    ],
+    "resolution": "Retained regression for native pending must be consumed."
+  },
+  {
+    "file": "bridge/tests/test_service.py",
+    "name": "test_motion_must_reach_new_target",
+    "line": 215,
+    "disposition": "retain",
+    "behavior": "motion must reach new target",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_service.py::test_motion_must_reach_new_target"
+    ],
+    "resolution": "Retained regression for motion must reach new target."
+  },
+  {
+    "file": "bridge/tests/test_service.py",
+    "name": "test_large_adjustment_hold_is_distinct_from_tolerance",
+    "line": 227,
+    "disposition": "retain",
+    "behavior": "large adjustment hold is distinct from tolerance",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_service.py::test_large_adjustment_hold_is_distinct_from_tolerance"
+    ],
+    "resolution": "Retained regression for large adjustment hold is distinct from tolerance."
+  },
+  {
+    "file": "bridge/tests/test_service.py",
+    "name": "test_backup_preserves_committed_journal",
+    "line": 239,
+    "disposition": "retain",
+    "behavior": "backup preserves committed journal",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_service.py::test_backup_preserves_committed_journal"
+    ],
+    "resolution": "Retained regression for backup preserves committed journal."
+  },
+  {
+    "file": "bridge/tests/test_tablet.py",
+    "name": "test_real_extension_effective_target_timing_and_stop",
+    "line": 23,
+    "disposition": "retain",
+    "behavior": "real extension effective target timing and stop",
+    "assertions": 9,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_tablet.py::test_real_extension_effective_target_timing_and_stop"
+    ],
+    "resolution": "Retained regression for real extension effective target timing and stop."
+  },
+  {
+    "file": "bridge/tests/test_tablet.py",
+    "name": "test_tablet_ineligible_and_scale_cases",
+    "line": 40,
+    "disposition": "retain",
+    "behavior": "tablet ineligible and scale cases",
+    "assertions": 8,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_tablet.py::test_tablet_ineligible_and_scale_cases"
+    ],
+    "resolution": "Retained regression for tablet ineligible and scale cases."
+  },
+  {
+    "file": "bridge/tests/test_tablet.py",
+    "name": "test_async_outbox_retries_identical_event_until_matching_durable_ack",
+    "line": 56,
+    "disposition": "retain",
+    "behavior": "async outbox retries identical event until matching durable ack",
+    "assertions": 3,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_tablet.py::test_async_outbox_retries_identical_event_until_matching_durable_ack"
+    ],
+    "resolution": "Retained regression for async outbox retries identical event until matching durable ack."
+  },
+  {
+    "file": "bridge/tests/test_tablet.py",
+    "name": "test_runtime_counters_do_not_change_profile_revision",
+    "line": 98,
+    "disposition": "retain",
+    "behavior": "runtime counters do not change profile revision",
+    "assertions": 5,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_tablet.py::test_runtime_counters_do_not_change_profile_revision"
+    ],
+    "resolution": "Retained regression for runtime counters do not change profile revision."
+  },
+  {
+    "file": "bridge/tests/test_tablet.py",
+    "name": "test_plugin_bootstrap_uses_live_variable_widget_and_complete_profile_keys",
+    "line": 108,
+    "disposition": "retain",
+    "behavior": "plugin bootstrap uses live variable widget and complete profile keys",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_tablet.py::test_plugin_bootstrap_uses_live_variable_widget_and_complete_profile_keys"
+    ],
+    "resolution": "Retained regression for plugin bootstrap uses live variable widget and complete profile keys."
+  },
+  {
+    "file": "bridge/tests/test_tablet.py",
+    "name": "test_automatic_mode_uses_native_stops_and_latches_volume_backup",
+    "line": 116,
+    "disposition": "retain",
+    "behavior": "automatic mode uses native stops and latches volume backup",
+    "assertions": 15,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_tablet.py::test_automatic_mode_uses_native_stops_and_latches_volume_backup"
+    ],
+    "resolution": "Retained regression for automatic mode uses native stops and latches volume backup."
+  },
+  {
+    "file": "bridge/tests/test_tablet.py",
+    "name": "test_final_mass_keeps_pump_stop_time_and_separate_checkpoint",
+    "line": 142,
+    "disposition": "retain",
+    "behavior": "final mass keeps pump stop time and separate checkpoint",
+    "assertions": 12,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_tablet.py::test_final_mass_keeps_pump_stop_time_and_separate_checkpoint"
+    ],
+    "resolution": "Retained regression for final mass keeps pump stop time and separate checkpoint."
+  },
+  {
+    "file": "bridge/tests/test_tablet.py",
+    "name": "test_cycle_identity_frozen_before_async_delivery",
+    "line": 163,
+    "disposition": "retain",
+    "behavior": "cycle identity frozen before async delivery",
+    "assertions": 4,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_tablet.py::test_cycle_identity_frozen_before_async_delivery"
+    ],
+    "resolution": "Retained regression for cycle identity frozen before async delivery."
+  },
+  {
+    "file": "bridge/tests/test_tablet.py",
+    "name": "test_settings_server_validation_and_essential_banner_deduplication",
+    "line": 171,
+    "disposition": "retain",
+    "behavior": "settings server validation and essential banner deduplication",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_tablet.py::test_settings_server_validation_and_essential_banner_deduplication"
+    ],
+    "resolution": "Retained regression for settings server validation and essential banner deduplication."
+  },
+  {
+    "file": "bridge/tests/test_tablet.py",
+    "name": "test_panels_appearance_status_and_existing_settings_are_preserved",
+    "line": 178,
+    "disposition": "retain",
+    "behavior": "panels appearance status and existing settings are preserved",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_tablet.py::test_panels_appearance_status_and_existing_settings_are_preserved"
+    ],
+    "resolution": "Retained regression for panels appearance status and existing settings are preserved."
+  },
+  {
+    "file": "bridge/tests/test_tablet.py",
+    "name": "test_custom_banners_preserve_native_notifications_and_queued_events",
+    "line": 186,
+    "disposition": "retain",
+    "behavior": "custom banners preserve native notifications and queued events",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_tablet.py::test_custom_banners_preserve_native_notifications_and_queued_events"
+    ],
+    "resolution": "Retained regression for custom banners preserve native notifications and queued events."
+  },
+  {
+    "file": "bridge/tests/test_tablet.py",
+    "name": "test_read_only_live_grind_preserves_recipe_and_skin_editors",
+    "line": 194,
+    "disposition": "retain",
+    "behavior": "read only live grind preserves recipe and skin editors",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_tablet.py::test_read_only_live_grind_preserves_recipe_and_skin_editors"
+    ],
+    "resolution": "Retained regression for read only live grind preserves recipe and skin editors."
+  },
+  {
+    "file": "bridge/tests/test_tablet.py",
+    "name": "test_known_server_address_recovery_preserves_pending_events_and_user_settings",
+    "line": 201,
+    "disposition": "consolidate",
+    "behavior": "known server address recovery preserves pending events and user settings",
+    "assertions": 2,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_classic_migration.py::test_every_interrupted_boundary_resumes_without_losing_state",
+      "bridge/tests/test_classic_migration.py::test_recovery_refuses_rebinding_changed_data_and_damaged_backup"
+    ],
+    "resolution": "Retired implementation-specific test; supported data preservation, validation or packaging behavior is covered by the listed regressions. Trial journal merging and installation-specific address repair have no current consumer."
+  },
+  {
+    "file": "bridge/tests/test_tablet_release.py",
+    "name": "test_tablet_release_is_reproducible_and_excludes_settings_and_private_files",
+    "line": 10,
+    "disposition": "consolidate",
+    "behavior": "tablet release is reproducible and excludes settings and private files",
+    "assertions": 6,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_releases.py::test_packages_are_reproducible_allowlisted_and_do_not_mutate_source"
+    ],
+    "resolution": "Retired implementation-specific test; supported data preservation, validation or packaging behavior is covered by the listed regressions. Trial journal merging and installation-specific address repair have no current consumer."
+  },
+  {
+    "file": "bridge/tests/test_tablet_updater.py",
+    "name": "test_async_updater_preserves_capture_and_files",
+    "line": 97,
+    "disposition": "retain",
+    "behavior": "async updater preserves capture and files",
+    "assertions": 0,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_tablet_updater.py::test_async_updater_preserves_capture_and_files"
+    ],
+    "resolution": "Retained regression for async updater preserves capture and files."
+  },
+  {
+    "file": "bridge/tests/test_tablet_updater.py",
+    "name": "test_untrusted_manifest_cannot_choose_code_or_destination",
+    "line": 104,
+    "disposition": "retain",
+    "behavior": "untrusted manifest cannot choose code or destination",
+    "assertions": 0,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_tablet_updater.py::test_untrusted_manifest_cannot_choose_code_or_destination"
+    ],
+    "resolution": "Retained regression for untrusted manifest cannot choose code or destination."
+  },
+  {
+    "file": "bridge/tests/test_terminal_cycles.py",
+    "name": "test_failed_shot_stops_virtual_extraction_without_feedback",
+    "line": 40,
+    "disposition": "retain",
+    "behavior": "failed shot stops virtual extraction without feedback",
+    "assertions": 9,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_terminal_cycles.py::test_failed_shot_stops_virtual_extraction_without_feedback"
+    ],
+    "resolution": "Retained regression for failed shot stops virtual extraction without feedback."
+  },
+  {
+    "file": "bridge/tests/test_terminal_cycles.py",
+    "name": "test_new_native_grind_retires_old_wait_without_aborting_new_grind",
+    "line": 62,
+    "disposition": "retain",
+    "behavior": "new native grind retires old wait without aborting new grind",
+    "assertions": 7,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_terminal_cycles.py::test_new_native_grind_retires_old_wait_without_aborting_new_grind"
+    ],
+    "resolution": "Retained regression for new native grind retires old wait without aborting new grind."
+  },
+  {
+    "file": "bridge/tests/test_terminal_cycles.py",
+    "name": "test_restart_during_abort_never_resumes_brewing_or_aborts_replacement",
+    "line": 94,
+    "disposition": "retain",
+    "behavior": "restart during abort never resumes brewing or aborts replacement",
+    "assertions": 5,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_terminal_cycles.py::test_restart_during_abort_never_resumes_brewing_or_aborts_replacement"
+    ],
+    "resolution": "Retained regression for restart during abort never resumes brewing or aborts replacement."
+  },
+  {
+    "file": "bridge/tests/test_terminal_cycles.py",
+    "name": "test_terminal_cleanup_preserves_unresolved_delivery_or_pending_grind",
+    "line": 113,
+    "disposition": "retain",
+    "behavior": "terminal cleanup preserves unresolved delivery or pending grind",
+    "assertions": 1,
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_terminal_cycles.py::test_terminal_cleanup_preserves_unresolved_delivery_or_pending_grind"
+    ],
+    "resolution": "Retained regression for terminal cleanup preserves unresolved delivery or pending grind."
+  }
+]

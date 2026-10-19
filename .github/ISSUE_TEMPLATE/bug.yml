@@ -1,0 +1,22 @@
+name: Bug
+description: Reproducible behavior or hardware observation
+body:
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions
+      description: Sync release, Classic/Decaid version, tablet model/OS, grinder firmware and server architecture.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected / observed behavior
+      description: Include steps, the displayed status and whether this was a real shot or an isolated simulation.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Redacted evidence
+      description: No credentials, keys, full configuration or production journals.

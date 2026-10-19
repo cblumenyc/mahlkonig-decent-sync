@@ -1,0 +1,16 @@
+[Unit]
+Description=Back up Mahlkönig - Decent sync shot journal
+After=coffee-bridge.service
+ConditionPathExists=/var/lib/coffee-bridge/bridge.sqlite3
+
+[Service]
+Type=oneshot
+User=coffee-bridge
+Group=coffee-bridge
+UMask=0077
+ExecStart=/opt/coffee-bridge/venv/bin/python /opt/coffee-bridge/app/backup.py /var/lib/coffee-bridge/bridge.sqlite3
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/coffee-bridge

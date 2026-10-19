@@ -1,0 +1,1189 @@
+[
+  {
+    "path": ".gitignore",
+    "bytes": 35,
+    "sha256": "356f75fd63fdacf45fcd839b6ebf8269dad84b317cae8946028e2244ed19e562",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      ".gitignore"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "AGENTS.md",
+    "bytes": 8612,
+    "sha256": "d7afe0ea3882ddd8fd0d33d1309e866b6ae2e1837f802ba408d19894ca395bcc",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "AGENTS.md"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "README.md",
+    "bytes": 7056,
+    "sha256": "f68f98be41566fe6cb97b3ed1328f1e3593394b53c3b240c9cd002c2777ab364",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "README.md"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/README.md",
+    "bytes": 883,
+    "sha256": "c610db6b237fc99841a95e68d67af2ccbb9ca8b733cbafd1b48f8e5020b5e12f",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md"
+    ],
+    "resolution": "Consolidated the supported responsibilities into the listed current owners. The original bytes remain only in the verified private baseline; no alternate executable or runbook is shipped."
+  },
+  {
+    "path": "bridge/adapters.py",
+    "bytes": 2667,
+    "sha256": "5043a36692e464889c76188ed3de04c1ca4e5b166fd1c8b9ac625787ba348b3b",
+    "disposition": "consolidate",
+    "reason": "Remove unused writer protocols; retain bounded Classic state/wake/history implementation.",
+    "resolved": true,
+    "current": [
+      "bridge/adapters.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/app.py",
+    "bytes": 8215,
+    "sha256": "daab2dfa24597cf5dc990e440b9b87691cc35fe8f68fb10d7355815c51ffcf95",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/app.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/backup.py",
+    "bytes": 841,
+    "sha256": "3b25dbb048fdf2e4f60199bc9e5514073087b05e693c911eb6cda57a7a1bf20f",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/backup.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/coffee-bridge-backup.service",
+    "bytes": 443,
+    "sha256": "b838238dd95b734d1a85ed3c650527eab07feaefb3e428c59c07fc9d8678920f",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/coffee-bridge-backup.service"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/coffee-bridge-backup.timer",
+    "bytes": 162,
+    "sha256": "23c1c3137563214ed3d1a36c0f82f9ec379c86576b011b990c1c6907dfd913d1",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/coffee-bridge-backup.timer"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/coffee-bridge.service",
+    "bytes": 1010,
+    "sha256": "b54a65847970a51c8c79d8fa38d58ad49b700e80c4c9cf99c8a6ca88d2c83314",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/coffee-bridge.service"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/control.py",
+    "bytes": 4465,
+    "sha256": "9a23d94eb49fbb1c7e917badc3e3c83f964a7052e221fcc8a7a4a91c33481aed",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/control.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/controllers.py",
+    "bytes": 55496,
+    "sha256": "a84d8680d373a671724b58600e3f0966c12c2b5885174d073da44b811f5ad8a7",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/controllers.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/cycles.py",
+    "bytes": 14397,
+    "sha256": "e63cb268e0bac218f811ca2e7fa7f7be8ef447c584b33e36c85e9f63144fd618",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/cycles.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/engine.py",
+    "bytes": 30475,
+    "sha256": "fc53e2b28b14760565e3d68fe1ff35ab584ad088173144b1d55e23e0e29a0fd3",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/engine.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/grinder_client.py",
+    "bytes": 11378,
+    "sha256": "d28fbedf26b70826835655339863b78845da1d6bf4c985af9c23f62facda4a3e",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/grinder_client.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/install.sh",
+    "bytes": 1959,
+    "sha256": "7c3bca9d015a4b962f7ec782772e93bd9852f69d2107c6e6b5326c33c8b9c119",
+    "disposition": "remove",
+    "reason": "Superseded installer; container setup and existing managed service are authoritative.",
+    "resolved": true,
+    "current": [
+      "ops/container/compose.yaml",
+      "docs/installation.md"
+    ],
+    "resolution": "Consolidated the supported responsibilities into the listed current owners. The original bytes remain only in the verified private baseline; no alternate executable or runbook is shipped."
+  },
+  {
+    "path": "bridge/network.py",
+    "bytes": 977,
+    "sha256": "799c56cf16ea480b8a7eada8d413c55868a5e281c9041264c01545e2b0f5ed97",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/network.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/release.json",
+    "bytes": 94,
+    "sha256": "e5ae411c08a4bc69e63e7e411229a97e128d874585e8415391d82901e553fdca",
+    "disposition": "replace",
+    "reason": "Canonical product metadata; generated runtime metadata belongs in packages.",
+    "resolved": true,
+    "current": [
+      "release-spec.json",
+      "ops/release.py"
+    ],
+    "resolution": "Consolidated the supported responsibilities into the listed current owners. The original bytes remain only in the verified private baseline; no alternate executable or runbook is shipped."
+  },
+  {
+    "path": "bridge/requirements.lock",
+    "bytes": 147,
+    "sha256": "6dd66002adbaece2a126de603a6f136a18caf2a3c75cccf420cd28db80144dd9",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/requirements.lock"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/requirements.txt",
+    "bytes": 21,
+    "sha256": "4b838478fac50f282284a607d1adcc8878203956ecf1d79b055c0e87410a1840",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/requirements.txt"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/result_analysis.py",
+    "bytes": 6098,
+    "sha256": "1dc5e08728c578d14ad947328e16ef193b060cd99af86bbbe15ccde6efa3448a",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/result_analysis.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/static/app.js",
+    "bytes": 14132,
+    "sha256": "836feee187e240f478e83419a813157b7a0f2b02d4605d8791e90de1b88f483c",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/static/app.js"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/static/index.html",
+    "bytes": 6735,
+    "sha256": "1030524e8ad21196e2d246f9284aecf587583e78bf9519545e287b8a230417ae",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/static/index.html"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/static/style.css",
+    "bytes": 7016,
+    "sha256": "919c35cc3f7235bcfead6adde4c68d4a18f0c091daa9eba488883da2ed91d328",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/static/style.css"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/store.py",
+    "bytes": 8166,
+    "sha256": "846da3f24ec4fb4412036e4300218b114b2aadfcfc6d741452728d095e89002b",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/store.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/classic_profile_vars.tcl",
+    "bytes": 1131,
+    "sha256": "76933010527365f45a79144af127410b448ce259eb3dadd4cc8992081ea1a64f",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/classic_profile_vars.tcl"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/conftest.py",
+    "bytes": 154,
+    "sha256": "c1431af77c00f968b0e6f9aa7f1ced3fe11ed25c18c46ae21fad892a0e799e84",
+    "disposition": "consolidate",
+    "reason": "Shared fixtures move to support modules; no test-module imports.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/conftest.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/demo.py",
+    "bytes": 1276,
+    "sha256": "93f2457eade59722c89974b957752f140d91846479c788fe87510224285e7ac8",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/demo.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/demo_automation.py",
+    "bytes": 1231,
+    "sha256": "3c499360d121631ad2fb021cc78c2ace1d8e92e558756f43d25df28c5e0cf531",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/demo_automation.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/tablet_auto_fixture.tcl",
+    "bytes": 3664,
+    "sha256": "734a0fe94e90eac8a0126a0c165783e3537526bc9dc2057e352c87c7fe460795",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/tablet_auto_fixture.tcl"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/tablet_banner_fixture.tcl",
+    "bytes": 10400,
+    "sha256": "b3167eedac1a3099dbb97a11af4ae83a600182f5c90c31f4b39fd9d504994e0a",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/tablet_banner_fixture.tcl"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/tablet_bootstrap.tcl",
+    "bytes": 4199,
+    "sha256": "f15a19c2fc16c1c0725ef3f3882a36a90241fe6316e2ce94041eb360995e1e4c",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/tablet_bootstrap.tcl"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/tablet_final_mass_fixture.tcl",
+    "bytes": 2139,
+    "sha256": "8e5da4185761995c64c3ec8a8bafcceb67b48ac123187e29105b751b3936f094",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/tablet_final_mass_fixture.tcl"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/tablet_fixture.tcl",
+    "bytes": 3303,
+    "sha256": "da4d38772679763794478dd52f568c1353b33a07d12e4a0a1e6f58e79b2ab6e4",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/tablet_fixture.tcl"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/tablet_grind_fixture.tcl",
+    "bytes": 9982,
+    "sha256": "5e1371534e8e9dc15158fb54338b029adba05074258f5a587c0b970c80660ea9",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/tablet_grind_fixture.tcl"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/tablet_panels_fixture.tcl",
+    "bytes": 8669,
+    "sha256": "ab6947e75d854b9e8d7b5acfb79bb4f8abc6b3e48324609954ffb3d407d27e5f",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/tablet_panels_fixture.tcl"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/tablet_server_recovery.tcl",
+    "bytes": 2253,
+    "sha256": "dc2cc0d202b7dc9fb40edbafabd57198df219c5c3c38474318fbdde7ab19515b",
+    "disposition": "remove",
+    "reason": "Household DNS repair is complete; generic address and identity validation replace it.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_classic_migration.py",
+      "bridge/tests/test_configuration.py"
+    ],
+    "resolution": "Consolidated the supported responsibilities into the listed current owners. The original bytes remain only in the verified private baseline; no alternate executable or runbook is shipped."
+  },
+  {
+    "path": "bridge/tests/tablet_ui_fixture.tcl",
+    "bytes": 6981,
+    "sha256": "ce17c4f7eb45b027d5c57627795fa0b8c203872af8d26da8b80ab80b815de870",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/tablet_ui_fixture.tcl"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/tablet_updater_fixture.tcl",
+    "bytes": 7433,
+    "sha256": "a1276bd7e7d80f0aced04634e0c9c70aaec0892e8226b9b5c18680deefeb5369",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/tablet_updater_fixture.tcl"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/test_contract.py",
+    "bytes": 4125,
+    "sha256": "ffce2bbc2907703a649501f53b1e23774efbac7f32623002ee2b5e8560593bc7",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_contract.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/test_control_and_display.py",
+    "bytes": 5487,
+    "sha256": "1c28c15313dc34cbd134e81a91d46996c4e536118e750b27f2ab0609fec226e9",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_control_and_display.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/test_controllers.py",
+    "bytes": 20710,
+    "sha256": "ac809f7e3b745895bc5ed147ca845dd522df52e154c2fd3939c799a10a5ca456",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_controllers.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/test_correlation_recovery.py",
+    "bytes": 4293,
+    "sha256": "71fd34bb4bcf2bd65a9fab7a320e23bc2fcf03b7bf048377bd3da446ffe69f84",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_correlation_recovery.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/test_cycle_ids.py",
+    "bytes": 7990,
+    "sha256": "a3fcf7eba0bc8aa7cf4ed1d093349a5c704c0a03bf6ccf7c7a9237d8d81791a0",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_cycle_ids.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/test_daily_update.py",
+    "bytes": 3765,
+    "sha256": "324b468885faad0f54d243302f60e87aab19fa6dbfe49ea57ddcc726af18a847",
+    "disposition": "remove",
+    "reason": "Old update_daily implementation; archive/idle/race/rollback protection covered by test_managed_deployment.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_managed_deployment.py",
+      "bridge/tests/test_compose_update.py"
+    ],
+    "resolution": "Consolidated the supported responsibilities into the listed current owners. The original bytes remain only in the verified private baseline; no alternate executable or runbook is shipped."
+  },
+  {
+    "path": "bridge/tests/test_daily_use.py",
+    "bytes": 7626,
+    "sha256": "a36fbbc9ecec513f1e8c6fc0f30fc0c9620a74e2c0f6facad3769cffce0d1b36",
+    "disposition": "consolidate",
+    "reason": "Keep persistent one-press and existing authorization tests; remove trial activation/cutover.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_daily_use.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/test_managed_deployment.py",
+    "bytes": 10162,
+    "sha256": "25d1f438a4a34680b850e9e3e6e5eadd12e3b9c64b882991bf6df3cf2abc15bd",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_managed_deployment.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/test_movement_confirmation.py",
+    "bytes": 6200,
+    "sha256": "cc657f94ca7fbe96fcc5316de7c43af255cbaafb83dc114da0d094fc22225a10",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_movement_confirmation.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/test_movement_tolerance.py",
+    "bytes": 4821,
+    "sha256": "faf7d8d5af3e481a5d82c65b5c8dccc4c2ed216654bb84d24f55795dde930ae2",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_movement_tolerance.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/test_native_refresh_binding.py",
+    "bytes": 7248,
+    "sha256": "28b6d152180aeeddb4234a3292a4c538bd4d4c93b80883533105e24768adda48",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_native_refresh_binding.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/test_rollout.py",
+    "bytes": 7850,
+    "sha256": "6f72e7464b3b39134d2f0f1590389fcc9693658c941e29533da5858c1fc972ed",
+    "disposition": "consolidate",
+    "reason": "Keep acceptance validation; retired cutover and merge tests have no supported consumer.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_acceptance.py",
+      "bridge/tests/test_managed_deployment.py"
+    ],
+    "resolution": "Consolidated the supported responsibilities into the listed current owners. The original bytes remain only in the verified private baseline; no alternate executable or runbook is shipped."
+  },
+  {
+    "path": "bridge/tests/test_service.py",
+    "bytes": 12446,
+    "sha256": "b39e9991c2492721e60e6f19cdd57705ffe3ed925a8df3963e86844663d7e63c",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_service.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/test_tablet.py",
+    "bytes": 10499,
+    "sha256": "bb6c0a5d43eed2ac3c0850d37b0697a2c4e6dae1dad044ef1f6f7d5bd23d1d9a",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_tablet.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/test_tablet_release.py",
+    "bytes": 1765,
+    "sha256": "4a9a139e6116e1e832205004c838fe84cd72c5333db4649f7dd99297759b3e89",
+    "disposition": "consolidate",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_releases.py"
+    ],
+    "resolution": "Consolidated the supported responsibilities into the listed current owners. The original bytes remain only in the verified private baseline; no alternate executable or runbook is shipped."
+  },
+  {
+    "path": "bridge/tests/test_tablet_updater.py",
+    "bytes": 5984,
+    "sha256": "e3710c705adb724a4cfc437656330514e4e86974228500fb0698a6f1ec5d4e93",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_tablet_updater.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "bridge/tests/test_terminal_cycles.py",
+    "bytes": 5423,
+    "sha256": "e28b7499df6ebae8f81af3d215672d17456855362f71a1d22dd429baf1438141",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "bridge/tests/test_terminal_cycles.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "docs/cloud-recipe-investigation.md",
+    "bytes": 7443,
+    "sha256": "d9dc6450c0b178c28833ca2e9393e83925e49b32403f2b926a3c8e765f832ec6",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/commissioning.md",
+    "bytes": 8949,
+    "sha256": "a36dd0482e44e5b2cd7cf797f00a31b188aa9174323649862e5a6b378a425b56",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/controller-api.md",
+    "bytes": 10022,
+    "sha256": "a3afbc87ab91bbef96d9223a8040a3b261be55250af1d95988e0436666141333",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/controller-api.md"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "docs/cycle-refactor-late-arming.md",
+    "bytes": 5547,
+    "sha256": "36719993622d0775155cce275f5030649d6b0de53b1d9c67762f3b6217c2976f",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/daily-deployment-2026-10-03.md",
+    "bytes": 2617,
+    "sha256": "d20a978e73f5f47a9b1daaa2428bab3de86ba63be5a46213b260f3e5071f2442",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/daily-operation.md",
+    "bytes": 4111,
+    "sha256": "ce22a89d8331e935fea48da3e51160c141e8b4b3e6c9e8f02b2d84e3ba815ee8",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/decaid-adapter.md",
+    "bytes": 2360,
+    "sha256": "96e0996fa8aa7a49a462ebef28f07e9254f730bf83c66378683665684728eb1d",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/feasibility-report.md",
+    "bytes": 8044,
+    "sha256": "52e7dc3b2a4b09ae76387c8c884860dbb7ba60912d5fbeedd63fba780d40818f",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/feedback-test-2026-09-28.md",
+    "bytes": 4691,
+    "sha256": "14131cda5a4d623f25a784d82efa7e899b28168d2acadebff2fc6d6cfc9db5cb",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/feedback-test-2026-09-30.md",
+    "bytes": 2698,
+    "sha256": "59527e8e7258c167ee861ac9cecf1e4d4f3b1b76537f1f3664ebf4ce5ccf8bb6",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/feedback-test-2026-10-01.md",
+    "bytes": 3371,
+    "sha256": "f2d69454aa08c530511ef116c8202d1b68f4c5f69bb205065ebe108c5ff1bc29",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/feedback-troubleshooting-2026-10-05.md",
+    "bytes": 5667,
+    "sha256": "2c744d11f9f3589018188b82a993b1d669dd738ca356aa05036c874b85fc4eef",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/feedback-troubleshooting-2026-10-11.md",
+    "bytes": 5078,
+    "sha256": "a8e6cba61aefcef0a92f8c6d933d9a7f7ae2eae6e7ada5dd7ed25f694037b0c8",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/final-testing-2026-10-02.md",
+    "bytes": 6128,
+    "sha256": "d4a55c1ee6ca99a08f997e5ea3fd3606e1b5a51273a372dea0a0967611d79169",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/implementation-decisions.md",
+    "bytes": 6478,
+    "sha256": "e25fed1d872ffba7aef73527d4ea92ecccd092e7fd91c9383e062893030c6372",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/legacy-manual-bridge.md",
+    "bytes": 13650,
+    "sha256": "7145942135a204cd61b3447766fd96b97d3c632aadba1ee1598e39fc9c3847f4",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/managed-nitrogen-updates.md",
+    "bytes": 12412,
+    "sha256": "b7de993e4c9c6d546106a646a46da1c01cb9b075c9f9f1cebb464d932baf130e",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/movement-reporting-2026-10-18.md",
+    "bytes": 3198,
+    "sha256": "e1f532b770c0c8b7a1ce77894a844c320d52963d035f218418c21c2ef996c656",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/no-button-alternatives.md",
+    "bytes": 8431,
+    "sha256": "e016f59ded15551938d25c13a2417f1006af28ef984471a6625cce2080d85877",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/release-0.5-2026-10-11.md",
+    "bytes": 6595,
+    "sha256": "5d988d1ea4d3af5e44c96229b768382a4904d2c79c58d53d01b19e74cbb208f0",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "docs/tablet-updates.md",
+    "bytes": 3911,
+    "sha256": "2c57295164ff112f69b0f720e343af3cdf3e5215951432a7a203021965e0799a",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "docs/architecture.md",
+      "docs/installation.md",
+      "docs/controller-api.md",
+      "docs/acceptance.md",
+      "docs/recovery.md",
+      "docs/troubleshooting.md"
+    ],
+    "resolution": "Historical observations are preserved privately. Current architecture, API, setup, recovery, acceptance and troubleshooting requirements are in the listed canonical guides; superseded trial and release instructions are removed."
+  },
+  {
+    "path": "ops/deployment/bootstrap.py",
+    "bytes": 4908,
+    "sha256": "661a57434a2b3612ab6a52f517127d7c0b86f62361cb4f365d3d88bf99329b17",
+    "disposition": "replace",
+    "reason": "Already completed administrative bootstrap; replacement must require explicit operator input and separate admin review.",
+    "resolved": true,
+    "current": [
+      "ops/deployment/install_manager.py"
+    ],
+    "resolution": "Consolidated the supported responsibilities into the listed current owners. The original bytes remain only in the verified private baseline; no alternate executable or runbook is shipped."
+  },
+  {
+    "path": "ops/deployment/build_release.py",
+    "bytes": 2582,
+    "sha256": "949c9ea59a659f966bd1a5274d0af9d71184145ec8f567995fc246cb2c0814bd",
+    "disposition": "replace",
+    "reason": "Single allowlisted reproducible release builder; explicit version/output, immutable source.",
+    "resolved": true,
+    "current": [
+      "ops/release.py",
+      "release-spec.json"
+    ],
+    "resolution": "Consolidated the supported responsibilities into the listed current owners. The original bytes remain only in the verified private baseline; no alternate executable or runbook is shipped."
+  },
+  {
+    "path": "ops/deployment/build_tablet_release.py",
+    "bytes": 4075,
+    "sha256": "03fca6f646bfbec5ab0cfffb4480d3febdfeb8b7b67042b63b76df9862a204e0",
+    "disposition": "replace",
+    "reason": "Same shared builder; no second packaging implementation.",
+    "resolved": true,
+    "current": [
+      "ops/release.py",
+      "release-spec.json"
+    ],
+    "resolution": "Consolidated the supported responsibilities into the listed current owners. The original bytes remain only in the verified private baseline; no alternate executable or runbook is shipped."
+  },
+  {
+    "path": "ops/deployment/deploy.py",
+    "bytes": 21988,
+    "sha256": "1b86480861d41a639c00536bcee67a57f935f6de1a2a8974a7c2db2bd47788d3",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "ops/deployment/deploy.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "ops/deployment/deploy_smoke.py",
+    "bytes": 5829,
+    "sha256": "2b2e655edee895bf8bf6d5802785566e12feb32ea376b9d7c0a38e0e535956b0",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "ops/deployment/deploy_smoke.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "ops/diagnose_feedback.py",
+    "bytes": 1274,
+    "sha256": "668005a01351fe2339fb2cca783204f6d7f4d3e634a07ffdaf35eb6846ff4cf0",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "ops/diagnose_feedback.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "ops/manage.py",
+    "bytes": 26527,
+    "sha256": "657da9f4c0ab32836c15ba384a40d9ffbe6282788d1c3f28cbebc074135f9de4",
+    "disposition": "remove",
+    "reason": "Trial service activation and journal merging retired after managed cutover; managed updater tests retain code rollback, race and journal protection.",
+    "resolved": true,
+    "current": [
+      "ops/deployment/deploy.py",
+      "ops/container/update.py"
+    ],
+    "resolution": "Consolidated the supported responsibilities into the listed current owners. The original bytes remain only in the verified private baseline; no alternate executable or runbook is shipped."
+  },
+  {
+    "path": "ops/validate_receipt.py",
+    "bytes": 6566,
+    "sha256": "ca843894f27cb29f212ef0e408379019154c490baa9b986a3037572888108c11",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "ops/validate_receipt.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "tablet/decent_sync/README.md",
+    "bytes": 8461,
+    "sha256": "21b1272c4a7a85fae79994a09c7303e12bafb6b89adf0b429102fff6a91848ce",
+    "disposition": "consolidate",
+    "reason": "Fold current behavior into canonical architecture, installation, API, acceptance and operations docs; historical observations preserved privately.",
+    "resolved": true,
+    "current": [
+      "tablet/mahlkonig_decent_sync/README.md",
+      "docs/installation.md"
+    ],
+    "resolution": "Consolidated the supported responsibilities into the listed current owners. The original bytes remain only in the verified private baseline; no alternate executable or runbook is shipped."
+  },
+  {
+    "path": "tablet/decent_sync/plugin.tcl",
+    "bytes": 76843,
+    "sha256": "dc7aa708a0bcc3dd49d52584e036e53a830a6e72d8dd5ce8dff72e217f03a7d4",
+    "disposition": "migrate",
+    "reason": "Preserve capture and UI; split modules, rename through bounded settings/outbox migration, replace private update source.",
+    "resolved": true,
+    "current": [
+      "tablet/mahlkonig_decent_sync/common.tcl",
+      "tablet/mahlkonig_decent_sync/updates.tcl",
+      "tablet/mahlkonig_decent_sync/capture.tcl",
+      "tablet/mahlkonig_decent_sync/display.tcl",
+      "tablet/mahlkonig_decent_sync/transport.tcl",
+      "tablet/mahlkonig_decent_sync/plugin.tcl",
+      "tablet/mahlkonig_decent_sync/settings.tcl",
+      "tablet/mahlkonig_decent_sync/product.tcl",
+      "ops/migrations/classic_rename.py"
+    ],
+    "resolution": "Consolidated the supported responsibilities into the listed current owners. The original bytes remain only in the verified private baseline; no alternate executable or runbook is shipped."
+  },
+  {
+    "path": "tools/commissioning.py",
+    "bytes": 1784,
+    "sha256": "b020ceb90fc54016fffbf04c252da5d8b2a802efdcf9c2dc18f5f58965753492",
+    "disposition": "retain",
+    "reason": "Supported runtime, regression protection, dependency lock or managed deployment responsibility; remove obsolete branches during consolidation.",
+    "resolved": true,
+    "current": [
+      "tools/commissioning.py"
+    ],
+    "resolution": "Retained as the authoritative current implementation or regression fixture; obsolete branches removed where identified."
+  },
+  {
+    "path": "tools/verify_installation.py",
+    "bytes": 6496,
+    "sha256": "7204ee302bb4eafc8c6d2c2a3065e76da9e9e4b43658033781bc6c5db77752bc",
+    "disposition": "remove",
+    "reason": "Release 0.4 trial verifier has no current deployment consumer.",
+    "resolved": true,
+    "current": [
+      "ops/container/verify_install.py",
+      "ops/deployment/deploy_smoke.py"
+    ],
+    "resolution": "Consolidated the supported responsibilities into the listed current owners. The original bytes remain only in the verified private baseline; no alternate executable or runbook is shipped."
+  }
+]

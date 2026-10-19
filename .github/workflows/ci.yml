@@ -1,0 +1,40 @@
+name: Verification
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_call:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Install test dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tcl tcllib
+          python -m pip install -r bridge/requirements.lock pytest==9.1.1
+      - name: Audit public source
+        run: python ops/audit_source.py
+      - name: Python, actual Tcl and JavaScript tests
+        run: python -m pytest -q bridge/tests
+      - name: Portable offline delivery smoke
+        run: python ops/deployment/deploy_smoke.py bridge
+      - name: Build declared release packages
+        run: python ops/release.py --version 0.0.0-beta.1 --output "$RUNNER_TEMP/packages"
+      - name: Fresh container install and recovery
+        run: python ops/container/verify_install.py "$RUNNER_TEMP/packages/mahlkonig-decent-sync-0.0.0-beta.1-linux-compose.tar.gz"

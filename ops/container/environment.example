@@ -1,0 +1,4 @@
+SYNC_VERSION=__RELEASE_VERSION__
+# Replace both examples with the server's fixed LAN address and your LAN subnet.
+SYNC_ORIGIN=http://192.168.10.2
+SYNC_LAN_CIDR=192.168.10.0/24

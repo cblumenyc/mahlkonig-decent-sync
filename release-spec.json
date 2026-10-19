@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "name": "Mahlkönig - Decent sync",
+  "slug": "mahlkonig-decent-sync",
+  "license": "GPL-3.0-or-later",
+  "journal_schema": 2,
+  "controller_contracts": [
+    1,
+    2
+  ],
+  "classic_id": "mahlkonig_decent_sync",
+  "classic_adapter": "classic-0.5",
+  "decaid_id": "mahlkonig_decent_sync.reaplugin",
+  "decaid_version": "0.9.0",
+  "server_files": [
+    "adapters.py",
+    "app.py",
+    "backup.py",
+    "configuration.py",
+    "control.py",
+    "controllers.py",
+    "cycles.py",
+    "engine.py",
+    "event_fields.py",
+    "grinder_client.py",
+    "identity.py",
+    "measurements.py",
+    "network.py",
+    "requirements.lock",
+    "requirements.txt",
+    "result_analysis.py",
+    "store.py",
+    "static/app.js",
+    "static/index.html",
+    "static/style.css",
+    "updates.py"
+  ],
+  "classic_files": [
+    "plugin.tcl",
+    "product.tcl",
+    "common.tcl",
+    "capture.tcl",
+    "transport.tcl",
+    "display.tcl",
+    "settings.tcl",
+    "updates.tcl",
+    "README.md"
+  ],
+  "shared_files": [
+    "LICENSE",
+    "ASSET-NOTICES.md",
+    "assets/mahlkonig.png",
+    "assets/mahlkonig.svg"
+  ],
+  "decaid_files": [
+    "fields.js",
+    "outbox.js",
+    "capture.js",
+    "plugin.js",
+    "manifest.json",
+    "README.md"
+  ],
+  "repository": "cblumenyc/mahlkonig-decent-sync",
+  "container_files": [
+    "Dockerfile",
+    "compose.yaml",
+    "environment.example",
+    "launch.py",
+    "healthcheck.py",
+    "update.py",
+    "README.md"
+  ]
+}

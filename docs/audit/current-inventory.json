@@ -1,0 +1,526 @@
+{
+  ".github/ISSUE_TEMPLATE/bug.yml": {
+    "disposition": "retain",
+    "responsibility": "Community automation or issue reporting: bug."
+  },
+  ".github/ISSUE_TEMPLATE/feature.yml": {
+    "disposition": "retain",
+    "responsibility": "Community automation or issue reporting: feature."
+  },
+  ".github/workflows/ci.yml": {
+    "disposition": "retain",
+    "responsibility": "Community automation or issue reporting: ci."
+  },
+  ".github/workflows/release.yml": {
+    "disposition": "retain",
+    "responsibility": "Community automation or issue reporting: release."
+  },
+  ".gitignore": {
+    "disposition": "retain",
+    "responsibility": "Repository development, publication, security or licensing contract: .gitignore."
+  },
+  "AGENTS.md": {
+    "disposition": "retain",
+    "responsibility": "Repository development, publication, security or licensing contract: AGENTS.md."
+  },
+  "ASSET-NOTICES.md": {
+    "disposition": "retain",
+    "responsibility": "Repository development, publication, security or licensing contract: ASSET-NOTICES.md."
+  },
+  "CONTRIBUTING.md": {
+    "disposition": "retain",
+    "responsibility": "Repository development, publication, security or licensing contract: CONTRIBUTING.md."
+  },
+  "LICENSE": {
+    "disposition": "retain",
+    "responsibility": "Repository development, publication, security or licensing contract: LICENSE."
+  },
+  "README.md": {
+    "disposition": "retain",
+    "responsibility": "Product/component entry point linking to canonical installation and architecture."
+  },
+  "SECURITY.md": {
+    "disposition": "retain",
+    "responsibility": "Repository development, publication, security or licensing contract: SECURITY.md."
+  },
+  "assets/mahlkonig.png": {
+    "disposition": "retain",
+    "responsibility": "Locally bundled authentic Mahlkönig artwork; separate CC BY-SA 3.0 attribution in ASSET-NOTICES.md."
+  },
+  "assets/mahlkonig.svg": {
+    "disposition": "retain",
+    "responsibility": "Locally bundled authentic Mahlkönig artwork; separate CC BY-SA 3.0 attribution in ASSET-NOTICES.md."
+  },
+  "bridge/adapters.py": {
+    "disposition": "retain",
+    "responsibility": "Classic read-only state/history and approved wake adapter."
+  },
+  "bridge/app.py": {
+    "disposition": "retain",
+    "responsibility": "HTTP and WebSocket entry points, guards and application task lifecycle."
+  },
+  "bridge/backup.py": {
+    "disposition": "retain",
+    "responsibility": "Bounded online snapshots, retention and restore to an empty destination."
+  },
+  "bridge/coffee-bridge-backup.service": {
+    "disposition": "retain",
+    "responsibility": "Existing managed systemd contract; current executable and daily backup scheduling."
+  },
+  "bridge/coffee-bridge-backup.timer": {
+    "disposition": "retain",
+    "responsibility": "Existing managed systemd contract; current executable and daily backup scheduling."
+  },
+  "bridge/coffee-bridge.service": {
+    "disposition": "retain",
+    "responsibility": "Existing managed systemd contract; current executable and daily backup scheduling."
+  },
+  "bridge/configuration.py": {
+    "disposition": "retain",
+    "responsibility": "Versioned setup, certificate enrollment, controller selection and explicit feedback opt-in."
+  },
+  "bridge/control.py": {
+    "disposition": "retain",
+    "responsibility": "Local root-only deployment socket and idle lease."
+  },
+  "bridge/controllers.py": {
+    "disposition": "retain",
+    "responsibility": "Controller event lifecycle, commissioned profiles and correlation orchestration."
+  },
+  "bridge/cycles.py": {
+    "disposition": "retain",
+    "responsibility": "Frozen cycle identities, read barriers, native pending windows and late arming."
+  },
+  "bridge/engine.py": {
+    "disposition": "retain",
+    "responsibility": "Cached Xenia polling, durable delivery intent, native verification and operations state."
+  },
+  "bridge/event_fields.py": {
+    "disposition": "retain",
+    "responsibility": "Canonical event scalar validation shared by normalization and controllers."
+  },
+  "bridge/grinder_client.py": {
+    "disposition": "retain",
+    "responsibility": "Certificate-pinned read-only native state with bounded download and parsing."
+  },
+  "bridge/identity.py": {
+    "disposition": "retain",
+    "responsibility": "Versioned installation identity and supported capabilities."
+  },
+  "bridge/measurements.py": {
+    "disposition": "retain",
+    "responsibility": "Measurement normalization, provenance and eligibility."
+  },
+  "bridge/network.py": {
+    "disposition": "retain",
+    "responsibility": "Trusted LAN, Host, Origin, peer and address validation."
+  },
+  "bridge/requirements.lock": {
+    "disposition": "retain",
+    "responsibility": "Direct/runtime dependency declarations and exact deployment lock."
+  },
+  "bridge/requirements.txt": {
+    "disposition": "retain",
+    "responsibility": "Direct/runtime dependency declarations and exact deployment lock."
+  },
+  "bridge/result_analysis.py": {
+    "disposition": "retain",
+    "responsibility": "Separate receipt, target change, motion and position-tolerance evidence."
+  },
+  "bridge/static/app.js": {
+    "disposition": "retain",
+    "responsibility": "Readiness, targets, results, histories, setup actions and themes."
+  },
+  "bridge/static/index.html": {
+    "disposition": "retain",
+    "responsibility": "Compact dashboard and secondary guided setup structure."
+  },
+  "bridge/static/style.css": {
+    "disposition": "retain",
+    "responsibility": "Compact responsive layout, contrast and touch sizing."
+  },
+  "bridge/store.py": {
+    "disposition": "retain",
+    "responsibility": "SQLite schema, nested atomic transactions, event uniqueness and durable installation identity."
+  },
+  "bridge/tests/classic_profile_vars.tcl": {
+    "disposition": "retain",
+    "responsibility": "Shared fake host/device boundary or actual Tcl fixture: classic profile vars. Excluded from runtime packages."
+  },
+  "bridge/tests/conftest.py": {
+    "disposition": "retain",
+    "responsibility": "Shared fake host/device boundary or actual Tcl fixture: conftest. Excluded from runtime packages."
+  },
+  "bridge/tests/decaid.test.cjs": {
+    "disposition": "retain",
+    "responsibility": "Actual Node.js Decaid host/capture/storage regression runner."
+  },
+  "bridge/tests/decaid_support.cjs": {
+    "disposition": "retain",
+    "responsibility": "Shared fake host/device boundary or actual Tcl fixture: decaid support. Excluded from runtime packages."
+  },
+  "bridge/tests/demo.py": {
+    "disposition": "retain",
+    "responsibility": "Shared fake host/device boundary or actual Tcl fixture: demo. Excluded from runtime packages."
+  },
+  "bridge/tests/demo_automation.py": {
+    "disposition": "retain",
+    "responsibility": "Shared fake host/device boundary or actual Tcl fixture: demo automation. Excluded from runtime packages."
+  },
+  "bridge/tests/support.py": {
+    "disposition": "retain",
+    "responsibility": "Shared fake host/device boundary or actual Tcl fixture: support. Excluded from runtime packages."
+  },
+  "bridge/tests/tablet_auto_fixture.tcl": {
+    "disposition": "retain",
+    "responsibility": "Shared fake host/device boundary or actual Tcl fixture: tablet auto fixture. Excluded from runtime packages."
+  },
+  "bridge/tests/tablet_banner_fixture.tcl": {
+    "disposition": "retain",
+    "responsibility": "Shared fake host/device boundary or actual Tcl fixture: tablet banner fixture. Excluded from runtime packages."
+  },
+  "bridge/tests/tablet_bootstrap.tcl": {
+    "disposition": "retain",
+    "responsibility": "Shared fake host/device boundary or actual Tcl fixture: tablet bootstrap. Excluded from runtime packages."
+  },
+  "bridge/tests/tablet_final_mass_fixture.tcl": {
+    "disposition": "retain",
+    "responsibility": "Shared fake host/device boundary or actual Tcl fixture: tablet final mass fixture. Excluded from runtime packages."
+  },
+  "bridge/tests/tablet_fixture.tcl": {
+    "disposition": "retain",
+    "responsibility": "Shared fake host/device boundary or actual Tcl fixture: tablet fixture. Excluded from runtime packages."
+  },
+  "bridge/tests/tablet_grind_fixture.tcl": {
+    "disposition": "retain",
+    "responsibility": "Shared fake host/device boundary or actual Tcl fixture: tablet grind fixture. Excluded from runtime packages."
+  },
+  "bridge/tests/tablet_panels_fixture.tcl": {
+    "disposition": "retain",
+    "responsibility": "Shared fake host/device boundary or actual Tcl fixture: tablet panels fixture. Excluded from runtime packages."
+  },
+  "bridge/tests/tablet_ui_fixture.tcl": {
+    "disposition": "retain",
+    "responsibility": "Shared fake host/device boundary or actual Tcl fixture: tablet ui fixture. Excluded from runtime packages."
+  },
+  "bridge/tests/tablet_updater_fixture.tcl": {
+    "disposition": "retain",
+    "responsibility": "Shared fake host/device boundary or actual Tcl fixture: tablet updater fixture. Excluded from runtime packages."
+  },
+  "bridge/tests/test_acceptance.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: installation. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_backup.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: recovery. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_classic_migration.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: recovery. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_compose_update.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: recovery. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_configuration.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: installation. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_contract.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: persistence. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_control_and_display.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: UI. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_controllers.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: capture. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_correlation_recovery.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: correlation. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_cycle_ids.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: correlation. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_daily_use.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: delivery. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_decaid.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: capture. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_download_release.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: installation. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_managed_deployment.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: recovery. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_measurements.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: measurements. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_movement_confirmation.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: delivery. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_movement_tolerance.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: delivery. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_native_io.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: delivery. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_native_refresh_binding.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: correlation. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_release_gate.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: installation. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_releases.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: installation. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_service.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: delivery. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_tablet.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: capture. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_tablet_updater.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: recovery. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_terminal_cycles.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: correlation. See current-tests.json for each supported behavior."
+  },
+  "bridge/tests/test_transports.py": {
+    "disposition": "retain",
+    "responsibility": "Regression coverage: persistence. See current-tests.json for each supported behavior."
+  },
+  "bridge/updates.py": {
+    "disposition": "retain",
+    "responsibility": "Current release Classic catalogue and complete asset delivery."
+  },
+  "docs/acceptance.json": {
+    "disposition": "retain",
+    "responsibility": "Authoritative product documentation or explicit acceptance evidence: acceptance."
+  },
+  "docs/acceptance.md": {
+    "disposition": "retain",
+    "responsibility": "Authoritative product documentation or explicit acceptance evidence: acceptance."
+  },
+  "docs/architecture.md": {
+    "disposition": "retain",
+    "responsibility": "Authoritative product documentation or explicit acceptance evidence: architecture."
+  },
+  "docs/audit/README.md": {
+    "disposition": "retain",
+    "responsibility": "Audit traceability: README. Evidence only, never executable release input."
+  },
+  "docs/audit/baseline-files.json": {
+    "disposition": "retain",
+    "responsibility": "Audit traceability: baseline files. Evidence only, never executable release input."
+  },
+  "docs/audit/baseline-imports.json": {
+    "disposition": "retain",
+    "responsibility": "Audit traceability: baseline imports. Evidence only, never executable release input."
+  },
+  "docs/audit/baseline-tests.json": {
+    "disposition": "retain",
+    "responsibility": "Audit traceability: baseline tests. Evidence only, never executable release input."
+  },
+  "docs/audit/current-inventory.json": {
+    "disposition": "retain",
+    "responsibility": "Audit traceability: current inventory. Evidence only, never executable release input."
+  },
+  "docs/audit/current-tests.json": {
+    "disposition": "retain",
+    "responsibility": "Audit traceability: current tests. Evidence only, never executable release input."
+  },
+  "docs/compatibility.md": {
+    "disposition": "retain",
+    "responsibility": "Authoritative product documentation or explicit acceptance evidence: compatibility."
+  },
+  "docs/controller-api.md": {
+    "disposition": "retain",
+    "responsibility": "Authoritative product documentation or explicit acceptance evidence: controller api."
+  },
+  "docs/installation.md": {
+    "disposition": "retain",
+    "responsibility": "Authoritative product documentation or explicit acceptance evidence: installation."
+  },
+  "docs/recovery.md": {
+    "disposition": "retain",
+    "responsibility": "Authoritative product documentation or explicit acceptance evidence: recovery."
+  },
+  "docs/release-notes.md": {
+    "disposition": "retain",
+    "responsibility": "Authoritative product documentation or explicit acceptance evidence: release notes."
+  },
+  "docs/troubleshooting.md": {
+    "disposition": "retain",
+    "responsibility": "Authoritative product documentation or explicit acceptance evidence: troubleshooting."
+  },
+  "ops/audit_source.py": {
+    "disposition": "retain",
+    "responsibility": "Source inventory, resolved dispositions and exact allowlisted public export."
+  },
+  "ops/container/Dockerfile": {
+    "disposition": "retain",
+    "responsibility": "Portable unprivileged Linux installation: Dockerfile."
+  },
+  "ops/container/README.md": {
+    "disposition": "retain",
+    "responsibility": "Portable unprivileged Linux installation: README.md."
+  },
+  "ops/container/compose.yaml": {
+    "disposition": "retain",
+    "responsibility": "Portable unprivileged Linux installation: compose.yaml."
+  },
+  "ops/container/environment.example": {
+    "disposition": "retain",
+    "responsibility": "Portable unprivileged Linux installation: environment.example."
+  },
+  "ops/container/healthcheck.py": {
+    "disposition": "retain",
+    "responsibility": "Local health probe using configured Host guard."
+  },
+  "ops/container/launch.py": {
+    "disposition": "retain",
+    "responsibility": "Unprivileged first-start configuration and LAN port availability."
+  },
+  "ops/container/update.py": {
+    "disposition": "retain",
+    "responsibility": "Docker operator activation, crash recovery and code-only rollback."
+  },
+  "ops/container/verify_install.py": {
+    "disposition": "retain",
+    "responsibility": "Native architecture CI fresh install, restart, backup and restore checks."
+  },
+  "ops/deployment/deploy.py": {
+    "disposition": "retain",
+    "responsibility": "Restricted installed-service update authority with idle, backup and current-journal rollback."
+  },
+  "ops/deployment/deploy_smoke.py": {
+    "disposition": "retain",
+    "responsibility": "Isolated actual delivery smoke executed with no real device or network."
+  },
+  "ops/deployment/install_manager.py": {
+    "disposition": "retain",
+    "responsibility": "Separately reviewed administrator installation of the restricted authority."
+  },
+  "ops/diagnose_feedback.py": {
+    "disposition": "retain",
+    "responsibility": "Read-only local journal diagnosis without production defaults."
+  },
+  "ops/download_release.py": {
+    "disposition": "retain",
+    "responsibility": "Server-side release provenance, compatibility, digest and size verification."
+  },
+  "ops/migrations/classic_rename.py": {
+    "disposition": "retain",
+    "responsibility": "Bounded one-time Classic rename with verified private recovery and resumable phases."
+  },
+  "ops/migrations/tcl_data.tcl": {
+    "disposition": "retain",
+    "responsibility": "Inert Tcl settings parsing for migration; never evaluates downloaded settings."
+  },
+  "ops/release.py": {
+    "disposition": "retain",
+    "responsibility": "Only runtime package builder; explicit immutable inputs and deterministic archives."
+  },
+  "ops/release_gate.py": {
+    "disposition": "retain",
+    "responsibility": "Exact-artifact, both-controller physical acceptance gate."
+  },
+  "ops/validate_receipt.py": {
+    "disposition": "retain",
+    "responsibility": "Existing commissioning record/journal consistency validator."
+  },
+  "release-spec.json": {
+    "disposition": "retain",
+    "responsibility": "Single product identity, compatibility and package file model."
+  },
+  "source-allowlist.json": {
+    "disposition": "retain",
+    "responsibility": "Exact public source export boundary; no generated release inputs."
+  },
+  "tablet/decaid/README.md": {
+    "disposition": "retain",
+    "responsibility": "Product/component entry point linking to canonical installation and architecture."
+  },
+  "tablet/decaid/capture.js": {
+    "disposition": "retain",
+    "responsibility": "Fresh live shot capture and validated finalized records; reconnect/import/edit rejection."
+  },
+  "tablet/decaid/fields.js": {
+    "disposition": "retain",
+    "responsibility": "Pure JavaScript canonical fields, hashes and scale freshness."
+  },
+  "tablet/decaid/manifest.json": {
+    "disposition": "retain",
+    "responsibility": "Native Decaid plugin identity, permissions, settings and version boundary."
+  },
+  "tablet/decaid/outbox.js": {
+    "disposition": "retain",
+    "responsibility": "Host-storage acknowledged durable queue with stable bytes and installation binding."
+  },
+  "tablet/decaid/plugin.js": {
+    "disposition": "retain",
+    "responsibility": "Decaid v0.9.0 host, API and WebSocket lifecycle plus compact settings/status."
+  },
+  "tablet/mahlkonig_decent_sync/README.md": {
+    "disposition": "retain",
+    "responsibility": "Product/component entry point linking to canonical installation and architecture."
+  },
+  "tablet/mahlkonig_decent_sync/capture.tcl": {
+    "disposition": "retain",
+    "responsibility": "Proven Classic lifecycle hooks, frozen targets, timing and final mass."
+  },
+  "tablet/mahlkonig_decent_sync/common.tcl": {
+    "disposition": "retain",
+    "responsibility": "Shared Classic data, settings and scalar helpers."
+  },
+  "tablet/mahlkonig_decent_sync/display.tcl": {
+    "disposition": "retain",
+    "responsibility": "Read-only Grind, readiness and bounded banners."
+  },
+  "tablet/mahlkonig_decent_sync/plugin.tcl": {
+    "disposition": "retain",
+    "responsibility": "Inert metadata, stable generation loader and duplicate-hook guard."
+  },
+  "tablet/mahlkonig_decent_sync/product.tcl": {
+    "disposition": "retain",
+    "responsibility": "Product metadata and one-time Classic initialization."
+  },
+  "tablet/mahlkonig_decent_sync/settings.tcl": {
+    "disposition": "retain",
+    "responsibility": "Panels settings, themes, logo, concise status and controls."
+  },
+  "tablet/mahlkonig_decent_sync/transport.tcl": {
+    "disposition": "retain",
+    "responsibility": "Atomic outbox, asynchronous HTTP, identity pinning and durable ACK."
+  },
+  "tablet/mahlkonig_decent_sync/updates.tcl": {
+    "disposition": "retain",
+    "responsibility": "Complete package download, hash validation and atomic generation selection."
+  },
+  "tools/commissioning.py": {
+    "disposition": "retain",
+    "responsibility": "Explicit-address read-only hardware commissioning evidence capture."
+  }
+}
