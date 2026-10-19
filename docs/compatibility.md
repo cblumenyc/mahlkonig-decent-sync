@@ -15,7 +15,7 @@
 
 The public beta compatibility claim is limited to combinations recorded in `acceptance.json`. Until it contains an accepted release, these are targets rather than certified combinations. An earlier working plugin version does not establish acceptance of this renamed, modular package.
 
-On 19 October 2026, Classic candidate 0.1.0-beta.2 loaded on de1app 1.46.1.1, K811C / Android 8.1.0, with Streamline Dark. Settings, the bundled logo and skin controls were confirmed on the tablet; controller connectivity and readiness were verified on the server. This is a startup/UI check. Extraction, recovery and full release acceptance remain pending.
+On 19 October 2026, Classic candidate 0.1.0-beta.4 was installed through the in-app updater on de1app 1.46.1.1, K811C / Android 8.1.0, with Streamline Dark. Settings, the bundled logo, skin controls, fonts and installed/latest version labels were confirmed on the tablet. Running version, package hashes, unchanged settings, targets and history, a single enabled plugin, an empty delivery queue, and server readiness were verified. These are startup, UI and update checks. Extraction, recovery and full release acceptance remain pending.
 
 Not supported: tablet-only hosting, other grinder models, simultaneous controllers, Home Assistant, cloud delivery, firmware modification, access-control bypasses and custom burr algorithms. A different grinder requires a separate journal/installation. A controller switch requires idle state and fresh commissioning.
 
