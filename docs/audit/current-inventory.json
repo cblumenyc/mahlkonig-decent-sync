@@ -403,6 +403,10 @@
     "disposition": "retain",
     "responsibility": "Unprivileged first-start configuration and LAN port availability."
   },
+  "ops/container/runtime.sh": {
+    "disposition": "retain",
+    "responsibility": "Portable unprivileged Linux installation: runtime.sh."
+  },
   "ops/container/update.py": {
     "disposition": "retain",
     "responsibility": "Docker operator activation, crash recovery and code-only rollback."

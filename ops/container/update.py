@@ -49,7 +49,7 @@ assert not v.get('active'), 'A cycle raced the stop; restart the current release
 for row in c.execute('select record from controller_shots'):
  r=json.loads(row[0]);assert r.get('feedback_status') not in ('collecting','awaiting_events','awaiting_final_mass','awaiting_arm','awaiting_native','awaiting_native_validation','queued','dispatching'), 'Unfinished controller record'
 """
-    compose(directory,'run','--rm','--no-deps','--entrypoint','python','sync','-c',verify,execute=execute)
+    compose(directory,'run','--rm','--no-deps','--user','10001:10001','--entrypoint','python','sync','-c',verify,execute=execute)
 
 
 def save(path, value):
@@ -144,7 +144,7 @@ def activate(transaction, *, rollback=False, execute=run):
         control(source,'enter',operation,execute=execute)
         phase('idle')
         try:
-            compose(source,'exec','-T','sync','python','/app/backup.py','/data/bridge.sqlite3',execute=execute)
+            compose(source,'exec','-T','--user','10001:10001','sync','python','/app/backup.py','/data/bridge.sqlite3',execute=execute)
             phase('backed-up')
             phase('stopping')
             compose(source,'stop','sync',execute=execute);phase('stopped')

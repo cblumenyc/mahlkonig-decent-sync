@@ -6,7 +6,7 @@ The software is currently a release candidate under development. Check [acceptan
 
 ## Prepare the host
 
-Use Docker Engine with the Compose plugin, Python 3.13 or newer, and a current GitHub CLI supporting `gh attestation verify`. Give the host a reserved LAN IPv4 address and accurate clock. The tablet, grinder and server must reach each other without guest-network isolation. Reserve several GB for images, journals and backups; a nearly full disk cannot safely update or migrate.
+Use a rootful Docker Engine with the Compose plugin, Python 3.13 or newer, and a current GitHub CLI supporting `gh attestation verify`. Give the host a reserved LAN IPv4 address and accurate clock. The tablet, grinder and server must reach each other without guest-network isolation. Reserve several GB for images, journals and backups; a nearly full disk cannot safely update or migrate.
 
 The grinder expects Xenia on **port 80**. Check that the host has no existing service listening there. This package uses Linux host networking so the server sees the actual grinder peer address. Do not substitute port mapping that hides that address. If another service owns port 80, use a dedicated host or a separately configured LAN address/network namespace; the provided Compose file binds port 80 on the host. See Docker's [host networking documentation](https://docs.docker.com/engine/network/drivers/host/).
 
@@ -27,7 +27,7 @@ docker compose --env-file .env config --quiet
 docker compose --env-file .env up -d --build --wait
 ```
 
-The runtime uses UID/GID 10001, a read-only filesystem, a persistent `sync-data` volume, automatic restart, a health check and daily online journal backups. Configuration is created only when absent. Reboots and new images retain the volume. Never use `down --volumes` on a real installation.
+The fixed util-linux entrypoint drops to UID/GID 10001 before loading application code. It retains only the capability needed to bind port 80 and prevents gaining new privileges. This avoids changing host-wide privileged-port settings. The runtime uses a read-only filesystem, a persistent `sync-data` volume, automatic restart, a health check and daily online journal backups. Configuration is created only when absent. Reboots and new images retain the volume. Never use `down --volumes` on a real installation.
 
 Open the configured LAN address. The dashboard is password-free on that trusted LAN; host, origin, subnet and grinder-peer checks still apply. Do not expose it to the Internet. Health means the process and journal work; **Ready** additionally requires the current controller, commissioned profile, verified targets, native grinder state and usable measurements.
 

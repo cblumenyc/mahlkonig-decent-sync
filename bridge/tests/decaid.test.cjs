@@ -83,6 +83,15 @@ test('host integration checks version, binds server, and sends only persisted co
     assert.equal(event.server_id,identity.server_id);assert.equal(event.event.schema_version,2);
     const status=JSON.parse(plugin.__httpRequestHandler({method:'GET',endpoint:'status'}).body);
     assert.equal(status.ready,false);
+    const view=()=>JSON.parse(plugin.__httpRequestHandler({method:'GET',endpoint:'status'}).body);
+    listeners.get('1')({type:'data',dataType:'text',data:JSON.stringify({type:'status',server_id:identity.server_id,display:{sync_ready:true},summary:'Ready'})});
+    assert.equal(view().ready,false); // A cached server status cannot replace a fresh local scale.
+    listeners.get('4')({type:'data',dataType:'text',data:JSON.stringify({timestamp:r.iso(),weight:0})});
+    assert.equal(view().ready,true);
+    r.advance(2001);assert.equal(view().ready,false);
+    listeners.get('4')({type:'data',dataType:'text',data:JSON.stringify({timestamp:r.iso(),weight:0})});
+    assert.equal(view().ready,true);
+    listeners.get('4')({type:'close'});assert.equal(view().ready,false);
     plugin.onEvent({name:'shotStored',payload:{id:'import'}});
     plugin.onUnload();
     assert.ok(opened.every(url=>!url.includes('/espresso')));

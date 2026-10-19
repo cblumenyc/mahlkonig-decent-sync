@@ -100,6 +100,7 @@
   "ops/container/environment.example",
   "ops/container/healthcheck.py",
   "ops/container/launch.py",
+  "ops/container/runtime.sh",
   "ops/container/update.py",
   "ops/container/verify_install.py",
   "ops/deployment/deploy.py",

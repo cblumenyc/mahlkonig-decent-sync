@@ -39,10 +39,13 @@ def main():
             first=get('/api/v1/identity');setup=get('/api/v1/setup')
             assert not setup['feedback_enabled'] and not setup['complete']
             assert first['starts_extraction'] is False and first['version']==version
-            assert run('exec','-T','sync','id','-u')=='10001'
+            privileges=json.loads(run('exec','-T','--user','10001:10001','sync','python','-c',
+                "import json;from pathlib import Path;print(json.dumps(dict(line.split(':',1) for line in Path('/proc/1/status').read_text().splitlines())))"))
+            assert privileges['Uid'].split()==['10001']*4 and privileges['Gid'].split()==['10001']*4
+            assert int(privileges['CapEff'],16)==1024 and privileges['NoNewPrivs'].strip()=='1'
             run('restart','sync');run('up','-d','--wait','--wait-timeout','90')
             assert get('/api/v1/identity')['server_id']==first['server_id']
-            run('exec','-T','sync','python','/app/backup.py','/data/bridge.sqlite3')
+            run('exec','-T','--user','10001:10001','sync','python','/app/backup.py','/data/bridge.sqlite3')
             check="""from pathlib import Path
 from backup import restore
 from store import Store
@@ -51,7 +54,7 @@ restore(source,'/data/recovery-check.sqlite3')
 with Store('/data/bridge.sqlite3').db as a,Store('/data/recovery-check.sqlite3').db as b:
  assert a.execute(\"select value from kv where key='installation_id'\").fetchone()==b.execute(\"select value from kv where key='installation_id'\").fetchone()
 """
-            run('exec','-T','sync','python','-c',check)
+            run('exec','-T','--user','10001:10001','sync','python','-c',check)
             print(json.dumps({'passed':True,'architecture':os.uname().machine,
                 'checks':['clean-package-install','nonroot','health','feedback-disabled','restart-identity','backup-restore']}))
         except Exception:

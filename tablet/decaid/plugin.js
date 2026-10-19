@@ -88,7 +88,8 @@ function createPlugin(host) {
     function pulse() {if (closed) return;tick();timer=setTimeout(pulse,2000);}
     function status() {
         const fresh=Date.now()-displayAt<10000;
-        const ready=fresh && display.sync_ready===true && connected('shots') && connected('machine') && !outbox.error;
+        const ready=fresh && display.sync_ready===true && connected('shots') && connected('machine') && connected('scale') &&
+            !!capture.scale && SyncFields.fresh(capture.scale.timestamp) && !outbox.error;
         return {name:'Mahlkönig - Decent sync',version:VERSION,ready,summary:outbox.error || (fresh ? display.summary || notice : notice),
             server:url,saved_events:outbox.state?.queue.length || 0,profile:capture.profile?.title || null,
             grind:fresh && Number.isFinite(display.grind_position?.um) && display.grind_position.age_s+(Date.now()-displayAt)/1000<35 ? display.grind_position.um : null,

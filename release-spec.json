@@ -68,6 +68,7 @@
     "launch.py",
     "healthcheck.py",
     "update.py",
-    "README.md"
+    "README.md",
+    "runtime.sh"
   ]
 }
