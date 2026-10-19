@@ -143,6 +143,10 @@
     "disposition": "retain",
     "responsibility": "SQLite schema, nested atomic transactions, event uniqueness and durable installation identity."
   },
+  "bridge/tests/classic_image_fixture.tcl": {
+    "disposition": "retain",
+    "responsibility": "Shared Classic public image-scaling contract for startup and tablet settings regression tests."
+  },
   "bridge/tests/classic_profile_vars.tcl": {
     "disposition": "retain",
     "responsibility": "Shared fake host/device boundary or actual Tcl fixture: classic profile vars. Excluded from runtime packages."

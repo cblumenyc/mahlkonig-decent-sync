@@ -1,6 +1,7 @@
 # Reproduce the documented de1app GUI wrapper contract without an Android canvas.
 source [lindex $argv 0]
 source [file join [file dirname [info script]] classic_profile_vars.tcl]
+source [file join [file dirname [info script]] classic_image_fixture.tcl]
 set ::fixture_out [lindex $argv 1]
 array set ::settings {settings_profile_type settings_2a profile_filename default profile_title Default final_desired_shot_volume 45 espresso_count 1987 espresso_clock 1234 pressure_end 6 maximum_flow 0 insert_preinfusion_pause 0}
 array set ::de1 {scale_device_handle 0}

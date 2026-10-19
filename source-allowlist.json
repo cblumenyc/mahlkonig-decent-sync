@@ -35,6 +35,7 @@
   "bridge/static/index.html",
   "bridge/static/style.css",
   "bridge/store.py",
+  "bridge/tests/classic_image_fixture.tcl",
   "bridge/tests/classic_profile_vars.tcl",
   "bridge/tests/conftest.py",
   "bridge/tests/decaid.test.cjs",

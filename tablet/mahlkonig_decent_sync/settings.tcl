@@ -277,8 +277,13 @@ namespace eval ::plugins::mahlkonig_decent_sync {
         dui add canvas_item rect $page 0 0 2560 1600 -fill [dict get $p bg] -width 0 -tags cs_settings_bg
         set logo [file join $module_root mahlkonig.png]
         if {![file exists $logo]} {set logo [file join $module_root .. .. assets mahlkonig.png]}
-        set logo_image [dui add image $page 160 112 $logo -tags cs_logo -canvas_anchor nw]
-        if {$logo_image ne ""} {dui image photoscale $logo_image [expr {[rescale_x_skin 220]/220.0}]}
+        # Load before scaling: DUI may defer image files until the page is shown.
+        # Classic's public scaler also supports DUI versions that do not export it.
+        set logo_image ${page}-cs_logo
+        ::image create photo $logo_image -file $logo
+        set logo_scale [expr {[rescale_x_skin 220]/220.0}]
+        ::photoscale $logo_image $logo_scale $logo_scale
+        dui add canvas_item image $page 160 112 -image $logo_image -anchor nw -tags cs_logo
         settings_text cs_title 430 175 "Mahlkönig - Decent sync" Helv_14
         settings_text cs_updates_link 1820 1455 "Updates ›" Helv_11 muted center
         add_de1_button $page {page_to_show_when_off plugin_mahlkonig_decent_sync_updates} 1670 1395 2010 1513 ""

@@ -22,7 +22,8 @@ proc save_plugin_settings {name} {
     incr ::saved
     set ::persisted [array get ::plugins::mahlkonig_decent_sync::settings]
 }
-proc rescale_x_skin {x} {return $x}
+proc rescale_x_skin {x} {return [expr {$x * 0.5}]}
+source [file join [file dirname [info script]] classic_image_fixture.tcl]
 proc add_de1_text {page x y args} {
     array set opts $args
     if {[info exists opts(-textvariable)]} {error {canvas text does not accept -textvariable}}
@@ -42,7 +43,6 @@ proc .panels_entry {op args} {
     foreach {key value} $args {dict set ::entry_config $key $value}
 }
 proc dui {family operation args} {
-    if {$family eq "image" && $operation eq "photoscale"} {return}
     if {$family eq "page"} {
         if {$operation eq "add_action"} {lappend ::actions $args}
         return
@@ -55,12 +55,11 @@ proc dui {family operation args} {
             set type shape
         } elseif {$operation eq "canvas_item"} {
             set type [lindex $args 0]
-            set opts [lrange $args 6 end]
-        } elseif {$operation eq "image"} {
-            set opts [lrange $args 4 end]
-            array set options $opts
-            dict set ::items $options(-tags) [list page [lindex $args 0] type image tags $options(-tags) options $opts]
-            return $options(-tags)
+            set opts [lrange $args [expr {$type eq "image" ? 4 : 6}] end]
+            if {$type eq "image"} {
+                array set image_options $opts
+                if {![dict exists $::logo_scales $image_options(-image)]} {error {unscaled or deferred logo}}
+            }
         } elseif {$operation eq "entry"} {
             set opts [lrange $args 3 end]
             array set options $opts
@@ -93,6 +92,7 @@ proc bound {tag} {return [subst [dict get $::bindings $tag]]}
 set original [array get ::plugins::mahlkonig_decent_sync::settings]
 set revision [dict get [::json::json2dict [::plugins::mahlkonig_decent_sync::profile]] revision]
 ::plugins::mahlkonig_decent_sync::build_ui
+if {[dict get $::logo_scales plugin_mahlkonig_decent_sync-cs_logo] ne {0.5 0.5}} {error {logo not scaled for the tablet}}
 if {$::saved!=0 || [array get ::plugins::mahlkonig_decent_sync::settings] ne $original} {error {building settings mutated preferences}}
 foreach button $::buttons {
     lassign $button command x0 y0 x1 y1
