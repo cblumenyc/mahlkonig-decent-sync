@@ -203,3 +203,58 @@ def test_read_only_live_grind_preserves_recipe_and_skin_editors(tmp_path, scenar
         str(PLUGIN), str(tmp_path), scenario], capture_output=True, text=True, check=True)
     assert not result.stderr
     assert 'preserved settings/history passed' in result.stdout
+
+
+@pytest.mark.parametrize("reply_mode", ["reconnect", "rollback"])
+def test_classic_polls_without_growing_outbox_and_refreshes_profile_after_reconnect(tmp_path,reply_mode):
+    requests=[]
+    class Handler(BaseHTTPRequestHandler):
+        def log_message(self,*args):pass
+        def do_GET(self):
+            requests.append(dict(self.headers))
+            session=self.headers.get('X-Sync-Session-ID')
+            reply={'server_id':'11111111-1111-1111-1111-111111111111',
+                'poll':{'session_id':session,'accepted':len(requests)<3},'cycle':None}
+            if reply_mode=='rollback' and len(requests)==3:reply={'controller_id':'classic-de1'}
+            if self.path.endswith('/identity'):
+                reply={'product':'mahlkonig-decent-sync','server_id':'11111111-1111-1111-1111-111111111111',
+                    'controller_id':'classic-de1','controller_contracts':[1,2]}
+            body=json.dumps(reply).encode();self.send_response(200)
+            self.send_header('Content-Length',str(len(body)));self.end_headers();self.wfile.write(body)
+    server=ThreadingHTTPServer(('127.0.0.1',0),Handler)
+    thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
+    script=tmp_path/'poll.tcl'
+    script.write_text('''source [lindex $argv 0]
+package require json
+package require http
+namespace eval ::plugins::mahlkonig_decent_sync {
+    set session fixture-session
+    set settings(bridge_url) [lindex $::argv 1]
+    set settings(controller_id) classic-de1
+    set settings(server_id) 11111111-1111-1111-1111-111111111111
+    set verified_server "$settings(bridge_url)|$settings(server_id)"
+    set last_profile original
+    set sequence 12
+    set outbox [file join [file dirname [info script]] outbox]
+    file mkdir $outbox
+}
+proc pulse {} {
+    ::plugins::mahlkonig_decent_sync::poll_status
+    if {$::requests_left > 1} {incr ::requests_left -1;after 40 pulse} else {after 100 {set done 1}}
+}
+set requests_left 3
+pulse
+vwait done
+if {$::plugins::mahlkonig_decent_sync::sequence != 12} {error {poll created durable events}}
+if {$::plugins::mahlkonig_decent_sync::last_profile ne ""} {error {reconnect did not request profile}}
+if {$::plugins::mahlkonig_decent_sync::sync_ready} {error {reconnect retained stale readiness}}
+puts passed
+''')
+    try:
+        result=subprocess.run([TCL,str(script),str(PLUGIN),f'http://127.0.0.1:{server.server_port}'],
+            capture_output=True,text=True,check=True,timeout=5)
+        assert not result.stderr and result.stdout.strip()=='passed'
+    finally:server.shutdown();thread.join();server.server_close()
+    polls=[row for row in requests if 'X-Sync-Session-ID' in row]
+    assert len(polls)==3
+    assert all(row['X-Sync-Server-ID']=='11111111-1111-1111-1111-111111111111' for row in polls)

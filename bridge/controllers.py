@@ -169,7 +169,7 @@ class Controllers:
         old = self.store.db.execute('SELECT payload FROM controller_events WHERE controller=? AND event_id=?',
                                    (controller, event['event_id'])).fetchone()
         if old:
-            if old[0] != encoded:
+            if not self.store.payload_matches(old[0], encoded):
                 raise BridgeError('Event ID already has different data')
             return {'event_id': event['event_id'], 'durable': True, 'duplicate': True,
                     'summary':self.summary(), 'cycle':self.cycles.offer(event['session_id']),
@@ -244,6 +244,16 @@ class Controllers:
         return {'event_id': event['event_id'], 'durable': True, 'duplicate': False,
                 'summary': self.summary(), 'cycle':self.cycles.offer(event['session_id']),
                 'display':self.display(event['session_id'])}
+
+    def poll_status(self, session, measurement_ready=None):
+        """Poll without journaling; a reconnect first needs a fresh profile."""
+        accepted = bool(session and session == self.session
+            and 0 <= time.time()-self.last_event_received < 15)
+        if accepted:
+            self.last_event_received = time.time()
+            if self.config.get('controller_type') == 'decaid' and type(measurement_ready) is bool:
+                self.measurement_ready = measurement_ready
+        return {'session_id':session, 'accepted':accepted}
 
     def sync_warning(self):
         e, a = self.engine, self.engine.active or {}

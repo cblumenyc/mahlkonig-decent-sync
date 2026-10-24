@@ -47,20 +47,7 @@ namespace eval ::plugins::mahlkonig_decent_sync {
                     set accepted 1
                     set status_text "Shot events saved on server"
                     if {[dict exists $body summary]} {set status_text [dict get $body summary]}
-                    if {[string first "$session-" $id] == 0} {catch {update_display $body}}
-                    # Only a response to this app session can replace its next-shot
-                    # offer. A shot already in progress keeps its frozen copy.
-                    if {[string first "$session-" $id] == 0 && [dict exists $body cycle]} {
-                        set cycle_offer ""
-                        set c [dict get $body cycle]
-                        if {$c ne "null" && [dict exists $c session_id] && [dict get $c session_id] eq $session} {
-                            set valid 1
-                            foreach key {cycle_id grind_uuid session_id profile_revision expires_at} {
-                                if {![dict exists $c $key]} {set valid 0}
-                            }
-                            if {$valid} {set cycle_offer $c}
-                        }
-                    }
+                    if {[string first "$session-" $id] == 0} {apply_status $body}
                 }
             }
         }
@@ -72,6 +59,55 @@ namespace eval ::plugins::mahlkonig_decent_sync {
             set status_text "Server has not acknowledged storage; retrying saved events"
             after 5000 [namespace code drain]
         }
+    }
+    proc apply_status {body} {
+        variable cycle_offer;variable session
+        catch {update_display $body}
+        # In-flight shots keep their own frozen copy.
+        if {![dict exists $body cycle]} {return}
+        set cycle_offer ""
+        set c [dict get $body cycle]
+        if {$c eq "null" || ![dict exists $c session_id] || [dict get $c session_id] ne $session} {return}
+        foreach key {cycle_id grind_uuid session_id profile_revision expires_at} {
+            if {![dict exists $c $key]} {return}
+        }
+        set cycle_offer $c
+    }
+    proc poll_status {} {
+        variable busy;variable settings;variable session;variable verified_server
+        if {$busy} {return}
+        if {![info exists verified_server] || $verified_server ne "$settings(bridge_url)|$settings(server_id)"} {verify_connection;return}
+        set busy 1
+        if {[catch {::http::geturl "$settings(bridge_url)/api/v1/controllers/$settings(controller_id)/status" \
+                -headers [list X-Sync-Server-ID $settings(server_id) X-Sync-Session-ID $session] \
+                -timeout 4000 -command [namespace code polled]}]} {set busy 0}
+    }
+    proc polled {token} {
+        variable busy;variable settings;variable session;variable last_profile;variable status_text
+        variable telemetry_poll;variable verified_server;variable sync_ready;variable cycle_offer
+        catch {
+            set body [::json::json2dict [::http::data $token]]
+            if {[::http::status $token] eq "ok" && [::http::ncode $token] == 200 && ![dict exists $body poll]} {
+                # Reverify capabilities after an executable rollback. The pinned
+                # identity is still required before any queued bytes can send.
+                set telemetry_poll 0;set verified_server "";set last_profile "";set sync_ready 0
+            }
+            if {[::http::status $token] eq "ok" && [::http::ncode $token] == 200 &&
+                [dict get $body server_id] eq $settings(server_id) &&
+                [dict get $body poll session_id] eq $session} {
+                if {[dict get $body poll accepted] eq "true"} {
+                    if {[dict exists $body summary]} {set status_text [dict get $body summary]}
+                    apply_status $body
+                } else {
+                    # An outage/restart must refresh the effective profile before
+                    # polling can restore readiness; no stale profile is revived.
+                    set last_profile ""
+                    set sync_ready 0;set cycle_offer ""
+                }
+            }
+        }
+        ::http::cleanup $token;set busy 0
+        after 0 [namespace code drain]
     }
     proc normalize_server {input} {
         set url [string trimright [string trim $input] /]
@@ -112,6 +148,7 @@ namespace eval ::plugins::mahlkonig_decent_sync {
         variable settings;variable server_testing;variable status_text;variable server_input;variable verified_server
         variable cycle_offer;variable last_profile;variable last_server_ack;variable grinder_connected
         variable busy;variable shot_id;variable pending_scale;variable outbox
+        variable telemetry_poll
         set valid 0
         catch {
             set body [::json::json2dict [::http::data $token]]
@@ -146,6 +183,7 @@ namespace eval ::plugins::mahlkonig_decent_sync {
             set server_input $url;set cycle_offer "";set last_profile "";set last_server_ack 0;set grinder_connected 0
         }
         set verified_server "$url|$identity"
+        set telemetry_poll [expr {[dict exists $body telemetry_poll] && [dict get $body telemetry_poll] == 1}]
         set status_text "Server verified. Connecting…"
         after 0 [namespace code drain]
     }

@@ -36,7 +36,7 @@ The Xenia machine serial and device identifier preserve grinder learning and nat
 
 ## Final verification
 
-`source-allowlist.json` declares every public file. `current-inventory.json` assigns each one an active responsibility; `current-tests.json` maps every Python regression entry to capture, measurements, correlation, delivery, persistence, UI, installation or recovery. Python wrappers run the actual Tcl fixtures and 14 Node.js Decaid cases. Both baseline ledgers have resolved dispositions and replacement locations. The full 882-item private ledger also resolves every preserved research, release and operational artifact.
+`source-allowlist.json` declares every public file. `current-inventory.json` assigns each one an active responsibility; `current-tests.json` maps every Python regression entry to capture, measurements, correlation, delivery, persistence, UI, installation or recovery. Python wrappers run the actual Tcl fixtures and 15 Node.js Decaid cases. Both baseline ledgers have resolved dispositions and replacement locations. The full 882-item private ledger also resolves every preserved research, release and operational artifact.
 
 `python ops/audit_source.py` checks exact inventory equality, resolved targets, test independence and obvious credential material. `--export` produces a new byte-verified source directory from that allowlist. Runtime packages use only `release-spec.json`; package regressions prove deterministic output, source immutability, exclusion of settings/private files and compatibility with the reviewed manager.
 

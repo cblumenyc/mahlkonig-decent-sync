@@ -48,3 +48,33 @@ def test_websocket_http_retry_identity_and_origin_guards(tmp_path):
         assert store.db.execute('SELECT count(*) FROM controller_events').fetchone()[0] == 1
         store.close()
     asyncio.run(run())
+
+
+def test_session_polls_refresh_liveness_without_durable_events(tmp_path):
+    async def run():
+        engine=Engine(Store(tmp_path/'db'),FakeReader())
+        config={'origins':['http://127.0.0.1'],'allowed_networks':['127.0.0.0/8'],
+            'grinder_host':'127.0.0.1','automation':{'feedback_mode':'observe'}}
+        app=create_app(config,engine)
+        async with TestServer(app) as server, ClientSession() as client:
+            base=str(server.make_url('/api/v1/controllers/classic-de1'))
+            headers={'Host':'127.0.0.1'}
+            identity=(await (await client.get(server.make_url('/api/v1/identity'),headers=headers)).json())
+            assert identity['telemetry_poll']==1
+            owner={**headers,'X-Sync-Server-ID':identity['server_id'],'X-Sync-Session-ID':'session1'}
+            response=await client.get(base+'/status',headers=owner)
+            assert not (await response.json())['poll']['accepted']
+            await client.post(base+'/events',headers=headers,json=event(1,'profile'))
+            for _ in range(10):
+                response=await client.get(base+'/status',headers=owner)
+                body=await response.json()
+                assert body['poll']['accepted'] and body['server_id']==identity['server_id']
+                assert 'display' in body and 'cycle' in body
+            async with client.ws_connect(base+'/ws',headers=headers) as socket:
+                await socket.receive_json()
+                await socket.send_json({'type':'status','server_id':identity['server_id'],'session_id':'session1'})
+                assert (await socket.receive_json())['poll']['accepted']
+            assert engine.store.db.execute('SELECT count(*) FROM controller_events').fetchone()[0]==1
+            response=await client.get(base+'/status',headers={**owner,'X-Sync-Server-ID':'wrong'})
+            assert response.status==409
+    asyncio.run(run())

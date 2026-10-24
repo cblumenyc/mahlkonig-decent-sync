@@ -37,3 +37,43 @@ def test_retention_and_interrupted_snapshot_do_not_block_recovery(tmp_path):
     assert not (folder/'coffee-2026-01-01.sqlite3').exists()
     assert snapshot(path,day='2026-01-16').stat().st_mode & 0o777 == 0o600
     store.close()
+
+
+def test_telemetry_retention_is_batched_respects_age_and_survives_backup(tmp_path):
+    import json
+    from store import retain_telemetry
+    path = tmp_path/'bridge.sqlite3';store = Store(path);identity=installation_id(store)
+    for sequence in range(12):
+        payload=json.dumps({'kind':'status','data':{'state':'Idle'},'padding':'x'*2000})
+        store.db.execute('INSERT INTO controller_events VALUES (?,?,?,?,?,?,?)',
+            ('classic-de1',f'e{sequence}','session',sequence,None,0 if sequence<10 else 7000,payload))
+    store.db.commit()
+    assert retain_telemetry(path,now=7200,limit=3)==3
+    assert store.get('telemetry_retention')['compacted_receipts']==3
+    for _ in range(3):retain_telemetry(path,now=7200,limit=3)
+    assert retain_telemetry(path,now=7200)==0
+    assert store.get('telemetry_retention')['compacted_receipts']==10
+    assert store.db.execute("SELECT count(*) FROM controller_events WHERE payload LIKE 'sha256:%'").fetchone()[0]==10
+    first=snapshot(path,day='2026-01-01');copy=tmp_path/'copy.sqlite3';restore(first,copy)
+    restored=Store(copy)
+    assert installation_id(restored)==identity
+    assert restored.db.execute('SELECT payload FROM controller_events WHERE event_id=?',('e0',)).fetchone()[0].startswith('sha256:')
+    assert restored.db.execute('PRAGMA auto_vacuum').fetchone()[0]==2
+    restored.close();store.close()
+
+
+def test_telemetry_retention_yields_to_an_active_writer(tmp_path):
+    import sqlite3
+    from store import retain_telemetry
+    path=tmp_path/'db';store=Store(path)
+    store.db.execute('INSERT INTO controller_events VALUES (?,?,?,?,?,?,?)',
+        ('classic-de1','event','session',1,None,0,'{"kind":"status"}'))
+    store.db.commit()
+    with sqlite3.connect(path) as writer:
+        writer.execute('BEGIN IMMEDIATE')
+        writer.execute("INSERT INTO kv VALUES ('test','true')")
+        # A batch never stalls the owning request connection waiting for a writer.
+        assert retain_telemetry(path)==-1
+    assert store.get('test') is True
+    assert retain_telemetry(path)==1
+    store.close()

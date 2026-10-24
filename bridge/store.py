@@ -1,4 +1,5 @@
 """Small durable journal. No grinder passwords or session tokens are stored here."""
+import hashlib
 import json
 import sqlite3
 import time
@@ -8,12 +9,16 @@ from pathlib import Path
 
 class Store:
     def __init__(self, path):
+        self.path = str(path)
         Path(path).parent.mkdir(parents=True, exist_ok=True)
         self.db = sqlite3.connect(path)
         self.db.row_factory = sqlite3.Row
         if self.db.execute('PRAGMA user_version').fetchone()[0] > 2:
             self.db.close()
             raise ValueError('Journal schema is newer than this bridge supports')
+        # New journals return freed pages without a blocking full VACUUM.
+        if not self.db.execute('SELECT name FROM sqlite_master LIMIT 1').fetchone():
+            self.db.execute('PRAGMA auto_vacuum=INCREMENTAL')
         self.db.execute('PRAGMA journal_mode=WAL')
         self.db.execute('PRAGMA synchronous=FULL')
         self.db.execute('PRAGMA busy_timeout=5000')
@@ -38,6 +43,8 @@ class Store:
             controller TEXT NOT NULL, shot_id TEXT NOT NULL, record TEXT NOT NULL,
             PRIMARY KEY(controller,shot_id)
           );
+          CREATE INDEX IF NOT EXISTS controller_telemetry_age ON controller_events(received)
+            WHERE shot_id IS NULL AND substr(payload,1,7) != 'sha256:';
           CREATE TABLE IF NOT EXISTS profiles (
             controller TEXT NOT NULL, profile_id TEXT NOT NULL, record TEXT NOT NULL,
             PRIMARY KEY(controller,profile_id)
@@ -55,6 +62,12 @@ class Store:
         ''')
         self.db.commit()
         self.last_prune = 0
+
+    @staticmethod
+    def payload_matches(saved, encoded):
+        if saved.startswith('sha256:'):
+            return saved == 'sha256:' + hashlib.sha256(encoded.encode()).hexdigest()
+        return saved == encoded
 
     @contextmanager
     def atomic(self):
@@ -187,3 +200,49 @@ class Store:
     def profiles(self):
         return [{'controller_id':r[0], 'profile_id':r[1], **json.loads(r[2])}
                 for r in self.db.execute('SELECT controller,profile_id,record FROM profiles')]
+
+
+def retain_telemetry(path, *, now=None, limit=500):
+    """Bound routine payloads; retain exact identity/sequence/digest receipts.
+
+    A separate connection runs short batches off the request loop. Lifecycle
+    payloads, commissioned profiles, shot records and deliveries are untouched.
+    """
+    now = time.time() if now is None else now
+    with sqlite3.connect(path, timeout=0.05) as db:
+        db.execute('PRAGMA synchronous=FULL')
+        deadline = time.monotonic() + 0.1
+        db.set_progress_handler(lambda: int(time.monotonic() > deadline), 1000)
+        try:
+            rows = db.execute('''SELECT rowid,payload FROM controller_events
+                WHERE shot_id IS NULL AND substr(payload,1,7) != 'sha256:'
+                AND received < ? AND json_extract(payload,'$.kind') IN ('profile','status')
+                ORDER BY received LIMIT ?''', (now-3600, limit)).fetchall()
+            if rows:
+                with db:
+                    db.executemany('UPDATE controller_events SET payload=? WHERE rowid=?',
+                        [('sha256:'+hashlib.sha256(payload.encode()).hexdigest(), rowid)
+                         for rowid,payload in rows])
+                    row = db.execute("SELECT value FROM kv WHERE key='telemetry_retention'").fetchone()
+                    stats = json.loads(row[0]) if row else {'compacted_receipts':0,'released_payload_bytes':0}
+                    stats['compacted_receipts'] += len(rows)
+                    stats['released_payload_bytes'] += sum(len(payload.encode())-71 for _,payload in rows)
+                    stats.update(checked_at=now, full_payload_retention_s=3600)
+                    stats['last_batch_size'] = len(rows)
+                    db.execute("INSERT INTO kv VALUES ('telemetry_retention',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",
+                        (json.dumps(stats),))
+            else:
+                row = db.execute("SELECT value FROM kv WHERE key='telemetry_retention'").fetchone()
+                stats = json.loads(row[0]) if row else None
+                if stats and stats.get('last_batch_size'):
+                    stats.update(last_batch_size=0, checked_at=now)
+                    with db:
+                        db.execute("UPDATE kv SET value=? WHERE key='telemetry_retention'",(json.dumps(stats),))
+            if db.execute('PRAGMA auto_vacuum').fetchone()[0] == 2:
+                db.execute('PRAGMA incremental_vacuum(64)').fetchall()
+            return len(rows)
+        except sqlite3.OperationalError as exc:
+            db.rollback()
+            if 'locked' in str(exc) or 'interrupted' in str(exc):
+                return -1
+            raise

@@ -60,3 +60,10 @@ An interrupted restore may leave a new incomplete destination. Keep it for inspe
 Before first restart after rename, use the assisted migration's `rollback`; it verifies that live data has not changed. After normal in-app update, close de1app and restore the saved `previous-generation` value as `active-generation` atomically. An empty previous value means the initial complete package: remove the active pointer while the app is closed. Keep settings/outbox untouched. Never select a generation whose complete files/hashes cannot be verified.
 
 Both the renamed and old hook implementations must not run together. If the app was started during migration or new events appeared, stop and preserve both copies; automatic rollback refuses to lose those events. See [installation](installation.md) for the supported migration window.
+
+
+## Journals created before telemetry retention
+
+The server compacts old routine payloads in short background transactions while no cycle or update is active. SQLite reuses the freed pages immediately. New journals enable incremental auto-vacuum so normal retention can return unused pages to the filesystem. Existing journals created with auto-vacuum disabled require one coordinated, idle, offline `PRAGMA auto_vacuum=INCREMENTAL; VACUUM;` to physically shrink the file. Use the current journal, a verified fresh backup, ample temporary space, and the managed installation's existing idle/maintenance gates. Do not copy an earlier snapshot over the live file or discard a WAL. Preserve logical records and installation identity through compaction. Backups keep their existing retention policy.
+
+Pre-retention executables cannot interpret old routine SHA-256 receipts. Before a code rollback, let the current controller queue drain; keep all saved events if it cannot. Current supported executables retain exact lifecycle payloads and interpret both full routine payloads and compact receipts. Never restore an earlier journal to make old code accept a receipt.

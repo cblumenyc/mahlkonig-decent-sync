@@ -204,6 +204,7 @@ def create_app(config, engine):
                 elif data.get('type') == 'status':
                     c = controller(request)
                     await socket.send_json({'type':'status', 'server_id':server_id,
+                        'poll':c.poll_status(data.get('session_id'), data.get('measurement_ready')),
                         **c.status(), 'display':c.display(c.session)})
                 else:
                     raise BridgeError('Unknown controller message')
@@ -213,7 +214,14 @@ def create_app(config, engine):
         return socket
 
     async def controller_status(request):
-        return web.json_response(controller(request).status())
+        c = controller(request)
+        if 'X-Sync-Session-ID' not in request.headers:
+            return web.json_response(c.status())
+        verify_server(engine, request.headers.get('X-Sync-Server-ID'))
+        session = request.headers['X-Sync-Session-ID']
+        poll = c.poll_status(session)
+        return web.json_response({'server_id':server_id, 'poll':poll,
+            'summary':c.summary(), 'cycle':c.cycles.offer(session), 'display':c.display(session)})
 
     async def commission(request):
         return web.json_response(controller(request).commission(request.match_info['profile'], await request.json()))
