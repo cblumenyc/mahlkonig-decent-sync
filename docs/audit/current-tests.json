@@ -9,6 +9,11 @@
     "behavior": "backup restore preserves identity payload and uncertain state",
     "assertions": 5
   },
+  "bridge/tests/test_backup.py::test_daily_backup_budget_prunes_only_after_verified_replacement_and_keeps_two": {
+    "area": "recovery",
+    "behavior": "daily backup budget prunes only after verified replacement and keeps two",
+    "assertions": 4
+  },
   "bridge/tests/test_backup.py::test_retention_and_interrupted_snapshot_do_not_block_recovery": {
     "area": "recovery",
     "behavior": "retention and interrupted snapshot do not block recovery",

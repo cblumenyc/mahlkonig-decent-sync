@@ -1,6 +1,7 @@
 """Online journal snapshots; restore only into a new, empty installation path."""
 import argparse
 import asyncio
+from contextlib import closing
 from datetime import date
 import logging
 import os
@@ -9,9 +10,24 @@ import sqlite3
 import time
 import tempfile
 
+BACKUP_LIMIT_BYTES = 512*1024*1024
+
+
+def prune_snapshots(folder):
+    """Keep up to fourteen daily copies within budget, always retaining two."""
+    total = 0
+    snapshots = sorted((p for p in folder.glob('coffee-*.sqlite3')
+        if not p.is_symlink() and p.is_file()), reverse=True)
+    for index, old in enumerate(snapshots):
+        size = old.stat().st_size
+        if index < 2 or (index < 14 and total+size <= BACKUP_LIMIT_BYTES):
+            total += size
+        else:
+            old.unlink()
+
 
 def check(database):
-    with sqlite3.connect(Path(database).resolve().as_uri()+'?mode=ro',uri=True) as db:
+    with closing(sqlite3.connect(Path(database).resolve().as_uri()+'?mode=ro',uri=True)) as db:
         if db.execute('PRAGMA quick_check').fetchone()[0] != 'ok':raise ValueError('Journal integrity check failed')
         if db.execute('PRAGMA user_version').fetchone()[0] != 2:raise ValueError('Unsupported backup schema')
         if not db.execute("SELECT value FROM kv WHERE key='installation_id'").fetchone():
@@ -28,7 +44,7 @@ def snapshot(database, *, day=None):
     temporary = Path(name)
     os.close(fd)
     try:
-        with sqlite3.connect(database.resolve().as_uri()+'?mode=ro',uri=True) as source, sqlite3.connect(temporary) as dest:
+        with closing(sqlite3.connect(database.resolve().as_uri()+'?mode=ro',uri=True)) as source, closing(sqlite3.connect(temporary)) as dest:
             deadline = time.monotonic()+30
             def progress(*args):
                 if time.monotonic()>deadline:raise TimeoutError('Journal backup deadline exceeded')
@@ -39,7 +55,7 @@ def snapshot(database, *, day=None):
         fd = os.open(folder,os.O_RDONLY)
         try:os.fsync(fd)
         finally:os.close(fd)
-        for old in sorted(folder.glob('coffee-*.sqlite3'),reverse=True)[14:]:old.unlink()
+        prune_snapshots(folder)
         for old in folder.glob('.snapshot-*.partial'):
             if old.is_file() and not old.is_symlink() and time.time()-old.stat().st_mtime > 86400:old.unlink()
         return output
@@ -57,7 +73,7 @@ def restore(source, destination):
     fd = os.open(destination,os.O_WRONLY | os.O_CREAT | os.O_EXCL,0o600)
     os.close(fd)
     try:
-        with sqlite3.connect(source.resolve().as_uri()+'?mode=ro',uri=True) as src, sqlite3.connect(destination) as dst:
+        with closing(sqlite3.connect(source.resolve().as_uri()+'?mode=ro',uri=True)) as src, closing(sqlite3.connect(destination)) as dst:
             src.backup(dst)
         check(destination)
         with destination.open('rb') as stream:os.fsync(stream.fileno())

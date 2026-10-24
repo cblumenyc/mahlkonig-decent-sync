@@ -77,3 +77,22 @@ def test_telemetry_retention_yields_to_an_active_writer(tmp_path):
     assert store.get('test') is True
     assert retain_telemetry(path)==1
     store.close()
+
+
+def test_daily_backup_budget_prunes_only_after_verified_replacement_and_keeps_two(tmp_path,monkeypatch):
+    import backup
+    path=tmp_path/'bridge.sqlite3';store=Store(path);identity=installation_id(store)
+    monkeypatch.setattr(backup,'BACKUP_LIMIT_BYTES',1)
+    for day in range(1,5):snapshot(path,day=f'2026-01-{day:02d}')
+    files=sorted((tmp_path/'backups').glob('coffee-*.sqlite3'))
+    assert [p.name for p in files]==['coffee-2026-01-03.sqlite3','coffee-2026-01-04.sqlite3']
+    for p in files:
+        backup.check(p)
+        with backup.sqlite3.connect(p) as db:
+            assert db.execute("SELECT value FROM kv WHERE key='installation_id'").fetchone()[0]=='"'+identity+'"'
+    def fail_replace(*args):raise OSError('simulated replacement failure')
+    monkeypatch.setattr(backup.os,'replace',fail_replace)
+    with pytest.raises(OSError,match='replacement failure'):snapshot(path,day='2026-01-05')
+    assert sorted((tmp_path/'backups').glob('coffee-*.sqlite3'))==files
+    assert not list((tmp_path/'backups').glob('.snapshot-*'))
+    store.close()
