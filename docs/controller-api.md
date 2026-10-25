@@ -118,7 +118,7 @@ Controller selection is idle-only, disables feedback on a new selection and inva
 
 `POST /api/v1/shots` retains `{source:"manual",shot_id,grind_uuid,weight_g,duration_ms,timing_basis:"first_drip",valid:true,record_only:boolean}` with stable retry identity. `GET /api/v1/shots/{id}` returns its public result. Manual and controller timings remain distinct. These examples are documentation, not instructions to submit synthetic data to hardware.
 
-`GET /api/v1/updates/classic` and `/api/v1/updates/classic/files/{name}` serve the server release's complete allowlisted Classic package. The catalogue includes installation UUID, matching server/package version, bootstrap API, contract and per-file size/SHA-256. Files are served locally without private installer hosts. `/api/v1/notices` returns software/artwork notices.
+`GET /api/v1/updates/classic` and `/api/v1/updates/classic/files/{name}` serve the server release's complete allowlisted Classic package. The catalogue includes installation UUID, matching server/package version, bootstrap API, contract and per-file size/SHA-256. Files are served locally without private installer hosts. Classic pauses routine heartbeat traffic for up to eight seconds while existing saved events drain, then rechecks local and server idle state before download and activation. Profile changes and shot capture remain enabled. A blocked attempt is labelled “Not installed” with its actual reason; it does not schedule a later installation. The update page distinguishes the running version from the available version, and successful activation requires restarting Decent. `/api/v1/notices` returns software/artwork notices.
 
 
 ## Routine telemetry polling

@@ -219,7 +219,7 @@ namespace eval ::plugins::mahlkonig_decent_sync {
     }
     proc heartbeat {} {
         variable last_profile;variable last_profile_at;variable outbox;variable status_text;variable server_testing
-        variable telemetry_poll
+        variable telemetry_poll;variable update_phase
         if {$server_testing} {after 2000 [namespace code heartbeat];return}
         if {[catch {
             set p [profile]
@@ -227,11 +227,11 @@ namespace eval ::plugins::mahlkonig_decent_sync {
             # After an outage, the queued profile may be too old to become live.
             # Refresh it once the queue drains even if its settings have not changed.
             set polling [expr {[info exists telemetry_poll] && $telemetry_poll}]
-            if {$p ne $last_profile || (!$polling && $empty && [clock seconds]-$last_profile_at >= 30)} {
+            if {$p ne $last_profile || ($update_phase ne "waiting" && !$polling && $empty && [clock seconds]-$last_profile_at >= 30)} {
                 enqueue profile [jo profile $p]
                 set last_profile $p
                 set last_profile_at [clock seconds]
-            } elseif {$empty} {
+            } elseif {$empty && $update_phase ne "waiting"} {
                 if {$polling} {
                     poll_status
                 } else {

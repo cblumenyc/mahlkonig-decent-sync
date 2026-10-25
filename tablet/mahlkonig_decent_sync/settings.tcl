@@ -156,7 +156,7 @@ namespace eval ::plugins::mahlkonig_decent_sync {
         settings_text cs_up_about 245 1120 "Community integration · GPL-3.0-or-later" Helv_9 muted w $page
         settings_text cs_up_about_logo 245 1280 "Logo: Hemro Group / Oelna · CC BY-SA 3.0" Helv_9 muted w $page
         settings_text cs_up_plugin 245 440 "Mahlkönig - Decent sync" Helv_15 ink w $page
-        settings_text cs_up_installed_label 245 640 Installed Helv_12 muted w $page
+        settings_text cs_up_installed_label 245 640 Running Helv_12 muted w $page
         settings_text cs_up_installed 2280 640 $version Helv_15 ink e $page
         settings_text cs_up_latest_label 245 810 Latest Helv_12 muted w $page
         add_de1_variable $page 2280 810 -font Helv_15 -anchor e -tags {cs_up_latest cs_settings_ink} -fill [dict get $p ink] \

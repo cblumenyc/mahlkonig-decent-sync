@@ -26,7 +26,7 @@ set ::plugins::mahlkonig_decent_sync::last_server_ack [clock seconds]
 
 proc wait_update {} {
     set deadline [expr {[clock milliseconds]+12000}]
-    while {$::plugins::mahlkonig_decent_sync::update_phase in {checking downloading}} {
+    while {$::plugins::mahlkonig_decent_sync::update_phase in {checking waiting downloading}} {
         if {[clock milliseconds]>$deadline} {error {Updater did not finish asynchronously}}
         after 5 {set ::tick 1};vwait ::tick
     }
@@ -66,6 +66,31 @@ if {$scenario in {current older}} {
                 downloaded_original $name $bytes
             }
         }
+        transient_busy {
+            set ::plugins::mahlkonig_decent_sync::busy 1
+            after 200 {set ::plugins::mahlkonig_decent_sync::busy 0}
+        }
+        transient_events {
+            set fd [open [file join $root outbox temporary.json] w];puts $fd {temporary event};close $fd
+            after 200 [list file delete [file join $root outbox temporary.json]]
+        }
+        activity_during_wait {
+            set ::plugins::mahlkonig_decent_sync::busy 1
+            after 100 {set ::machine_state Espresso;set ::plugins::mahlkonig_decent_sync::busy 0}
+        }
+        cancel_wait {
+            set ::plugins::mahlkonig_decent_sync::busy 1
+            after 100 ::plugins::mahlkonig_decent_sync::update_action
+            after 200 {set ::plugins::mahlkonig_decent_sync::busy 0}
+        }
+        transient_commit {
+            rename ::plugins::mahlkonig_decent_sync::update_downloaded ::plugins::mahlkonig_decent_sync::downloaded_original
+            proc ::plugins::mahlkonig_decent_sync::update_downloaded {name bytes} {
+                set ::plugins::mahlkonig_decent_sync::busy 1
+                after 200 {set ::plugins::mahlkonig_decent_sync::busy 0}
+                downloaded_original $name $bytes
+            }
+        }
         rename_failure {
             rename file original_file
             proc file {operation args} {
@@ -86,20 +111,22 @@ if {$scenario in {current older}} {
     ::plugins::mahlkonig_decent_sync::install_update
     wait_update
     set phase $::plugins::mahlkonig_decent_sync::update_phase
-    if {$scenario eq "install"} {
-        if {$phase ne "installed" || $::plugins::mahlkonig_decent_sync::update_status ne "Reopen de1app"} {error "Install failed: $phase $::plugins::mahlkonig_decent_sync::update_status"}
+    if {$scenario in {install transient_busy transient_events transient_commit}} {
+        if {$phase ne "installed" || $::plugins::mahlkonig_decent_sync::update_status ne "Installed. Restart Decent"} {error "Install failed: $phase $::plugins::mahlkonig_decent_sync::update_status"}
         set pointer [file join [file dirname $::plugins::mahlkonig_decent_sync::plugin_file] active-generation]
         if {![file exists $pointer]} {error "No active generation"}
         ::plugins::mahlkonig_decent_sync::update_action
         if {$::plugins::mahlkonig_decent_sync::update_job!=$job} {error {installed code rechecked before restart}}
-    } elseif {$scenario in {local_busy pending_scale active_cycle stale_ack local_steam saved_events remote_busy busy_after_download outbox_after_download}} {
+    } elseif {$scenario in {local_busy pending_scale active_cycle stale_ack local_steam saved_events activity_during_wait cancel_wait remote_stale remote_busy busy_after_download outbox_after_download}} {
         if {$phase ne "available"} {error "Idle gate did not retain update: $phase"}
+        if {![string match {Not installed: *} $::plugins::mahlkonig_decent_sync::update_status]} {error {blocked update looks like progress}}
+        if {$scenario eq "remote_stale" && $::plugins::mahlkonig_decent_sync::update_status ne "Not installed: Tablet connection stale"} {error {stale connection described as physical cycle}}
     } else {
         if {$phase ne "error"} {error "bad update installed: $scenario $phase"}
     }
 }
 if {[info exists ::download_executed]} {error {Downloaded Tcl was evaluated before restart}}
-if {$scenario ni {install source_changed} && [::plugins::mahlkonig_decent_sync::update_read_binary $::plugins::mahlkonig_decent_sync::plugin_file] ne $code_before} {error {failed update replaced running code}}
+if {$scenario ni {install transient_busy transient_events transient_commit source_changed} && [::plugins::mahlkonig_decent_sync::update_read_binary $::plugins::mahlkonig_decent_sync::plugin_file] ne $code_before} {error {failed update replaced running code}}
 if {$scenario eq "source_changed" && [::plugins::mahlkonig_decent_sync::update_read_binary $::plugins::mahlkonig_decent_sync::plugin_file] ne "externally replaced code"} {error {external file change overwritten}}
 if {$scenario eq "server_changed"} {set ::plugins::mahlkonig_decent_sync::settings(bridge_url) $origin}
 if {[lsort [array get ::settings]] ne $settings_before || [lsort [array get ::plugins::mahlkonig_decent_sync::settings]] ne $plugin_before || [::plugins::mahlkonig_decent_sync::profile] ne $profile_before} {error {settings or frozen profile changed}}
@@ -107,4 +134,21 @@ dict for {name bytes} $data_before {
     if {[::plugins::mahlkonig_decent_sync::update_read_binary [file join $root $name]] ne $bytes} {error {settings/history file changed}}
 }
 if {$scenario in {saved_events outbox_after_download} && [::plugins::mahlkonig_decent_sync::update_read_binary [file join $root outbox preserved.json]] ne "original queued event"} {error {queued event lost}}
+# Quiet only routine heartbeat traffic during the bounded gate. Profile changes
+# remain durable, and the same heartbeat resumes after cancellation/completion.
+namespace eval ::plugins::mahlkonig_decent_sync {
+    set saved_phase $update_phase;set update_phase waiting
+    set last_profile [profile];set last_profile_at 0;set heartbeat_sends 0
+    rename enqueue original_enqueue
+    proc enqueue {args} {variable heartbeat_sends;incr heartbeat_sends}
+    rename poll_status original_poll_status
+    proc poll_status {} {variable heartbeat_sends;incr heartbeat_sends}
+    set saved_testing $server_testing;set server_testing 0
+    heartbeat
+    if {$heartbeat_sends != 0} {error {routine heartbeat refilled update gate}}
+    set last_profile ""
+    heartbeat
+    if {$heartbeat_sends != 1} {error {update gate suppressed a profile change}}
+    set update_phase $saved_phase;set server_testing $saved_testing
+}
 puts [::plugins::mahlkonig_decent_sync::jo phase [::plugins::mahlkonig_decent_sync::js $::plugins::mahlkonig_decent_sync::update_phase] status [::plugins::mahlkonig_decent_sync::js $::plugins::mahlkonig_decent_sync::update_status] preserved true]

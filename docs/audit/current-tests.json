@@ -561,7 +561,7 @@
   },
   "bridge/tests/test_tablet_updater.py::test_async_updater_preserves_capture_and_files": {
     "area": "recovery",
-    "behavior": "Complete asynchronous updates preserve capture, settings and history; verified current, older and available versions remain visible with accurate status.",
+    "behavior": "async updater drains transient traffic, cancels bounded waits and preserves idle gates, capture and files",
     "assertions": 0
   },
   "bridge/tests/test_tablet_updater.py::test_untrusted_manifest_cannot_choose_code_or_destination": {
