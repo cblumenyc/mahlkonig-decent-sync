@@ -88,7 +88,7 @@ def build(root, version, destination):
     if not re.fullmatch(r'\d+\.\d+\.\d+(?:-(?:alpha|beta|rc)\.\d+)?', version):
         raise ValueError('Use an explicit semantic release version, optionally -beta.N')
     spec = json.loads((root / 'release-spec.json').read_text())
-    metadata = {key: spec[key] for key in ('journal_schema', 'controller_contracts')}
+    metadata = {key: spec[key] for key in ('journal_schema', 'controller_contracts', 'receipt_expiry_api')}
     metadata['version'] = version
     classic = classic_package(root, version, spec)
     shared = declared_files(root, spec['shared_files'])

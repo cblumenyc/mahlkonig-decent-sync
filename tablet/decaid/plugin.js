@@ -5,7 +5,7 @@ function createPlugin(host) {
     const ID='mahlkonig_decent_sync.reaplugin';
     const API='http://localhost:8080/api/v1';
     const LOGO='__MAHLKONIG_LOGO_BASE64__'; // Expanded from the attributed canonical asset by the release builder.
-    let settings={},url='',closed=false,loaded=false,timer=null,serial=0,notice='Loading',display={},displayAt=0,cycle=null;
+    let settings={},url='',closed=false,loaded=false,timer=null,serial=0,notice='Loading',display={},displayAt=0,cycle=null,lastProfile='',telemetryPoll=false;
     const channels=new Map();
     const report=message=>{notice=message;};
     const outbox=new SyncOutbox(host,()=>{if (loaded && !closed) tick(false);});
@@ -26,14 +26,20 @@ function createPlugin(host) {
     }
     function serverMessage(message) {
         if (message.type==='hello') {
-            try {outbox.bind(message,url);channels.get('server').verified=true;notice='Connected';tick(false);}
+            try {outbox.bind(message,url);channels.get('server').verified=true;telemetryPoll=message.telemetry_poll===1;lastProfile='';notice='Connected';tick(false);}
             catch(error) {report(error.message);disconnect('server',false);}
         } else if (message.server_id!==outbox.state?.server_id) {
             report('Server identity changed; saved events retained');disconnect('server',false);
         } else if (message.type==='ack') {
             if (outbox.acknowledge(message)) publishDisplay(message);
-        } else if (message.type==='status') publishDisplay(message);
-        else if (message.type==='error') {report('Server rejected an event; saved events retained');outbox.error=notice;}
+        } else if (message.type==='status') {
+            if (telemetryPoll && message.poll?.accepted===false) lastProfile='';
+            publishDisplay(message);
+        }
+        else if (message.type==='error') {
+            if (outbox.expireTelemetry(message)) {lastProfile='';displayAt=0;cycle=null;}
+            else {report('Server rejected an event; saved events retained');outbox.error=notice;}
+        }
     }
     function disconnect(name,retry=true) {
         const entry=channels.get(name);
@@ -80,9 +86,14 @@ function createPlugin(host) {
                 outbox.sent={raw,at:Date.now()};
                 send('{"type":"event","server_id":'+JSON.stringify(outbox.state.server_id)+',"event":'+raw+'}');
             } else if (!outbox.writing && !outbox.state.queue.length && capture.profile && Date.now()-(outbox.lastHeartbeat || 0)>2000) {
-                outbox.lastHeartbeat=Date.now();outbox.enqueue('profile',{profile:capture.profile,measurement_ready:connected('scale') && !!capture.scale && SyncFields.fresh(capture.scale.timestamp)});
+                outbox.lastHeartbeat=Date.now();
+                const profile=SyncFields.canonical(capture.profile);
+                if (!telemetryPoll || profile!==lastProfile) {
+                    if (outbox.enqueue('profile',{profile:capture.profile,measurement_ready:connected('scale') && !!capture.scale && SyncFields.fresh(capture.scale.timestamp)})) lastProfile=profile;
+                }
             }
-            if (schedule) send(JSON.stringify({type:'status',server_id:outbox.state.server_id}));
+            if (schedule) send(JSON.stringify({type:'status',server_id:outbox.state.server_id,
+                session_id:outbox.state.session,measurement_ready:connected('scale') && !!capture.scale && SyncFields.fresh(capture.scale.timestamp)}));
         }
     }
     function pulse() {if (closed) return;tick();timer=setTimeout(pulse,2000);}

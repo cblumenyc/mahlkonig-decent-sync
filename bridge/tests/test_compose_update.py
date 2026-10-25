@@ -103,3 +103,14 @@ def test_cycle_racing_failed_activation_defers_rollback(tmp_path):
     with pytest.raises(RuntimeError,match='cycle raced rollback'):update.activate(args[2],execute=once)
     assert docker.version.endswith('beta.2') and not docker.stopped
     assert json.loads(args[2].read_text())['phase']=='needs-recovery'
+
+
+def test_receipt_expiry_blocks_incompatible_executable_before_stop(tmp_path):
+    args=installation(tmp_path);docker=Docker();update.prepare(*args,execute=docker)
+    def expired(arguments):
+        result=docker(arguments)
+        if update.CONTROL in arguments:
+            value=json.loads(result);value['receipt_expiry_api']=1;return json.dumps(value)
+        return result
+    with pytest.raises(ValueError,match='expired telemetry'):update.activate(args[2],execute=expired)
+    assert not any('stop' in call for call in docker.calls)

@@ -45,7 +45,7 @@ namespace eval ::plugins::mahlkonig_decent_sync {
     }
     proc check_updates {} {
         variable update_phase;variable update_status;variable update_manifest;variable update_server;variable update_job;variable settings
-        if {$update_phase in {checking downloading installed}} {return}
+        if {$update_phase in {checking waiting downloading installed}} {return}
         if {[catch {update_base}]} {update_problem "Pair the server first";return}
         incr update_job
         set update_server "$settings(bridge_url)|$settings(server_id)";set update_manifest {}
@@ -90,14 +90,65 @@ namespace eval ::plugins::mahlkonig_decent_sync {
     }
     proc update_idle_reason {} {
         variable shot_id;variable pending_scale;variable active_cycle;variable last_server_ack;variable busy;variable outbox;variable server_testing
-        if {$shot_id ne "" || $pending_scale ne "" || $active_cycle ne "" || [::de1::state::current_state] ni {Idle Sleep}} {return "Finish current cycle"}
-        if {$busy || $server_testing || ![file isdirectory $outbox] || [llength [glob -nocomplain -directory $outbox *.json]]} {return "Sending saved events"}
+        if {$shot_id ne ""} {return "Finish extraction"}
+        if {$pending_scale ne ""} {return "Wait for final weight"}
+        if {$active_cycle ne ""} {return "Grinder cycle pending"}
+        if {[::de1::state::current_state] ni {Idle Sleep}} {return "Tablet busy"}
+        if {![file isdirectory $outbox]} {return "Saved events unavailable"}
+        if {$busy || $server_testing || [llength [glob -nocomplain -directory $outbox *.json]]} {return "Sending saved events"}
         if {[clock seconds]-$last_server_ack > 10} {return "Server offline"}
         return ""
     }
-    proc update_remote_idle {bytes} {
+    proc update_remote_reason {bytes} {
         set status [::json::json2dict [encoding convertfrom utf-8 $bytes]]
-        return [expr {[dict get $status update_idle_reason] eq "null"}]
+        switch -- [dict get $status update_idle_reason] {
+            null {return ""}
+            active_cycle_or_reconciliation {return "Checking grinder cycle"}
+            delivery_in_progress {return "Sending shot result"}
+            grinder_state_unavailable {return "Grinder connection stale"}
+            native_pending_grind {return "Grinder cycle pending"}
+            grinder_not_idle {return "Grinder busy"}
+            tablet_not_idle_or_unreachable {return "Tablet busy or unreachable"}
+            tablet_events_unavailable {return "Tablet connection stale"}
+            unfinished_controller_record {return "Shot record pending"}
+            default {return "Server not ready"}
+        }
+    }
+    proc update_blocked {reason} {
+        variable update_phase;variable update_status;variable update_payload
+        set update_phase available;set update_status "Not installed: $reason";set update_payload {}
+    }
+    proc update_gate {stage} {
+        variable update_phase;variable update_status;variable update_gate_deadline
+        set update_phase waiting;set update_status "Sending saved events…"
+        set update_gate_deadline [expr {[clock milliseconds]+8000}]
+        update_gate_tick $stage
+    }
+    proc update_gate_tick {stage} {
+        variable update_phase;variable update_status;variable update_gate_deadline;variable update_job;variable settings;variable update_server
+        if {$update_phase ne "waiting"} {return}
+        if {$update_server ne "$settings(bridge_url)|$settings(server_id)"} {update_problem "Server changed";return}
+        set reason [update_idle_reason]
+        if {$reason eq "Sending saved events" && [clock milliseconds] < $update_gate_deadline} {
+            after 100 [list [namespace current]::update_gate_resume $update_job $stage]
+            return
+        }
+        if {$reason ne ""} {update_blocked $reason;return}
+        set update_status "Checking idle…"
+        update_fetch "$settings(bridge_url)/api/v1/status" 2097152 [list [namespace current]::update_gate_reply $stage]
+    }
+    proc update_gate_resume {job stage} {
+        variable update_job
+        if {$job == $update_job} {update_gate_tick $stage}
+    }
+    proc update_gate_reply {stage bytes} {
+        variable update_phase;variable update_status
+        set reason [update_idle_reason]
+        if {$reason eq "Sending saved events"} {update_gate_tick $stage;return}
+        if {$reason eq ""} {set reason [update_remote_reason $bytes]}
+        if {$reason ne ""} {update_blocked $reason;return}
+        if {$stage eq "commit"} {update_commit $bytes;return}
+        set update_phase downloading;set update_status "Downloading…";update_next
     }
     proc update_read_binary {path} {
         if {[file type $path] ne "file"} {error "Expected a regular file"}
@@ -123,17 +174,9 @@ namespace eval ::plugins::mahlkonig_decent_sync {
     proc install_update {} {
         variable update_phase;variable update_status;variable settings;variable update_original;variable update_payload
         if {$update_phase ne "available"} {return}
-        set reason [update_idle_reason]
-        if {$reason ne ""} {set update_status $reason;return}
         if {[catch {set update_original [update_signature]}]} {update_problem "Installed files changed";return}
         set update_payload {}
-        set update_phase downloading;set update_status "Checking idle…"
-        update_fetch "$settings(bridge_url)/api/v1/status" 2097152 [namespace code update_preflight]
-    }
-    proc update_preflight {bytes} {
-        variable update_phase;variable update_status
-        if {![update_remote_idle $bytes]} {set update_phase available;set update_status "Finish current cycle";return}
-        set update_status "Downloading…";update_next
+        update_gate download
     }
     proc update_next {} {
         variable update_manifest;variable update_payload;variable settings
@@ -143,7 +186,7 @@ namespace eval ::plugins::mahlkonig_decent_sync {
                 return
             }
         }
-        update_fetch "$settings(bridge_url)/api/v1/status" 2097152 [namespace code update_commit]
+        update_gate commit
     }
     proc update_downloaded {name bytes} {
         variable update_manifest;variable update_payload
@@ -157,9 +200,8 @@ namespace eval ::plugins::mahlkonig_decent_sync {
     proc update_commit {bytes} {
         variable update_phase;variable update_status;variable update_payload;variable update_original;variable plugin_file;variable update_generation
         set reason [update_idle_reason]
-        if {$reason ne "" || ![update_remote_idle $bytes]} {
-            set update_phase available;set update_status [expr {$reason ne "" ? $reason : "Finish current cycle"}];set update_payload {};return
-        }
+        if {$reason eq ""} {set reason [update_remote_reason $bytes]}
+        if {$reason ne ""} {update_blocked $reason;return}
         if {[update_signature] ne $update_original} {update_problem "Installed files changed";return}
         set root [file dirname $plugin_file]
         set generations [file join $root generations]
@@ -194,16 +236,20 @@ namespace eval ::plugins::mahlkonig_decent_sync {
             }
         }
         set update_payload {};set update_original {}
-        set update_phase installed;set update_status "Reopen de1app"
+        set update_phase installed;set update_status "Installed. Restart Decent"
     }
     proc update_action {} {
         variable update_phase
-        if {$update_phase eq "available"} {install_update} else {check_updates}
+        if {$update_phase eq "waiting"} {
+            variable update_job
+            incr update_job;update_blocked "Cancelled"
+        } elseif {$update_phase eq "available"} {install_update} else {check_updates}
     }
     proc update_button_label {} {
         variable update_phase
         switch -- $update_phase {
             available {return Install}
+            waiting {return Cancel}
             checking {return "Checking…"}
             downloading {return "Installing…"}
             installed {return Installed}
@@ -212,7 +258,7 @@ namespace eval ::plugins::mahlkonig_decent_sync {
     }
     proc update_version_label {} {
         variable update_manifest;variable update_phase
-        if {$update_phase in {current available downloading installed} && $update_manifest ne ""} {return [dict get $update_manifest version]}
+        if {$update_phase in {current available waiting downloading installed} && $update_manifest ne ""} {return [dict get $update_manifest version]}
         return "—"
     }
 }

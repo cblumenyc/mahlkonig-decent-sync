@@ -55,7 +55,8 @@ def exercise(tmp_path, scenario, bad_field=None):
             elif self.path == '/api/v1/status':
                 count = paths.count('/api/v1/status')
                 busy = scenario == 'remote_busy' or (scenario == 'busy_after_download' and count == 2)
-                body = json.dumps({'update_idle_reason':'unfinished_controller_record' if busy else None}).encode()
+                reason = 'tablet_events_unavailable' if scenario == 'remote_stale' else ('unfinished_controller_record' if busy else None)
+                body = json.dumps({'update_idle_reason':reason}).encode()
             elif self.path.startswith('/api/v1/updates/classic/files/'):
                 if scenario == 'payload_redirect':
                     self.send_response(302);self.send_header('Location','/unexpected-source');self.end_headers();return
@@ -84,7 +85,7 @@ def exercise(tmp_path, scenario, bad_field=None):
     assert summary['preserved'] and '/unexpected-source' not in paths
     if scenario in {'local_busy','pending_scale','active_cycle','stale_ack','local_steam','saved_events'}:
         assert paths == ['/api/v1/identity','/api/v1/updates/classic']
-    if scenario == 'install':
+    if scenario in {'install','transient_busy','transient_events','transient_commit'}:
         selected = installed/'generations'/(installed/'active-generation').read_text()
         assert {p.name:p.read_bytes() for p in selected.iterdir()} == candidate
         assert (installed/'previous-generation').read_text() == 'root'
@@ -103,6 +104,7 @@ def exercise(tmp_path, scenario, bad_field=None):
 @pytest.mark.parametrize('scenario',['install','current','older','corrupt','truncated','oversized',
     'wrong_code','incomplete','incompatible','wrong_health','manifest_redirect','payload_redirect',
     'local_busy','pending_scale','active_cycle','stale_ack','local_steam','saved_events',
+    'transient_busy','transient_events','transient_commit','activity_during_wait','cancel_wait','remote_stale',
     'remote_busy','busy_after_download','outbox_after_download','rename_failure','source_changed','server_changed'])
 def test_async_updater_preserves_capture_and_files(tmp_path,scenario):
     exercise(tmp_path,scenario)

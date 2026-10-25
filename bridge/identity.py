@@ -25,6 +25,7 @@ def capabilities(engine):
         'product': product['slug'], 'name': product['name'], 'version': release_id(),
         'controller_id': engine.controllers.controller_id if engine.controllers else None,
         'controller_contracts': product['controller_contracts'],
+            'telemetry_poll': 1,
         'journal_schema': product['journal_schema'], 'setup_api': 1,
         'transports': ['http', 'websocket'], 'feedback_modes': ['observe', 'xenia_one_press'],
         'starts_extraction': False, 'multiple_controllers': False}

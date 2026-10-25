@@ -36,6 +36,12 @@ def execution_signature(profile):
     return canonical(settings)
 
 
+class TelemetryExpired(BridgeError):
+    def __init__(self, event_id):
+        super().__init__('Non-shot telemetry retry expired; refresh current profile')
+        self.event_id = event_id
+
+
 class Controllers:
     def __init__(self, engine, config=None, adapter=None):
         self.engine, self.store = engine, engine.store
@@ -169,7 +175,7 @@ class Controllers:
         old = self.store.db.execute('SELECT payload FROM controller_events WHERE controller=? AND event_id=?',
                                    (controller, event['event_id'])).fetchone()
         if old:
-            if old[0] != encoded:
+            if not self.store.payload_matches(old[0], encoded):
                 raise BridgeError('Event ID already has different data')
             return {'event_id': event['event_id'], 'durable': True, 'duplicate': True,
                     'summary':self.summary(), 'cycle':self.cycles.offer(event['session_id']),
@@ -179,6 +185,10 @@ class Controllers:
         active_before = copy.deepcopy(self.engine.active)
         try:
             with self.store.atomic():
+                if self.store.receipt_expired(controller, event):
+                    if not event.get('shot_id') and event['kind'] in ('profile','status'):
+                        raise TelemetryExpired(event['event_id'])
+                    raise BridgeError('Event identity belongs to expired telemetry')
                 self.store.db.execute('INSERT INTO controller_events VALUES (?,?,?,?,?,?,?)',
                     (controller, event['event_id'], event['session_id'], event['sequence'],
                      event.get('shot_id'), received, encoded))
@@ -244,6 +254,16 @@ class Controllers:
         return {'event_id': event['event_id'], 'durable': True, 'duplicate': False,
                 'summary': self.summary(), 'cycle':self.cycles.offer(event['session_id']),
                 'display':self.display(event['session_id'])}
+
+    def poll_status(self, session, measurement_ready=None):
+        """Poll without journaling; a reconnect first needs a fresh profile."""
+        accepted = bool(session and session == self.session
+            and 0 <= time.time()-self.last_event_received < 15)
+        if accepted:
+            self.last_event_received = time.time()
+            if self.config.get('controller_type') == 'decaid' and type(measurement_ready) is bool:
+                self.measurement_ready = measurement_ready
+        return {'session_id':session, 'accepted':accepted}
 
     def sync_warning(self):
         e, a = self.engine, self.engine.active or {}

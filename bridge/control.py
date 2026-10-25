@@ -46,6 +46,7 @@ def command(engine, request):
         c = engine.controllers
         return {'service':'coffee-bridge', 'version':release_id(), 'journal_schema':2,
             'healthy':True, 'idle_reason':idle_reason(engine), 'maintenance':engine.maintenance,
+            'receipt_expiry_api':engine.store.get('receipt_expiry_api',0),
             'enabled':bool(c and c.enabled), 'feedback_mode':c.mode if c else 'manual',
             'grinder_connected':engine.ready and not engine.error,
             'tablet_connected':bool(c and c.machine.get('reachable'))}

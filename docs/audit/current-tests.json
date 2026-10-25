@@ -9,10 +9,45 @@
     "behavior": "backup restore preserves identity payload and uncertain state",
     "assertions": 5
   },
+  "bridge/tests/test_backup.py::test_compact_expired_receipts_preserves_all_coffee_records_and_restores_guards": {
+    "area": "recovery",
+    "behavior": "compact expired receipts preserves all coffee records and restores guards",
+    "assertions": 6
+  },
+  "bridge/tests/test_backup.py::test_daily_backup_budget_prunes_only_after_verified_replacement_and_keeps_two": {
+    "area": "recovery",
+    "behavior": "daily backup budget prunes only after verified replacement and keeps two",
+    "assertions": 4
+  },
+  "bridge/tests/test_backup.py::test_offline_expiry_handles_historical_scale_with_unique_timestamps": {
+    "area": "recovery",
+    "behavior": "offline expiry handles historical scale with unique timestamps",
+    "assertions": 4
+  },
   "bridge/tests/test_backup.py::test_retention_and_interrupted_snapshot_do_not_block_recovery": {
     "area": "recovery",
     "behavior": "retention and interrupted snapshot do not block recovery",
     "assertions": 3
+  },
+  "bridge/tests/test_backup.py::test_telemetry_count_and_payload_budgets_expire_recent_receipts_atomically": {
+    "area": "recovery",
+    "behavior": "telemetry count and payload budgets expire recent receipts atomically",
+    "assertions": 3
+  },
+  "bridge/tests/test_backup.py::test_telemetry_retention_is_batched_respects_age_and_survives_backup": {
+    "area": "persistence",
+    "behavior": "telemetry retention is batched respects age and survives backup",
+    "assertions": 8
+  },
+  "bridge/tests/test_backup.py::test_telemetry_retention_yields_to_an_active_writer": {
+    "area": "persistence",
+    "behavior": "telemetry retention yields to an active writer",
+    "assertions": 2
+  },
+  "bridge/tests/test_classic_migration.py::test_disabled_plugin_stays_disabled": {
+    "area": "recovery",
+    "behavior": "disabled plugin stays disabled",
+    "assertions": 1
   },
   "bridge/tests/test_classic_migration.py::test_every_interrupted_boundary_resumes_without_losing_state": {
     "area": "recovery",
@@ -24,15 +59,10 @@
     "behavior": "recovery refuses rebinding changed data and damaged backup",
     "assertions": 1
   },
-  "bridge/tests/test_classic_migration.py::test_disabled_plugin_stays_disabled": {
+  "bridge/tests/test_compose_update.py::test_cycle_racing_failed_activation_defers_rollback": {
     "area": "recovery",
-    "behavior": "disabled plugin stays disabled",
-    "assertions": 1
-  },
-  "bridge/tests/test_compose_update.py::test_update_restart_response_loss_and_code_only_rollback": {
-    "area": "recovery",
-    "behavior": "update restart response loss and code only rollback",
-    "assertions": 6
+    "behavior": "cycle racing failed activation defers rollback",
+    "assertions": 2
   },
   "bridge/tests/test_compose_update.py::test_idle_rejection_and_activation_failure_keep_current_data": {
     "area": "recovery",
@@ -49,15 +79,20 @@
     "behavior": "prepared settings cannot redirect update",
     "assertions": 1
   },
-  "bridge/tests/test_compose_update.py::test_cycle_racing_failed_activation_defers_rollback": {
+  "bridge/tests/test_compose_update.py::test_receipt_expiry_blocks_incompatible_executable_before_stop": {
     "area": "recovery",
-    "behavior": "cycle racing failed activation defers rollback",
-    "assertions": 2
+    "behavior": "receipt expiry blocks incompatible executable before stop",
+    "assertions": 1
   },
-  "bridge/tests/test_configuration.py::test_new_configuration_is_private_disabled_and_port_80": {
+  "bridge/tests/test_compose_update.py::test_update_restart_response_loss_and_code_only_rollback": {
+    "area": "recovery",
+    "behavior": "update restart response loss and code only rollback",
+    "assertions": 6
+  },
+  "bridge/tests/test_configuration.py::test_beta_enable_requires_idle_verified_targets_and_explicit_ack": {
     "area": "installation",
-    "behavior": "new configuration is private disabled and port 80",
-    "assertions": 4
+    "behavior": "beta enable requires idle verified targets and explicit ack",
+    "assertions": 2
   },
   "bridge/tests/test_configuration.py::test_controller_selection_restarts_without_cross_controller_profile_or_history": {
     "area": "installation",
@@ -69,9 +104,19 @@
     "behavior": "enrollment pins controller and crash reconciliation",
     "assertions": 5
   },
-  "bridge/tests/test_configuration.py::test_beta_enable_requires_idle_verified_targets_and_explicit_ack": {
+  "bridge/tests/test_configuration.py::test_new_configuration_is_private_disabled_and_port_80": {
     "area": "installation",
-    "behavior": "beta enable requires idle verified targets and explicit ack",
+    "behavior": "new configuration is private disabled and port 80",
+    "assertions": 4
+  },
+  "bridge/tests/test_contract.py::test_additive_migration_keeps_old_history_and_rejects_future_schema": {
+    "area": "persistence",
+    "behavior": "additive migration keeps old history and rejects future schema",
+    "assertions": 3
+  },
+  "bridge/tests/test_contract.py::test_classic_wake_accepts_plain_text_then_verifies_status": {
+    "area": "persistence",
+    "behavior": "classic wake accepts plain text then verifies status",
     "assertions": 2
   },
   "bridge/tests/test_contract.py::test_controller_http_hostname_and_durable_ack": {
@@ -79,20 +124,15 @@
     "behavior": "controller http hostname and durable ack",
     "assertions": 6
   },
-  "bridge/tests/test_contract.py::test_classic_wake_accepts_plain_text_then_verifies_status": {
-    "area": "persistence",
-    "behavior": "classic wake accepts plain text then verifies status",
-    "assertions": 2
-  },
-  "bridge/tests/test_contract.py::test_additive_migration_keeps_old_history_and_rejects_future_schema": {
-    "area": "persistence",
-    "behavior": "additive migration keeps old history and rejects future schema",
-    "assertions": 3
-  },
   "bridge/tests/test_contract.py::test_historical_reconciliation_is_idempotent_opaque_and_never_feedback": {
     "area": "persistence",
     "behavior": "historical reconciliation is idempotent opaque and never feedback",
     "assertions": 3
+  },
+  "bridge/tests/test_control_and_display.py::test_connected_devices_do_not_imply_sync_ready": {
+    "area": "UI",
+    "behavior": "connected devices do not imply sync ready",
+    "assertions": 2
   },
   "bridge/tests/test_control_and_display.py::test_grind_display_uses_only_fresh_cached_measured_position": {
     "area": "UI",
@@ -104,20 +144,10 @@
     "behavior": "late arm blocks maintenance and display distinguishes receipt",
     "assertions": 12
   },
-  "bridge/tests/test_control_and_display.py::test_connected_devices_do_not_imply_sync_ready": {
-    "area": "UI",
-    "behavior": "connected devices do not imply sync ready",
-    "assertions": 2
-  },
   "bridge/tests/test_control_and_display.py::test_maintenance_gate_atomic_and_new_grind_cancels_lease": {
     "area": "UI",
     "behavior": "maintenance gate atomic and new grind cancels lease",
     "assertions": 4
-  },
-  "bridge/tests/test_controllers.py::test_scale_finalization_waits_for_cup_mass_without_extending_extraction": {
-    "area": "capture",
-    "behavior": "scale finalization waits for cup mass without extending extraction",
-    "assertions": 15
   },
   "bridge/tests/test_controllers.py::test_automatic_measurement_fallback_has_explicit_source_and_matching_stop": {
     "area": "capture",
@@ -129,20 +159,50 @@
     "behavior": "automatic result keeps measurements and native verification",
     "assertions": 9
   },
-  "bridge/tests/test_controllers.py::test_ineligible_shots_never_expose_feedback": {
+  "bridge/tests/test_controllers.py::test_changes_between_validation_and_poll_block_feedback": {
     "area": "capture",
-    "behavior": "ineligible shots never expose feedback",
+    "behavior": "changes between validation and poll block feedback",
     "assertions": 3
   },
-  "bridge/tests/test_controllers.py::test_target_override_change_requires_native_match_not_new_commission": {
+  "bridge/tests/test_controllers.py::test_cycle_stays_ineligible_after_profile_changes_back": {
     "area": "capture",
-    "behavior": "target override change requires native match not new commission",
-    "assertions": 3
+    "behavior": "cycle stays ineligible after profile changes back",
+    "assertions": 1
   },
   "bridge/tests/test_controllers.py::test_event_identity_and_nested_transaction_rollback": {
     "area": "capture",
     "behavior": "event identity and nested transaction rollback",
     "assertions": 2
+  },
+  "bridge/tests/test_controllers.py::test_expired_telemetry_cannot_be_replayed_or_relabelled_and_lifecycle_retries_survive": {
+    "area": "recovery",
+    "behavior": "expired telemetry cannot be replayed or relabelled and lifecycle retries survive",
+    "assertions": 5
+  },
+  "bridge/tests/test_controllers.py::test_failed_exposure_commit_cannot_skip_durable_intent_on_next_poll": {
+    "area": "capture",
+    "behavior": "failed exposure commit cannot skip durable intent on next poll",
+    "assertions": 4
+  },
+  "bridge/tests/test_controllers.py::test_history_measurements_are_kept_without_a_match_or_automatic_stop": {
+    "area": "capture",
+    "behavior": "history measurements are kept without a match or automatic stop",
+    "assertions": 6
+  },
+  "bridge/tests/test_controllers.py::test_ineligible_shots_never_expose_feedback": {
+    "area": "capture",
+    "behavior": "ineligible shots never expose feedback",
+    "assertions": 3
+  },
+  "bridge/tests/test_controllers.py::test_poll_liveness_requires_current_fresh_session_and_never_journals": {
+    "area": "capture",
+    "behavior": "poll liveness requires current fresh session and never journals",
+    "assertions": 6
+  },
+  "bridge/tests/test_controllers.py::test_production_cannot_enable_unverified_transport": {
+    "area": "capture",
+    "behavior": "production cannot enable unverified transport",
+    "assertions": 0
   },
   "bridge/tests/test_controllers.py::test_reordered_start_and_missing_preinfusion_are_history_only": {
     "area": "capture",
@@ -154,55 +214,50 @@
     "behavior": "restart at saved and exposed phases never replays",
     "assertions": 2
   },
-  "bridge/tests/test_controllers.py::test_changes_between_validation_and_poll_block_feedback": {
+  "bridge/tests/test_controllers.py::test_retired_session_cannot_take_control_and_delayed_start_is_history_only": {
     "area": "capture",
-    "behavior": "changes between validation and poll block feedback",
-    "assertions": 3
+    "behavior": "retired session cannot take control and delayed start is history only",
+    "assertions": 2
   },
-  "bridge/tests/test_controllers.py::test_wake_fresh_grind_once_and_never_purge_or_replay": {
-    "area": "capture",
-    "behavior": "wake fresh grind once and never purge or replay",
-    "assertions": 5
+  "bridge/tests/test_controllers.py::test_routine_receipt_retention_preserves_retry_identity_and_all_shot_evidence": {
+    "area": "persistence",
+    "behavior": "routine receipt retention preserves retry identity and all shot evidence",
+    "assertions": 7
   },
-  "bridge/tests/test_controllers.py::test_production_cannot_enable_unverified_transport": {
+  "bridge/tests/test_controllers.py::test_scale_finalization_waits_for_cup_mass_without_extending_extraction": {
     "area": "capture",
-    "behavior": "production cannot enable unverified transport",
-    "assertions": 0
-  },
-  "bridge/tests/test_controllers.py::test_history_measurements_are_kept_without_a_match_or_automatic_stop": {
-    "area": "capture",
-    "behavior": "history measurements are kept without a match or automatic stop",
-    "assertions": 6
+    "behavior": "scale finalization waits for cup mass without extending extraction",
+    "assertions": 15
   },
   "bridge/tests/test_controllers.py::test_scale_mode_delivers_measured_grams_and_keeps_volume_separate": {
     "area": "capture",
     "behavior": "scale mode delivers measured grams and keeps volume separate",
     "assertions": 3
   },
-  "bridge/tests/test_controllers.py::test_retired_session_cannot_take_control_and_delayed_start_is_history_only": {
+  "bridge/tests/test_controllers.py::test_target_override_change_requires_native_match_not_new_commission": {
     "area": "capture",
-    "behavior": "retired session cannot take control and delayed start is history only",
-    "assertions": 2
-  },
-  "bridge/tests/test_controllers.py::test_warmup_coalesces_wake_and_uncertain_request_is_not_replayed": {
-    "area": "capture",
-    "behavior": "warmup coalesces wake and uncertain request is not replayed",
-    "assertions": 5
-  },
-  "bridge/tests/test_controllers.py::test_cycle_stays_ineligible_after_profile_changes_back": {
-    "area": "capture",
-    "behavior": "cycle stays ineligible after profile changes back",
-    "assertions": 1
+    "behavior": "target override change requires native match not new commission",
+    "assertions": 3
   },
   "bridge/tests/test_controllers.py::test_targets_must_already_match_the_recorded_grind": {
     "area": "capture",
     "behavior": "targets must already match the recorded grind",
     "assertions": 1
   },
-  "bridge/tests/test_controllers.py::test_failed_exposure_commit_cannot_skip_durable_intent_on_next_poll": {
+  "bridge/tests/test_controllers.py::test_wake_fresh_grind_once_and_never_purge_or_replay": {
     "area": "capture",
-    "behavior": "failed exposure commit cannot skip durable intent on next poll",
-    "assertions": 4
+    "behavior": "wake fresh grind once and never purge or replay",
+    "assertions": 5
+  },
+  "bridge/tests/test_controllers.py::test_warmup_coalesces_wake_and_uncertain_request_is_not_replayed": {
+    "area": "capture",
+    "behavior": "warmup coalesces wake and uncertain request is not replayed",
+    "assertions": 5
+  },
+  "bridge/tests/test_correlation_recovery.py::test_attention_status_does_not_claim_automatic_capture_is_ready": {
+    "area": "correlation",
+    "behavior": "attention status does not claim automatic capture is ready",
+    "assertions": 1
   },
   "bridge/tests/test_correlation_recovery.py::test_final_scale_weight_preserves_original_binding_failure": {
     "area": "correlation",
@@ -214,16 +269,6 @@
     "behavior": "only expired unsent native idle waits clear",
     "assertions": 5
   },
-  "bridge/tests/test_correlation_recovery.py::test_attention_status_does_not_claim_automatic_capture_is_ready": {
-    "area": "correlation",
-    "behavior": "attention status does not claim automatic capture is ready",
-    "assertions": 1
-  },
-  "bridge/tests/test_cycle_ids.py::test_press_before_during_after_shot_preserves_original_measurements": {
-    "area": "correlation",
-    "behavior": "press before during after shot preserves original measurements",
-    "assertions": 11
-  },
   "bridge/tests/test_cycle_ids.py::test_identity_survives_delayed_reordered_events_and_old_cache": {
     "area": "correlation",
     "behavior": "identity survives delayed reordered events and old cache",
@@ -233,6 +278,11 @@
     "area": "correlation",
     "behavior": "late press cannot resurrect wrong or invalid cycle",
     "assertions": 4
+  },
+  "bridge/tests/test_cycle_ids.py::test_press_before_during_after_shot_preserves_original_measurements": {
+    "area": "correlation",
+    "behavior": "press before during after shot preserves original measurements",
+    "assertions": 11
   },
   "bridge/tests/test_cycle_ids.py::test_restart_resumes_only_unexposed_cycle_facts": {
     "area": "correlation",
@@ -244,25 +294,25 @@
     "behavior": "daily authorization keeps actual evidence and incomplete status",
     "assertions": 1
   },
-  "bridge/tests/test_daily_use.py::test_persistent_feedback_retains_cycle_guards": {
-    "area": "delivery",
-    "behavior": "persistent feedback retains cycle guards",
-    "assertions": 5
-  },
   "bridge/tests/test_daily_use.py::test_incomplete_authorization_cannot_enable_no_button": {
     "area": "delivery",
     "behavior": "incomplete authorization cannot enable no button",
     "assertions": 0
   },
-  "bridge/tests/test_decaid.py::test_decaid_javascript_contract": {
-    "area": "capture",
-    "behavior": "decaid javascript contract",
-    "assertions": 2
+  "bridge/tests/test_daily_use.py::test_persistent_feedback_retains_cycle_guards": {
+    "area": "delivery",
+    "behavior": "persistent feedback retains cycle guards",
+    "assertions": 5
   },
   "bridge/tests/test_decaid.py::test_actual_javascript_events_through_python_cycle_and_delivery": {
     "area": "capture",
     "behavior": "actual javascript events through python cycle and delivery",
     "assertions": 9
+  },
+  "bridge/tests/test_decaid.py::test_decaid_javascript_contract": {
+    "area": "capture",
+    "behavior": "decaid javascript contract",
+    "assertions": 2
   },
   "bridge/tests/test_download_release.py::test_download_requires_signed_matching_release": {
     "area": "installation",
@@ -274,14 +324,14 @@
     "behavior": "archive boundary and immutable seal",
     "assertions": 5
   },
-  "bridge/tests/test_managed_deployment.py::test_inbox_symlink_and_bad_digest_rejected": {
+  "bridge/tests/test_managed_deployment.py::test_busy_system_defers_without_stopping_service": {
     "area": "recovery",
-    "behavior": "inbox symlink and bad digest rejected",
-    "assertions": 0
+    "behavior": "busy system defers without stopping service",
+    "assertions": 2
   },
-  "bridge/tests/test_managed_deployment.py::test_current_community_package_is_accepted_by_reviewed_manager": {
+  "bridge/tests/test_managed_deployment.py::test_checker_uses_fixed_unprivileged_offline_unit": {
     "area": "recovery",
-    "behavior": "current community package is accepted by reviewed manager",
+    "behavior": "checker uses fixed unprivileged offline unit",
     "assertions": 3
   },
   "bridge/tests/test_managed_deployment.py::test_cli_cannot_become_shell_or_worker": {
@@ -289,45 +339,65 @@
     "behavior": "cli cannot become shell or worker",
     "assertions": 1
   },
-  "bridge/tests/test_managed_deployment.py::test_checker_uses_fixed_unprivileged_offline_unit": {
+  "bridge/tests/test_managed_deployment.py::test_crash_after_switch_recovers_without_restarting_healthy_app": {
     "area": "recovery",
-    "behavior": "checker uses fixed unprivileged offline unit",
+    "behavior": "crash after switch recovers without restarting healthy app",
     "assertions": 3
   },
-  "bridge/tests/test_managed_deployment.py::test_success_and_repeat_worker_do_not_reinstall_or_rewind_journal": {
+  "bridge/tests/test_managed_deployment.py::test_current_community_package_is_accepted_by_reviewed_manager": {
     "area": "recovery",
-    "behavior": "success and repeat worker do not reinstall or rewind journal",
-    "assertions": 4
+    "behavior": "current community package is accepted by reviewed manager",
+    "assertions": 3
   },
   "bridge/tests/test_managed_deployment.py::test_health_failure_rolls_back_code_and_retains_new_evidence": {
     "area": "recovery",
     "behavior": "health failure rolls back code and retains new evidence",
     "assertions": 3
   },
+  "bridge/tests/test_managed_deployment.py::test_helper_only_update_preserves_access_rules_and_saves_prior_helper": {
+    "area": "recovery",
+    "behavior": "helper only update preserves access rules and saves prior helper",
+    "assertions": 3
+  },
+  "bridge/tests/test_managed_deployment.py::test_inbox_symlink_and_bad_digest_rejected": {
+    "area": "recovery",
+    "behavior": "inbox symlink and bad digest rejected",
+    "assertions": 0
+  },
+  "bridge/tests/test_managed_deployment.py::test_minimal_recovery_retention_waits_for_verified_migration_and_latest_snapshot": {
+    "area": "recovery",
+    "behavior": "minimal recovery retention waits for verified migration and latest snapshot",
+    "assertions": 3
+  },
+  "bridge/tests/test_managed_deployment.py::test_pre_expiry_code_is_rejected_after_migration_without_rewinding_data": {
+    "area": "recovery",
+    "behavior": "pre expiry code is rejected after migration without rewinding data",
+    "assertions": 1
+  },
   "bridge/tests/test_managed_deployment.py::test_racing_shot_cancels_update_and_restarts_existing_code": {
     "area": "recovery",
     "behavior": "racing shot cancels update and restarts existing code",
     "assertions": 3
   },
-  "bridge/tests/test_managed_deployment.py::test_crash_after_switch_recovers_without_restarting_healthy_app": {
+  "bridge/tests/test_managed_deployment.py::test_retention_failure_does_not_roll_back_a_healthy_activation": {
     "area": "recovery",
-    "behavior": "crash after switch recovers without restarting healthy app",
-    "assertions": 3
-  },
-  "bridge/tests/test_managed_deployment.py::test_busy_system_defers_without_stopping_service": {
-    "area": "recovery",
-    "behavior": "busy system defers without stopping service",
+    "behavior": "retention failure does not roll back a healthy activation",
     "assertions": 2
+  },
+  "bridge/tests/test_managed_deployment.py::test_retired_bootstrap_release_is_rejected": {
+    "area": "recovery",
+    "behavior": "retired bootstrap release is rejected",
+    "assertions": 0
   },
   "bridge/tests/test_managed_deployment.py::test_submit_is_idempotent_but_can_reinstall_after_intentional_rollback": {
     "area": "recovery",
     "behavior": "submit is idempotent but can reinstall after intentional rollback",
     "assertions": 3
   },
-  "bridge/tests/test_managed_deployment.py::test_retired_bootstrap_release_is_rejected": {
+  "bridge/tests/test_managed_deployment.py::test_success_and_repeat_worker_do_not_reinstall_or_rewind_journal": {
     "area": "recovery",
-    "behavior": "retired bootstrap release is rejected",
-    "assertions": 0
+    "behavior": "success and repeat worker do not reinstall or rewind journal",
+    "assertions": 4
   },
   "bridge/tests/test_measurements.py::test_decaid_final_scale_qualification": {
     "area": "measurements",
@@ -354,16 +424,6 @@
     "behavior": "replaced grind ends fast checks and cannot confirm old motion",
     "assertions": 3
   },
-  "bridge/tests/test_movement_tolerance.py::test_tiny_target_and_position_boundaries": {
-    "area": "delivery",
-    "behavior": "tiny target and position boundaries",
-    "assertions": 1
-  },
-  "bridge/tests/test_movement_tolerance.py::test_tolerance_never_hides_missing_evidence_or_native_problem": {
-    "area": "delivery",
-    "behavior": "tolerance never hides missing evidence or native problem",
-    "assertions": 1
-  },
   "bridge/tests/test_movement_tolerance.py::test_latest_pending_result_reclassified_after_restart_without_resending": {
     "area": "delivery",
     "behavior": "latest pending result reclassified after restart without resending",
@@ -373,6 +433,16 @@
     "area": "delivery",
     "behavior": "tablet result and warning distinguish tolerance",
     "assertions": 3
+  },
+  "bridge/tests/test_movement_tolerance.py::test_tiny_target_and_position_boundaries": {
+    "area": "delivery",
+    "behavior": "tiny target and position boundaries",
+    "assertions": 1
+  },
+  "bridge/tests/test_movement_tolerance.py::test_tolerance_never_hides_missing_evidence_or_native_problem": {
+    "area": "delivery",
+    "behavior": "tolerance never hides missing evidence or native problem",
+    "assertions": 1
   },
   "bridge/tests/test_native_io.py::test_export_limit_enforced_with_or_without_content_length": {
     "area": "delivery",
@@ -384,11 +454,6 @@
     "behavior": "native processing does not block cached xenia poll",
     "assertions": 4
   },
-  "bridge/tests/test_native_refresh_binding.py::test_slow_read_keeps_ack_and_polls_fast_then_delivers_once": {
-    "area": "correlation",
-    "behavior": "slow read keeps ack and polls fast then delivers once",
-    "assertions": 17
-  },
   "bridge/tests/test_native_refresh_binding.py::test_refresh_cannot_rebind_or_bypass_delivery_guards": {
     "area": "correlation",
     "behavior": "refresh cannot rebind or bypass delivery guards",
@@ -399,45 +464,50 @@
     "behavior": "second shot cannot take reserved grind and old events never reserve",
     "assertions": 4
   },
+  "bridge/tests/test_native_refresh_binding.py::test_slow_read_keeps_ack_and_polls_fast_then_delivers_once": {
+    "area": "correlation",
+    "behavior": "slow read keeps ack and polls fast then delivers once",
+    "assertions": 17
+  },
   "bridge/tests/test_release_gate.py::test_release_needs_exact_artifacts_and_both_physical_controllers": {
     "area": "installation",
     "behavior": "release needs exact artifacts and both physical controllers",
     "assertions": 1
-  },
-  "bridge/tests/test_releases.py::test_packages_are_reproducible_allowlisted_and_do_not_mutate_source": {
-    "area": "installation",
-    "behavior": "packages are reproducible allowlisted and do not mutate source",
-    "assertions": 16
   },
   "bridge/tests/test_releases.py::test_missing_or_linked_input_and_implicit_destination_are_rejected": {
     "area": "installation",
     "behavior": "missing or linked input and implicit destination are rejected",
     "assertions": 0
   },
-  "bridge/tests/test_service.py::test_success_duplicate_and_restart": {
+  "bridge/tests/test_releases.py::test_packages_are_reproducible_allowlisted_and_do_not_mutate_source": {
+    "area": "installation",
+    "behavior": "packages are reproducible allowlisted and do not mutate source",
+    "assertions": 16
+  },
+  "bridge/tests/test_service.py::test_backup_preserves_committed_journal": {
     "area": "delivery",
-    "behavior": "success duplicate and restart",
-    "assertions": 11
+    "behavior": "backup preserves committed journal",
+    "assertions": 2
   },
   "bridge/tests/test_service.py::test_invalid_input_never_finishes": {
     "area": "delivery",
     "behavior": "invalid input never finishes",
     "assertions": 2
   },
-  "bridge/tests/test_service.py::test_validation_failures_never_expose_result": {
+  "bridge/tests/test_service.py::test_large_adjustment_hold_is_distinct_from_tolerance": {
     "area": "delivery",
-    "behavior": "validation failures never expose result",
+    "behavior": "large adjustment hold is distinct from tolerance",
     "assertions": 2
   },
-  "bridge/tests/test_service.py::test_record_only_and_unconfirmed_restart": {
+  "bridge/tests/test_service.py::test_motion_must_reach_new_target": {
     "area": "delivery",
-    "behavior": "record only and unconfirmed restart",
-    "assertions": 4
+    "behavior": "motion must reach new target",
+    "assertions": 2
   },
-  "bridge/tests/test_service.py::test_unrelated_native_brew_does_not_confirm": {
+  "bridge/tests/test_service.py::test_native_pending_must_be_consumed": {
     "area": "delivery",
-    "behavior": "unrelated native brew does not confirm",
-    "assertions": 1
+    "behavior": "native pending must be consumed",
+    "assertions": 2
   },
   "bridge/tests/test_service.py::test_no_press_no_send_and_abort": {
     "area": "delivery",
@@ -449,79 +519,69 @@
     "behavior": "open http origin peer and end to end",
     "assertions": 17
   },
-  "bridge/tests/test_service.py::test_native_pending_must_be_consumed": {
+  "bridge/tests/test_service.py::test_record_only_and_unconfirmed_restart": {
     "area": "delivery",
-    "behavior": "native pending must be consumed",
-    "assertions": 2
+    "behavior": "record only and unconfirmed restart",
+    "assertions": 4
   },
-  "bridge/tests/test_service.py::test_motion_must_reach_new_target": {
+  "bridge/tests/test_service.py::test_success_duplicate_and_restart": {
     "area": "delivery",
-    "behavior": "motion must reach new target",
-    "assertions": 2
+    "behavior": "success duplicate and restart",
+    "assertions": 11
   },
-  "bridge/tests/test_service.py::test_large_adjustment_hold_is_distinct_from_tolerance": {
+  "bridge/tests/test_service.py::test_unrelated_native_brew_does_not_confirm": {
     "area": "delivery",
-    "behavior": "large adjustment hold is distinct from tolerance",
-    "assertions": 2
+    "behavior": "unrelated native brew does not confirm",
+    "assertions": 1
   },
-  "bridge/tests/test_service.py::test_backup_preserves_committed_journal": {
+  "bridge/tests/test_service.py::test_validation_failures_never_expose_result": {
     "area": "delivery",
-    "behavior": "backup preserves committed journal",
+    "behavior": "validation failures never expose result",
     "assertions": 2
-  },
-  "bridge/tests/test_tablet.py::test_real_extension_effective_target_timing_and_stop": {
-    "area": "capture",
-    "behavior": "real extension effective target timing and stop",
-    "assertions": 9
-  },
-  "bridge/tests/test_tablet.py::test_tablet_ineligible_and_scale_cases": {
-    "area": "capture",
-    "behavior": "tablet ineligible and scale cases",
-    "assertions": 8
   },
   "bridge/tests/test_tablet.py::test_async_outbox_retries_identical_event_until_matching_durable_ack": {
     "area": "capture",
     "behavior": "async outbox retries identical event until matching durable ack",
     "assertions": 4
   },
-  "bridge/tests/test_tablet.py::test_runtime_counters_do_not_change_profile_revision": {
-    "area": "capture",
-    "behavior": "runtime counters do not change profile revision",
-    "assertions": 5
-  },
-  "bridge/tests/test_tablet.py::test_plugin_bootstrap_uses_live_variable_widget_and_complete_profile_keys": {
-    "area": "capture",
-    "behavior": "plugin bootstrap uses live variable widget and complete profile keys",
-    "assertions": 2
-  },
   "bridge/tests/test_tablet.py::test_automatic_mode_uses_native_stops_and_latches_volume_backup": {
     "area": "capture",
     "behavior": "automatic mode uses native stops and latches volume backup",
     "assertions": 15
   },
-  "bridge/tests/test_tablet.py::test_final_mass_keeps_pump_stop_time_and_separate_checkpoint": {
+  "bridge/tests/test_tablet.py::test_classic_expiry_only_discards_paired_matching_nonshot_telemetry": {
+    "area": "recovery",
+    "behavior": "classic expiry only discards paired matching nonshot telemetry",
+    "assertions": 1
+  },
+  "bridge/tests/test_tablet.py::test_classic_polls_without_growing_outbox_and_refreshes_profile_after_reconnect": {
     "area": "capture",
-    "behavior": "final mass keeps pump stop time and separate checkpoint",
-    "assertions": 12
+    "behavior": "classic polls without growing outbox and refreshes profile after reconnect",
+    "assertions": 3
+  },
+  "bridge/tests/test_tablet.py::test_custom_banners_preserve_native_notifications_and_queued_events": {
+    "area": "capture",
+    "behavior": "custom banners preserve native notifications and queued events",
+    "assertions": 2
   },
   "bridge/tests/test_tablet.py::test_cycle_identity_frozen_before_async_delivery": {
     "area": "capture",
     "behavior": "cycle identity frozen before async delivery",
     "assertions": 4
   },
-  "bridge/tests/test_tablet.py::test_settings_server_validation_and_essential_banner_deduplication": {
+  "bridge/tests/test_tablet.py::test_final_mass_keeps_pump_stop_time_and_separate_checkpoint": {
     "area": "capture",
-    "behavior": "settings server validation and essential banner deduplication",
-    "assertions": 2
+    "behavior": "final mass keeps pump stop time and separate checkpoint",
+    "assertions": 12
   },
   "bridge/tests/test_tablet.py::test_panels_appearance_status_and_existing_settings_are_preserved": {
     "area": "capture",
     "behavior": "Panels themes, status, settings and queued bytes remain intact; all text uses defined Classic fonts and the logo loads before scaling through public APIs at tablet resolution.",
     "assertions": 2
   },
-  "bridge/tests/test_tablet.py::test_custom_banners_preserve_native_notifications_and_queued_events": {
+  "bridge/tests/test_tablet.py::test_plugin_bootstrap_uses_live_variable_widget_and_complete_profile_keys": {
     "area": "capture",
-    "behavior": "custom banners preserve native notifications and queued events",
+    "behavior": "plugin bootstrap uses live variable widget and complete profile keys",
     "assertions": 2
   },
   "bridge/tests/test_tablet.py::test_read_only_live_grind_preserves_recipe_and_skin_editors": {
@@ -529,9 +589,29 @@
     "behavior": "read only live grind preserves recipe and skin editors",
     "assertions": 2
   },
+  "bridge/tests/test_tablet.py::test_real_extension_effective_target_timing_and_stop": {
+    "area": "capture",
+    "behavior": "real extension effective target timing and stop",
+    "assertions": 9
+  },
+  "bridge/tests/test_tablet.py::test_runtime_counters_do_not_change_profile_revision": {
+    "area": "capture",
+    "behavior": "runtime counters do not change profile revision",
+    "assertions": 5
+  },
+  "bridge/tests/test_tablet.py::test_settings_server_validation_and_essential_banner_deduplication": {
+    "area": "capture",
+    "behavior": "settings server validation and essential banner deduplication",
+    "assertions": 2
+  },
+  "bridge/tests/test_tablet.py::test_tablet_ineligible_and_scale_cases": {
+    "area": "capture",
+    "behavior": "tablet ineligible and scale cases",
+    "assertions": 8
+  },
   "bridge/tests/test_tablet_updater.py::test_async_updater_preserves_capture_and_files": {
     "area": "recovery",
-    "behavior": "Complete asynchronous updates preserve capture, settings and history; verified current, older and available versions remain visible with accurate status.",
+    "behavior": "async updater drains transient traffic, cancels bounded waits and preserves idle gates, capture and files",
     "assertions": 0
   },
   "bridge/tests/test_tablet_updater.py::test_untrusted_manifest_cannot_choose_code_or_destination": {
@@ -558,6 +638,16 @@
     "area": "correlation",
     "behavior": "terminal cleanup preserves unresolved delivery or pending grind",
     "assertions": 1
+  },
+  "bridge/tests/test_transports.py::test_expired_telemetry_has_explicit_nondurable_http_and_websocket_response": {
+    "area": "recovery",
+    "behavior": "expired telemetry has explicit nondurable http and websocket response",
+    "assertions": 4
+  },
+  "bridge/tests/test_transports.py::test_session_polls_refresh_liveness_without_durable_events": {
+    "area": "capture",
+    "behavior": "session polls refresh liveness without durable events",
+    "assertions": 7
   },
   "bridge/tests/test_transports.py::test_websocket_http_retry_identity_and_origin_guards": {
     "area": "persistence",

@@ -126,3 +126,45 @@ test('mid-shot reconnect and reordered machine frames cannot produce valid feedb
     capture.shotFrame({event:'state',timestamp:r.iso(),state:'preheating',shotId:'interrupted',scaleConnected:true});
     assert.equal(capture.active,null);
 });
+
+test('routine polling does not persist repeated profiles and reconnect refreshes the profile',async()=>{
+    let plugin,pulse;
+    const writes=[],listeners=new Map(),sent=[];
+    const r=runtime({setTimeout:fn=>{pulse=fn;return 1;},fetch:async url=>({ok:true,text:async()=>JSON.stringify(url.endsWith('/info')?{version:'0.9.0'}:workflow)})});
+    const host={storage:command=>{
+        if(command.type==='read')plugin.onEvent({name:'storageRead',payload:{key:command.key,value:null}});
+        else writes.push(JSON.parse(JSON.stringify(command.data)));
+    },transport:{open:async()=>({handle:String(listeners.size+1)}),onEvent:(handle,callback)=>listeners.set(handle,callback),
+        send:async(handle,payload)=>sent.push(JSON.parse(payload.data)),close:async()=>{}}};
+    let opened=0;host.transport.open=async()=>({handle:String(++opened)});
+    plugin=r.createPlugin(host);await plugin.onLoad({serverAddress:'http://sync.local'});
+    const flush=async()=>{while(writes.length){plugin.onEvent({name:'storageWrite',payload:writes.shift()});await new Promise(resolve=>setImmediate(resolve));}};
+    const receive=message=>listeners.get('1')({type:'data',dataType:'text',data:JSON.stringify(message)});
+    await flush();receive({type:'hello',...identity,telemetry_poll:1});await flush();
+    const first=sent.find(message=>message.type==='event').event;
+    receive({type:'ack',server_id:identity.server_id,event_id:first.event_id,durable:true});await flush();
+    for(let index=0;index<4;index++){r.advance(2001);pulse();await flush();}
+    assert.equal(sent.filter(message=>message.type==='event').length,1);
+    const polls=sent.filter(message=>message.type==='status');assert.equal(polls.length,4);
+    assert.ok(polls.every(message=>message.session_id===first.session_id && message.measurement_ready===false));
+    receive({type:'status',server_id:identity.server_id,poll:{session_id:first.session_id,accepted:false}});
+    r.advance(2001);pulse();await flush();
+    assert.equal(sent.filter(message=>message.type==='event').length,2);
+    plugin.onUnload();
+});
+
+test('explicit telemetry expiry cannot discard a shot or accept another server and persists removal',()=>{
+    const r=runtime(),{box,flush}=journal(r);
+    box.enqueue('status',{state:'Idle'});flush();
+    const event=JSON.parse(box.next());
+    const expiry={server_id:identity.server_id,event_id:event.event_id,durable:false,expired_telemetry:true};
+    assert.equal(box.expireTelemetry({...expiry,server_id:'other'}),false);
+    assert.equal(box.expireTelemetry({...expiry,event_id:'other'}),false);
+    assert.equal(box.expireTelemetry({...expiry,durable:true}),false);
+    assert.equal(box.expireTelemetry(expiry),true);
+    assert.equal(box.next(),null);flush();
+    assert.equal(journal(r,box.durable).box.state.queue.length,0);
+    box.enqueue('shot_started',{elapsed_ms:0},'shot');flush();
+    assert.equal(box.expireTelemetry({...expiry,event_id:JSON.parse(box.next()).event_id}),false);
+    assert.ok(box.next());
+});

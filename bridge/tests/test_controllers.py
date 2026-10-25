@@ -360,3 +360,85 @@ def test_failed_exposure_commit_cannot_skip_durable_intent_on_next_poll(tmp_path
         assert e.store.get('active')['exposed']
         e.store.close()
     asyncio.run(run())
+
+
+def test_routine_receipt_retention_preserves_retry_identity_and_all_shot_evidence(tmp_path):
+    from store import retain_telemetry, Store
+    async def run():
+        e,c,r = await setup(tmp_path)
+        routine = event(20,'status',state='Idle')
+        routine.pop('shot_id',None)
+        c.accept('classic-de1',routine)
+        shot = event(21,'shot_started')
+        c.accept('classic-de1',shot)
+        snapshot = e.store.controller_shot('classic-de1','shot1')
+        e.store.db.execute('UPDATE controller_events SET received=0')
+        e.store.db.commit()
+        assert retain_telemetry(e.store.path,now=7200,limit=1) == 1
+        while retain_telemetry(e.store.path,now=7200):
+            pass
+        payload = e.store.db.execute('SELECT payload FROM controller_events WHERE event_id=?', (routine['event_id'],)).fetchone()[0]
+        assert payload.startswith('sha256:')
+        assert c.accept('classic-de1',routine)['duplicate']
+        changed = copy.deepcopy(routine);changed['data']['state']='Espresso'
+        with pytest.raises(BridgeError,match='different data'):c.accept('classic-de1',changed)
+        reused = copy.deepcopy(routine);reused['event_id']='different-id'
+        with pytest.raises(BridgeError,match='sequence'):c.accept('classic-de1',reused)
+        assert c.accept('classic-de1',shot)['duplicate']
+        assert e.store.controller_shot('classic-de1','shot1') == snapshot
+        path = e.store.path;e.store.close()
+        reopened = Store(path)
+        assert reopened.payload_matches(payload,c.validate_event('classic-de1',routine))
+        assert not reopened.payload_matches(payload,c.validate_event('classic-de1',changed))
+        reopened.close()
+    asyncio.run(run())
+
+
+def test_poll_liveness_requires_current_fresh_session_and_never_journals(tmp_path,monkeypatch):
+    async def run():
+        e,c,r = await setup(tmp_path)
+        count = e.store.db.execute('SELECT count(*) FROM controller_events').fetchone()[0]
+        original = c.last_event_received
+        assert not c.poll_status('wrong')['accepted']
+        assert c.last_event_received == original
+        for _ in range(100):assert c.poll_status(c.session)['accepted']
+        assert e.store.db.execute('SELECT count(*) FROM controller_events').fetchone()[0] == count
+        monkeypatch.setattr('controllers.time.time',lambda:original+30)
+        assert not c.poll_status(c.session)['accepted']
+        assert c.session == 'session1'
+        e.store.close()
+    asyncio.run(run())
+
+
+def test_expired_telemetry_cannot_be_replayed_or_relabelled_and_lifecycle_retries_survive(tmp_path):
+    from controllers import TelemetryExpired
+    from store import retain_telemetry
+    async def run():
+        e,c,r=await setup(tmp_path)
+        rows=[]
+        for seq in (20,22):
+            row=event(seq,'status',state='Idle');row['event_id']=f'session1-{seq}'
+            c.accept('classic-de1',row);rows.append(row)
+        shot=event(23,'shot_started');shot['event_id']='session1-23';c.accept('classic-de1',shot)
+        saved=copy.deepcopy(e.store.controller_shot('classic-de1','shot1'))
+        e.store.db.execute("UPDATE controller_events SET received=0 WHERE event_id LIKE 'session1-%'");e.store.db.commit()
+        while retain_telemetry(e.store.path):pass
+        for original in rows:
+            with pytest.raises(TelemetryExpired):c.accept('classic-de1',original)
+        for changes in ({'sequence':200},{'session_id':'another','sequence':200},{'event_id':'another-id'}):
+            altered=copy.deepcopy(rows[0]);altered.update(changes)
+            with pytest.raises(TelemetryExpired):c.accept('classic-de1',altered)
+        altered=copy.deepcopy(rows[0]);altered.update(kind='shot_started',shot_id='fake-shot')
+        with pytest.raises(BridgeError,match='expired telemetry'):c.accept('classic-de1',altered)
+        # A never-received hole remains admissible; ranges are not a high watermark.
+        gap=event(21,'status');gap['event_id']='session1-21'
+        assert not c.accept('classic-de1',gap)['duplicate']
+        assert c.accept('classic-de1',shot)['duplicate']
+        changed=copy.deepcopy(shot);changed['data']['changed']=True
+        with pytest.raises(BridgeError,match='different data'):c.accept('classic-de1',changed)
+        assert e.store.controller_shot('classic-de1','shot1')==saved
+        path=e.store.path;e.store.close();reopened=Store(path)
+        assert reopened.receipt_expired('classic-de1',rows[0])
+        assert not reopened.receipt_expired('classic-de1',gap)
+        reopened.close()
+    asyncio.run(run())

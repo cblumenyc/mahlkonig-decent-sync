@@ -11,7 +11,7 @@ from aiohttp import web, WSMsgType
 from engine import Engine, Reader, IDENTITY
 from grinder_client import BridgeError
 from store import Store
-from controllers import Controllers
+from controllers import Controllers, TelemetryExpired
 from adapters import controller_adapter
 from identity import capabilities, installation_id, verify_server
 
@@ -58,6 +58,9 @@ def create_app(config, engine):
                     if request.headers.get('Sec-Fetch-Site') == 'cross-site':
                         raise web.HTTPForbidden(text='Cross-site requests are not accepted')
             response = await handler(request)
+        except TelemetryExpired as exc:
+            response = web.json_response({'error':str(exc), 'server_id':server_id,
+                'event_id':exc.event_id, 'durable':False, 'expired_telemetry':True}, status=410)
         except BridgeError as exc:
             response = web.json_response({'error': str(exc)}, status=409)
         except (json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
@@ -204,16 +207,27 @@ def create_app(config, engine):
                 elif data.get('type') == 'status':
                     c = controller(request)
                     await socket.send_json({'type':'status', 'server_id':server_id,
+                        'poll':c.poll_status(data.get('session_id'), data.get('measurement_ready')),
                         **c.status(), 'display':c.display(c.session)})
                 else:
                     raise BridgeError('Unknown controller message')
+            except TelemetryExpired as exc:
+                await socket.send_json({'type':'error', 'server_id':server_id, 'event_id':exc.event_id,
+                    'durable':False, 'expired_telemetry':True, 'error':str(exc)})
             except (BridgeError, web.HTTPException, ValueError, KeyError, TypeError, AttributeError) as exc:
                 await socket.send_json({'type':'error', 'server_id':server_id,
                     'error':str(exc) if isinstance(exc, BridgeError) else 'Invalid controller message'})
         return socket
 
     async def controller_status(request):
-        return web.json_response(controller(request).status())
+        c = controller(request)
+        if 'X-Sync-Session-ID' not in request.headers:
+            return web.json_response(c.status())
+        verify_server(engine, request.headers.get('X-Sync-Server-ID'))
+        session = request.headers['X-Sync-Session-ID']
+        poll = c.poll_status(session)
+        return web.json_response({'server_id':server_id, 'poll':poll,
+            'summary':c.summary(), 'cycle':c.cycles.offer(session), 'display':c.display(session)})
 
     async def commission(request):
         return web.json_response(controller(request).commission(request.match_info['profile'], await request.json()))

@@ -41,6 +41,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--operator', required=True)
     parser.add_argument('--expected-helper-sha256', required=True)
+    parser.add_argument('--helper-only', action='store_true', help='Preserve existing operator policy and sudo rules')
     args = parser.parse_args()
     if os.geteuid() != 0:
         parser.error('Administrator installation required')
@@ -61,6 +62,16 @@ def main():
     for path in (HELPER.parent, POLICY.parent, STATE):
         if path.is_symlink() or path.stat().st_uid != 0 or path.stat().st_mode & 0o022:
             parser.error('Administrator directory ownership or permissions differ')
+    if args.helper_only:
+        policy = json.loads(POLICY.read_text())
+        if policy.get('operator') != args.operator:
+            parser.error('Existing operator differs')
+        previous = STATE/('manager-' + hashlib.sha256(HELPER.read_bytes()).hexdigest() + '.py')
+        if not previous.exists():
+            shutil.copyfile(HELPER, previous);previous.chmod(0o600)
+        install(HELPER, source, 0o755)
+        print('Manager updated. Existing access policy and application data retained.')
+        return
     inbox = Path(operator.pw_dir)/'mahlkonig-decent-sync-inbox'
     if inbox.is_symlink():
         parser.error('Inbox cannot be a symlink')

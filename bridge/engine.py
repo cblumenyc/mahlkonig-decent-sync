@@ -1,6 +1,7 @@
 """Durable Xenia state machine. HTTP polling never waits for grinder I/O."""
 import asyncio
 import copy
+import logging
 import time
 import uuid
 from datetime import datetime
@@ -132,8 +133,20 @@ class Engine:
     async def start(self):
         # Keep Xenia unavailable until restart reconciliation has completed.
         self.spawn(self.loop())
+        self.spawn(self.retention_loop())
         if self.controllers:
             self.spawn(self.controller_loop())
+
+    async def retention_loop(self):
+        from store import retain_telemetry
+        while True:
+            count = 0
+            if not self.active and not self.recovery and not self.maintenance:
+                try:
+                    count = await asyncio.to_thread(retain_telemetry, self.store.path)
+                except Exception:
+                    logging.exception('Routine telemetry retention failed')
+            await asyncio.sleep(0.1 if count else 60)
 
     async def controller_loop(self):
         while True:
@@ -562,6 +575,7 @@ class Engine:
                 'shots': [public_shot(r) for r in self.store.recent()],
                 'native_history': self.native.get('brews', [])[:30],
                 'maintenance': self.maintenance}
+        result['journal_retention'] = self.store.get('telemetry_retention')
         if self.controllers:
             result.update(mode=self.controllers.mode, automation=self.controllers.status())
         return result
