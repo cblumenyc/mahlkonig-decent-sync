@@ -203,3 +203,76 @@ def test_submit_is_idempotent_but_can_reinstall_after_intentional_rollback(env,m
 def test_retired_bootstrap_release_is_rejected():
     with pytest.raises(RuntimeError, match='Pre-contract-2'):
         d.compatible({'legacy': True})
+
+
+def test_minimal_recovery_retention_waits_for_verified_migration_and_latest_snapshot(env):
+    backups=d.STATE/'backups';backups.mkdir()
+    for seq in range(3):
+        folder=backups/(str(seq)*64);folder.mkdir()
+        with sqlite3.connect(folder/'journal.sqlite3') as db:db.execute('CREATE TABLE test(value)')
+        (folder/'config.json').write_text('{}')
+        import os
+        os.utime(folder,(seq+1,seq+1))
+    meta={'digest':'a'*64}
+    d.prune(meta,meta)
+    assert len(list(backups.iterdir()))==3
+    d.save(d.STATE/'storage-policy.json',{'minimal_storage':True})
+    latest=backups/('2'*64);saved=(latest/'journal.sqlite3').read_bytes()
+    (latest/'journal.sqlite3').write_bytes(b'broken')
+    with pytest.raises(sqlite3.DatabaseError):d.prune(meta,meta)
+    assert len(list(backups.iterdir()))==3
+    (latest/'journal.sqlite3').write_bytes(saved)
+    d.prune(meta,meta)
+    assert [p.name for p in backups.iterdir()]==['2'*64]
+
+
+def test_pre_expiry_code_is_rejected_after_migration_without_rewinding_data(env):
+    database=env/'db'
+    with sqlite3.connect(database) as db:
+        db.execute('CREATE TABLE kv(key TEXT PRIMARY KEY,value TEXT)')
+        db.execute("INSERT INTO kv VALUES ('receipt_expiry_api','1')")
+    d.CONF.write_text(json.dumps({'database':str(database)}))
+    target=d.RELEASES/'supported';target.mkdir();(target/'release.json').write_text('{}')
+    with pytest.raises(RuntimeError,match='expired telemetry'):d.compatible({'path':str(target)})
+    (target/'release.json').write_text('{"receipt_expiry_api":1}')
+    d.compatible({'path':str(target)})
+    with sqlite3.connect(database) as db:assert db.execute('SELECT value FROM kv').fetchone()[0]=='1'
+
+
+def test_retention_failure_does_not_roll_back_a_healthy_activation(env,monkeypatch):
+    old,new,job,database,calls=job_env(env,monkeypatch)
+    def bad_retention(*args):raise ValueError('Unexpected recovery files')
+    monkeypatch.setattr(d,'prune',bad_retention)
+    d.worker()
+    saved=d.load(d.STATE/('operation-'+job['id']+'.json'))
+    assert saved['phase']=='complete' and saved['retention_warning']
+    assert d.APP.resolve()==Path(new['path'])
+
+
+def test_helper_only_update_preserves_access_rules_and_saves_prior_helper(tmp_path,monkeypatch):
+    import sys,types
+    spec=importlib.util.spec_from_file_location('manager_installer',Path(__file__).resolve().parents[2]/'ops/deployment/install_manager.py')
+    installer=importlib.util.module_from_spec(spec);spec.loader.exec_module(installer)
+    helper=tmp_path/'sbin/coffee-sync-deploy';helper.parent.mkdir();helper.write_bytes(b'previous manager')
+    policy=tmp_path/'etc/deployment.json';policy.parent.mkdir();policy.write_text('{"operator":"operator","inbox":"unchanged"}')
+    state=tmp_path/'state';state.mkdir();app=tmp_path/'app';release=tmp_path/'release';release.mkdir();app.symlink_to(release)
+    (state/'current.json').write_text(json.dumps({'path':str(release)}))
+    for key,value in [('HELPER',helper),('POLICY',policy),('STATE',state),('APP',app)]:monkeypatch.setattr(installer,key,value)
+    monkeypatch.setattr(installer.os,'geteuid',lambda:0)
+    monkeypatch.setattr(installer.pwd,'getpwnam',lambda name:types.SimpleNamespace(pw_uid=501))
+    monkeypatch.setattr(installer,'run',lambda *args,**kw:types.SimpleNamespace(returncode=1))
+    actual_stat=Path.stat
+    def stat(path,*args,**kwargs):
+        result=actual_stat(path,*args,**kwargs)
+        if path in (helper.parent,policy.parent,state):return types.SimpleNamespace(st_uid=0,st_mode=result.st_mode)
+        return result
+    monkeypatch.setattr(Path,'stat',stat)
+    writes=[]
+    def install(path,body,mode):writes.append(path);path.write_bytes(body)
+    monkeypatch.setattr(installer,'install',install)
+    source=Path(installer.__file__).with_name('deploy.py').read_bytes()
+    monkeypatch.setattr(sys,'argv',['install_manager.py','--operator','operator','--expected-helper-sha256',hashlib.sha256(source).hexdigest(),'--helper-only'])
+    original=policy.read_bytes();installer.main()
+    assert writes==[helper] and policy.read_bytes()==original
+    assert helper.read_bytes()==source
+    assert next(state.glob('manager-*.py')).read_bytes()==b'previous manager'

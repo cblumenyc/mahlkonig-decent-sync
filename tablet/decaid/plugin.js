@@ -36,7 +36,10 @@ function createPlugin(host) {
             if (telemetryPoll && message.poll?.accepted===false) lastProfile='';
             publishDisplay(message);
         }
-        else if (message.type==='error') {report('Server rejected an event; saved events retained');outbox.error=notice;}
+        else if (message.type==='error') {
+            if (outbox.expireTelemetry(message)) {lastProfile='';displayAt=0;cycle=null;}
+            else {report('Server rejected an event; saved events retained');outbox.error=notice;}
+        }
     }
     function disconnect(name,retry=true) {
         const entry=channels.get(name);

@@ -40,7 +40,7 @@ namespace eval ::plugins::mahlkonig_decent_sync {
     }
     proc ack {path id token} {
         variable busy;variable status_text;variable cycle_offer;variable session;variable settings
-        set accepted 0
+        set accepted 0;set expired 0
         if {[::http::status $token] eq "ok" && [::http::ncode $token] == 202} {
             if {![catch {set body [::json::json2dict [::http::data $token]]}]} {
                 if {[dict exists $body server_id] && [dict get $body server_id] eq $settings(server_id) && [dict exists $body durable] && [dict get $body durable] eq "true" && [dict exists $body event_id] && [dict get $body event_id] eq $id} {
@@ -51,8 +51,21 @@ namespace eval ::plugins::mahlkonig_decent_sync {
                 }
             }
         }
+        if {[::http::status $token] eq "ok" && [::http::ncode $token] == 410} {
+            catch {
+                set body [::json::json2dict [::http::data $token]]
+                set fd [open $path r];fconfigure $fd -encoding utf-8;set saved [::json::json2dict [read $fd]];close $fd
+                if {[dict get $body server_id] eq $settings(server_id) && [dict get $body event_id] eq $id &&
+                    [dict get $body durable] eq "false" && [dict get $body expired_telemetry] eq "true" &&
+                    [dict get $saved kind] in {profile status} && ![dict exists $saved shot_id]} {
+                    set expired 1
+                    variable last_profile;variable sync_ready;variable cycle_offer
+                    set last_profile "";set sync_ready 0;set cycle_offer ""
+                }
+            }
+        }
         ::http::cleanup $token;set busy 0
-        if {$accepted} {
+        if {$accepted || $expired} {
             file delete $path
             after 0 [namespace code drain]
         } else {

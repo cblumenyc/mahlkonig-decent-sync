@@ -78,3 +78,29 @@ def test_session_polls_refresh_liveness_without_durable_events(tmp_path):
             response=await client.get(base+'/status',headers={**owner,'X-Sync-Server-ID':'wrong'})
             assert response.status==409
     asyncio.run(run())
+
+
+def test_expired_telemetry_has_explicit_nondurable_http_and_websocket_response(tmp_path):
+    async def run():
+        engine=Engine(Store(tmp_path/'db'),FakeReader())
+        config={'origins':['http://127.0.0.1'],'allowed_networks':['127.0.0.0/8'],
+                'grinder_host':'127.0.0.1','automation':{'feedback_mode':'observe'}}
+        app=create_app(config,engine)
+        with engine.store.atomic():
+            engine.store.db.execute('INSERT INTO controller_receipt_expiry VALUES (?,?,?)',('classic-de1','session1','[[1,2]]'))
+        async with TestServer(app) as server,ClientSession() as client:
+            headers={'Host':'127.0.0.1'}
+            url=str(server.make_url('/api/v1/controllers/classic-de1'))
+            row=event(1,'status');row['event_id']='session1-1'
+            response=await client.post(url+'/events',headers=headers,json=row)
+            body=await response.json()
+            assert response.status==410 and body['expired_telemetry'] and not body['durable']
+            assert body['event_id']==row['event_id']
+            async with client.ws_connect(url+'/ws',headers=headers) as socket:
+                hello=await socket.receive_json()
+                await socket.send_json({'type':'event','server_id':hello['server_id'],'event':{**row,'schema_version':2}})
+                reply=await socket.receive_json()
+                assert reply['type']=='error' and reply['expired_telemetry'] and not reply['durable']
+            assert engine.store.db.execute('SELECT count(*) FROM controller_events').fetchone()[0]==0
+        engine.store.close()
+    asyncio.run(run())

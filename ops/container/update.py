@@ -41,14 +41,17 @@ def control(directory, command, operation, *, execute=run):
         json.dumps({'command':command,'operation':operation}),execute=execute))
 
 
-def offline_idle(directory, *, execute=run):
+def offline_idle(directory, *, compatible_with=None, execute=run):
+    metadata=json.loads((Path(compatible_with or directory)/'app/release.json').read_text())
     verify="""import json,sqlite3
 c=sqlite3.connect('file:/data/bridge.sqlite3?mode=ro',uri=True)
 v={k:json.loads(v) for k,v in c.execute('select key,value from kv')}
+assert not v.get('receipt_expiry_api') or RECEIPT_API==1, 'Executable cannot enforce expired telemetry receipts'
 assert not v.get('active'), 'A cycle raced the stop; restart the current release'
 for row in c.execute('select record from controller_shots'):
  r=json.loads(row[0]);assert r.get('feedback_status') not in ('collecting','awaiting_events','awaiting_final_mass','awaiting_arm','awaiting_native','awaiting_native_validation','queued','dispatching'), 'Unfinished controller record'
 """
+    verify=verify.replace('RECEIPT_API',repr(metadata.get('receipt_expiry_api',0)))
     compose(directory,'run','--rm','--no-deps','--user','10001:10001','--entrypoint','python','sync','-c',verify,execute=execute)
 
 
@@ -141,6 +144,9 @@ def activate(transaction, *, rollback=False, execute=run):
             state=control(source,'status',operation,execute=execute)
         source_version=plan['new_version'] if rollback else plan['old_version']
         if state.get('version')!=source_version:raise ValueError('Running release differs; inspect recovery state before continuing')
+        target_metadata=json.loads((Path(target)/'app/release.json').read_text())
+        if state.get('receipt_expiry_api')==1 and target_metadata.get('receipt_expiry_api')!=1:
+            raise ValueError('Executable cannot enforce expired telemetry receipts')
         control(source,'enter',operation,execute=execute)
         phase('idle')
         try:
@@ -150,7 +156,7 @@ def activate(transaction, *, rollback=False, execute=run):
             compose(source,'stop','sync',execute=execute);phase('stopped')
             # A grind can cancel the idle lease immediately before the stop.
             # Check the frozen journal offline before replacing the executable.
-            offline_idle(source,execute=execute)
+            offline_idle(source,compatible_with=target,execute=execute)
             phase('activating')
             compose(target,'up','-d','--no-build','--wait','--wait-timeout','90',execute=execute)
             state=control(target,'status',operation,execute=execute)
@@ -167,7 +173,7 @@ def activate(transaction, *, rollback=False, execute=run):
                     raise RuntimeError('New service could not prove idle; retained its journal and deferred rollback') from None
                 phase('recovery-stopping')
                 compose(target,'stop','sync',execute=execute)
-                try:offline_idle(target,execute=execute)
+                try:offline_idle(target,compatible_with=source,execute=execute)
                 except (subprocess.SubprocessError,ValueError):
                     compose(target,'up','-d','--no-build','--wait','--wait-timeout','90',execute=execute)
                     phase('needs-recovery')

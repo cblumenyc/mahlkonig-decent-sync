@@ -36,6 +36,12 @@ def execution_signature(profile):
     return canonical(settings)
 
 
+class TelemetryExpired(BridgeError):
+    def __init__(self, event_id):
+        super().__init__('Non-shot telemetry retry expired; refresh current profile')
+        self.event_id = event_id
+
+
 class Controllers:
     def __init__(self, engine, config=None, adapter=None):
         self.engine, self.store = engine, engine.store
@@ -179,6 +185,10 @@ class Controllers:
         active_before = copy.deepcopy(self.engine.active)
         try:
             with self.store.atomic():
+                if self.store.receipt_expired(controller, event):
+                    if not event.get('shot_id') and event['kind'] in ('profile','status'):
+                        raise TelemetryExpired(event['event_id'])
+                    raise BridgeError('Event identity belongs to expired telemetry')
                 self.store.db.execute('INSERT INTO controller_events VALUES (?,?,?,?,?,?,?)',
                     (controller, event['event_id'], event['session_id'], event['sequence'],
                      event.get('shot_id'), received, encoded))

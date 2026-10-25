@@ -76,6 +76,13 @@ class SyncOutbox {
         if (!this.ready || this.writing || this.dirty || this.error || !this.durable?.server_id) return null;
         return this.durable.queue[0] || null;
     }
+    expireTelemetry(message) {
+        const raw=this.next();
+        if (!raw || message.server_id!==this.state.server_id || message.expired_telemetry!==true || message.durable!==false) return false;
+        const event=JSON.parse(raw);
+        if (message.event_id!==event.event_id || event.shot_id || !['profile','status'].includes(event.kind)) return false;
+        this.state.queue.shift();this.sent=null;this.persist();return true;
+    }
     acknowledge(message) {
         const raw=this.next();
         if (!raw || message.server_id!==this.state.server_id || message.durable!==true || message.event_id!==JSON.parse(raw).event_id) return false;

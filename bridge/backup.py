@@ -10,17 +10,17 @@ import sqlite3
 import time
 import tempfile
 
-BACKUP_LIMIT_BYTES = 512*1024*1024
+BACKUP_LIMIT_BYTES = 80*1024*1024
 
 
 def prune_snapshots(folder):
-    """Keep up to fourteen daily copies within budget, always retaining two."""
+    """Keep up to seven daily copies within budget, always retaining two."""
     total = 0
     snapshots = sorted((p for p in folder.glob('coffee-*.sqlite3')
         if not p.is_symlink() and p.is_file()), reverse=True)
     for index, old in enumerate(snapshots):
         size = old.stat().st_size
-        if index < 2 or (index < 14 and total+size <= BACKUP_LIMIT_BYTES):
+        if index < 2 or (index < 7 and total+size <= BACKUP_LIMIT_BYTES):
             total += size
         else:
             old.unlink()

@@ -152,3 +152,19 @@ test('routine polling does not persist repeated profiles and reconnect refreshes
     assert.equal(sent.filter(message=>message.type==='event').length,2);
     plugin.onUnload();
 });
+
+test('explicit telemetry expiry cannot discard a shot or accept another server and persists removal',()=>{
+    const r=runtime(),{box,flush}=journal(r);
+    box.enqueue('status',{state:'Idle'});flush();
+    const event=JSON.parse(box.next());
+    const expiry={server_id:identity.server_id,event_id:event.event_id,durable:false,expired_telemetry:true};
+    assert.equal(box.expireTelemetry({...expiry,server_id:'other'}),false);
+    assert.equal(box.expireTelemetry({...expiry,event_id:'other'}),false);
+    assert.equal(box.expireTelemetry({...expiry,durable:true}),false);
+    assert.equal(box.expireTelemetry(expiry),true);
+    assert.equal(box.next(),null);flush();
+    assert.equal(journal(r,box.durable).box.state.queue.length,0);
+    box.enqueue('shot_started',{elapsed_ms:0},'shot');flush();
+    assert.equal(box.expireTelemetry({...expiry,event_id:JSON.parse(box.next()).event_id}),false);
+    assert.ok(box.next());
+});

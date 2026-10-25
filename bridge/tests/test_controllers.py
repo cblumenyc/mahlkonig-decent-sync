@@ -408,3 +408,37 @@ def test_poll_liveness_requires_current_fresh_session_and_never_journals(tmp_pat
         assert c.session == 'session1'
         e.store.close()
     asyncio.run(run())
+
+
+def test_expired_telemetry_cannot_be_replayed_or_relabelled_and_lifecycle_retries_survive(tmp_path):
+    from controllers import TelemetryExpired
+    from store import retain_telemetry
+    async def run():
+        e,c,r=await setup(tmp_path)
+        rows=[]
+        for seq in (20,22):
+            row=event(seq,'status',state='Idle');row['event_id']=f'session1-{seq}'
+            c.accept('classic-de1',row);rows.append(row)
+        shot=event(23,'shot_started');shot['event_id']='session1-23';c.accept('classic-de1',shot)
+        saved=copy.deepcopy(e.store.controller_shot('classic-de1','shot1'))
+        e.store.db.execute("UPDATE controller_events SET received=0 WHERE event_id LIKE 'session1-%'");e.store.db.commit()
+        while retain_telemetry(e.store.path):pass
+        for original in rows:
+            with pytest.raises(TelemetryExpired):c.accept('classic-de1',original)
+        for changes in ({'sequence':200},{'session_id':'another','sequence':200},{'event_id':'another-id'}):
+            altered=copy.deepcopy(rows[0]);altered.update(changes)
+            with pytest.raises(TelemetryExpired):c.accept('classic-de1',altered)
+        altered=copy.deepcopy(rows[0]);altered.update(kind='shot_started',shot_id='fake-shot')
+        with pytest.raises(BridgeError,match='expired telemetry'):c.accept('classic-de1',altered)
+        # A never-received hole remains admissible; ranges are not a high watermark.
+        gap=event(21,'status');gap['event_id']='session1-21'
+        assert not c.accept('classic-de1',gap)['duplicate']
+        assert c.accept('classic-de1',shot)['duplicate']
+        changed=copy.deepcopy(shot);changed['data']['changed']=True
+        with pytest.raises(BridgeError,match='different data'):c.accept('classic-de1',changed)
+        assert e.store.controller_shot('classic-de1','shot1')==saved
+        path=e.store.path;e.store.close();reopened=Store(path)
+        assert reopened.receipt_expired('classic-de1',rows[0])
+        assert not reopened.receipt_expired('classic-de1',gap)
+        reopened.close()
+    asyncio.run(run())

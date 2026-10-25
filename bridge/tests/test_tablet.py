@@ -258,3 +258,38 @@ puts passed
     polls=[row for row in requests if 'X-Sync-Session-ID' in row]
     assert len(polls)==3
     assert all(row['X-Sync-Server-ID']=='11111111-1111-1111-1111-111111111111' for row in polls)
+
+
+@pytest.mark.parametrize('kind',['status','shot_started'])
+def test_classic_expiry_only_discards_paired_matching_nonshot_telemetry(tmp_path,kind):
+    # Actual Tcl transport callback; only the HTTP boundary is substituted.
+    script=tmp_path/'expiry.tcl'
+    script.write_text('''source [lindex $argv 0]
+package require json
+namespace eval ::http {
+    proc status {token} {return ok}
+    proc ncode {token} {return 410}
+    proc data {token} {return $::reply}
+    proc cleanup {token} {}
+}
+namespace eval ::plugins::mahlkonig_decent_sync {
+    set settings(server_id) paired-server
+    set id event-1;set last_profile original;set last_server_ack 0
+    set path [file join [lindex $::argv 1] saved.json]
+    set kind [lindex $::argv 2]
+    set body [jo kind [js $kind]]
+    if {$kind eq "shot_started"} {set body [jo kind [js $kind] shot_id [js saved-shot]]}
+    atomic_write $path $body
+    set ::reply [jo server_id [js other-server] event_id [js $id] durable false expired_telemetry true]
+    ack $path $id token
+    if {![file exists $path]} {error {wrong server discarded event}}
+    set ::reply [jo server_id [js paired-server] event_id [js $id] durable false expired_telemetry true]
+    ack $path $id token
+    if {($kind eq "status") == [file exists $path]} {error {wrong event disposition}}
+    if {$last_server_ack != 0} {error {expiry falsely refreshed liveness}}
+    if {$kind eq "status" && $last_profile ne ""} {error {profile refresh not requested}}
+}
+puts passed
+''')
+    result=subprocess.run([TCL,str(script),str(PLUGIN),str(tmp_path),kind],capture_output=True,text=True,check=True)
+    assert not result.stderr and result.stdout.strip()=='passed'

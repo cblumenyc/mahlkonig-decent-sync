@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "name": "Mahlkönig - Decent sync",
+  "name": "Mahlk\u00f6nig - Decent sync",
   "slug": "mahlkonig-decent-sync",
   "license": "GPL-3.0-or-later",
   "journal_schema": 2,
@@ -70,5 +70,6 @@
     "update.py",
     "README.md",
     "runtime.sh"
-  ]
+  ],
+  "receipt_expiry_api": 1
 }

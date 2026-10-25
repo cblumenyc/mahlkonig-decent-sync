@@ -9,6 +9,11 @@
     "behavior": "backup restore preserves identity payload and uncertain state",
     "assertions": 5
   },
+  "bridge/tests/test_backup.py::test_compact_expired_receipts_preserves_all_coffee_records_and_restores_guards": {
+    "area": "recovery",
+    "behavior": "compact expired receipts preserves all coffee records and restores guards",
+    "assertions": 6
+  },
   "bridge/tests/test_backup.py::test_daily_backup_budget_prunes_only_after_verified_replacement_and_keeps_two": {
     "area": "recovery",
     "behavior": "daily backup budget prunes only after verified replacement and keeps two",
@@ -17,6 +22,11 @@
   "bridge/tests/test_backup.py::test_retention_and_interrupted_snapshot_do_not_block_recovery": {
     "area": "recovery",
     "behavior": "retention and interrupted snapshot do not block recovery",
+    "assertions": 3
+  },
+  "bridge/tests/test_backup.py::test_telemetry_count_and_payload_budgets_expire_recent_receipts_atomically": {
+    "area": "recovery",
+    "behavior": "telemetry count and payload budgets expire recent receipts atomically",
     "assertions": 3
   },
   "bridge/tests/test_backup.py::test_telemetry_retention_is_batched_respects_age_and_survives_backup": {
@@ -62,6 +72,11 @@
   "bridge/tests/test_compose_update.py::test_prepared_settings_cannot_redirect_update": {
     "area": "recovery",
     "behavior": "prepared settings cannot redirect update",
+    "assertions": 1
+  },
+  "bridge/tests/test_compose_update.py::test_receipt_expiry_blocks_incompatible_executable_before_stop": {
+    "area": "recovery",
+    "behavior": "receipt expiry blocks incompatible executable before stop",
     "assertions": 1
   },
   "bridge/tests/test_compose_update.py::test_update_restart_response_loss_and_code_only_rollback": {
@@ -153,6 +168,11 @@
     "area": "capture",
     "behavior": "event identity and nested transaction rollback",
     "assertions": 2
+  },
+  "bridge/tests/test_controllers.py::test_expired_telemetry_cannot_be_replayed_or_relabelled_and_lifecycle_retries_survive": {
+    "area": "recovery",
+    "behavior": "expired telemetry cannot be replayed or relabelled and lifecycle retries survive",
+    "assertions": 5
   },
   "bridge/tests/test_controllers.py::test_failed_exposure_commit_cannot_skip_durable_intent_on_next_poll": {
     "area": "capture",
@@ -329,15 +349,35 @@
     "behavior": "health failure rolls back code and retains new evidence",
     "assertions": 3
   },
+  "bridge/tests/test_managed_deployment.py::test_helper_only_update_preserves_access_rules_and_saves_prior_helper": {
+    "area": "recovery",
+    "behavior": "helper only update preserves access rules and saves prior helper",
+    "assertions": 3
+  },
   "bridge/tests/test_managed_deployment.py::test_inbox_symlink_and_bad_digest_rejected": {
     "area": "recovery",
     "behavior": "inbox symlink and bad digest rejected",
     "assertions": 0
   },
+  "bridge/tests/test_managed_deployment.py::test_minimal_recovery_retention_waits_for_verified_migration_and_latest_snapshot": {
+    "area": "recovery",
+    "behavior": "minimal recovery retention waits for verified migration and latest snapshot",
+    "assertions": 3
+  },
+  "bridge/tests/test_managed_deployment.py::test_pre_expiry_code_is_rejected_after_migration_without_rewinding_data": {
+    "area": "recovery",
+    "behavior": "pre expiry code is rejected after migration without rewinding data",
+    "assertions": 1
+  },
   "bridge/tests/test_managed_deployment.py::test_racing_shot_cancels_update_and_restarts_existing_code": {
     "area": "recovery",
     "behavior": "racing shot cancels update and restarts existing code",
     "assertions": 3
+  },
+  "bridge/tests/test_managed_deployment.py::test_retention_failure_does_not_roll_back_a_healthy_activation": {
+    "area": "recovery",
+    "behavior": "retention failure does not roll back a healthy activation",
+    "assertions": 2
   },
   "bridge/tests/test_managed_deployment.py::test_retired_bootstrap_release_is_rejected": {
     "area": "recovery",
@@ -504,6 +544,11 @@
     "behavior": "automatic mode uses native stops and latches volume backup",
     "assertions": 15
   },
+  "bridge/tests/test_tablet.py::test_classic_expiry_only_discards_paired_matching_nonshot_telemetry": {
+    "area": "recovery",
+    "behavior": "classic expiry only discards paired matching nonshot telemetry",
+    "assertions": 1
+  },
   "bridge/tests/test_tablet.py::test_classic_polls_without_growing_outbox_and_refreshes_profile_after_reconnect": {
     "area": "capture",
     "behavior": "classic polls without growing outbox and refreshes profile after reconnect",
@@ -588,6 +633,11 @@
     "area": "correlation",
     "behavior": "terminal cleanup preserves unresolved delivery or pending grind",
     "assertions": 1
+  },
+  "bridge/tests/test_transports.py::test_expired_telemetry_has_explicit_nondurable_http_and_websocket_response": {
+    "area": "recovery",
+    "behavior": "expired telemetry has explicit nondurable http and websocket response",
+    "assertions": 4
   },
   "bridge/tests/test_transports.py::test_session_polls_refresh_liveness_without_durable_events": {
     "area": "capture",

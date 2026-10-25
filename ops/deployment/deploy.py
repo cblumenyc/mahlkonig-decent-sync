@@ -147,7 +147,9 @@ def unpack(archive,digest):
         if (staging/'app/requirements.lock').read_bytes()!=(APP/'requirements.lock').read_bytes():
             raise ValueError('Dependency changes require a separate reviewed environment update')
         release=json.loads((staging/'app/release.json').read_text())
-        if release!={'version':manifest['version'],'journal_schema':2,'controller_contracts':[1,2]}:
+        expected_release={'version':manifest['version'],'journal_schema':2,'controller_contracts':[1,2]}
+        if 'receipt_expiry_api' in manifest:expected_release['receipt_expiry_api']=1
+        if release!=expected_release:
             raise ValueError('Release metadata differs')
         staging.chmod(0o755)
         for p in staging.rglob('*'):
@@ -202,6 +204,15 @@ def journal_idle():
 def compatible(meta):
     if meta.get('legacy'):
         raise RuntimeError('Pre-contract-2 releases are not supported rollback targets')
+    config = load(CONF, {})
+    path = config.get('database')
+    if path and Path(path).exists():
+        with closing(sqlite3.connect(Path(path).as_uri()+'?mode=ro',uri=True)) as db:
+            row = db.execute("SELECT value FROM kv WHERE key='receipt_expiry_api'").fetchone()
+        if row and json.loads(row[0]) == 1:
+            release = load(Path(meta['path'])/'release.json', {})
+            if release.get('receipt_expiry_api') != 1:
+                raise RuntimeError('Rollback target cannot enforce expired telemetry receipts')
 
 
 def configure():
@@ -265,7 +276,7 @@ def update_job(job,phase,**values):
     save(STATE/('operation-'+job['id']+'.json'),job)
 
 
-def prune(current,previous):
+def prune(current,previous,operation=None):
     """Bound code/backup retention without touching the live journal or audit records."""
     keep={current['digest'],previous['digest']}
     metas=sorted(STATE.glob('release-*.json'),key=lambda p:p.stat().st_mtime,reverse=True)
@@ -276,9 +287,28 @@ def prune(current,previous):
             release=RELEASES/digest
             if release.is_dir() and not release.is_symlink():shutil.rmtree(release)
             p.unlink()
-    backups=sorted((STATE/'backups').glob('*'),key=lambda p:p.stat().st_mtime,reverse=True)
-    for p in backups[10:]:
-        if re.fullmatch('[0-9a-f]{64}',p.name) and p.is_dir() and not p.is_symlink():shutil.rmtree(p)
+    backups=sorted((p for p in (STATE/'backups').glob('*')
+        if re.fullmatch('[0-9a-f]{64}',p.name) and p.is_dir() and not p.is_symlink()),
+        key=lambda p:p.stat().st_mtime,reverse=True)
+    if not load(STATE/'storage-policy.json', {}).get('minimal_storage'):
+        # Existing large recovery copies wait for the owner's verified off-host migration.
+        return
+    # Keep the latest verified pre-update recovery copy. Software rollback uses
+    # current data; it does not need a stack of older journals.
+    if backups:
+        latest=STATE/'backups'/identifier(operation) if operation else backups[0]
+        if latest not in backups:raise ValueError('Latest recovery snapshot missing')
+        if {p.name for p in latest.iterdir()} != {'journal.sqlite3','config.json'}:
+            raise ValueError('Unexpected recovery files')
+        if any(p.is_symlink() or not p.is_file() for p in latest.iterdir()):
+            raise ValueError('Unsafe recovery file')
+        with closing(sqlite3.connect((latest/'journal.sqlite3').as_uri()+'?mode=ro&immutable=1',uri=True)) as db:
+            if db.execute('PRAGMA quick_check').fetchone()[0] != 'ok':
+                raise ValueError('Latest recovery snapshot failed verification')
+        for p in (p for p in backups if p != latest):
+            if {f.name for f in p.iterdir()} != {'journal.sqlite3','config.json'} or any(f.is_symlink() or not f.is_file() for f in p.iterdir()):
+                raise ValueError('Unexpected obsolete recovery files')
+        for p in (p for p in backups if p != latest):shutil.rmtree(p)
 
 
 def current_meta():
@@ -351,8 +381,9 @@ def worker():
             checked=health(meta)
             save(STATE/'current.json',{**meta,'activation_id':job['id']})
             update_job(job,'complete',health=checked,message='Installed and healthy; shot history retained')
-            try:prune(meta,previous)
-            except OSError:pass  # Retention failure must never roll back a healthy app.
+            try:prune(meta,previous,job['id'])
+            except (OSError, ValueError, sqlite3.Error):
+                update_job(job,'complete',retention_warning='Backup retention needs inspection')
         except Exception as exc:
             # Messages are fixed helpers' errors; never return subprocess output/config.
             message=str(exc) if isinstance(exc,(ValueError,RuntimeError)) else type(exc).__name__
@@ -413,6 +444,15 @@ def submit(digest,rollback=False):
 def diagnostics():
     # Explicit allowlist, no raw config, credentials, device data or command logs.
     result={'deployment':load(STATE/'current.json')}
+    folders = {'daily':Path('/var/lib/coffee-bridge/backups'), 'deployment':STATE/'backups'}
+    storage = {}
+    for key,folder in folders.items():
+        files = list(folder.glob('coffee-*.sqlite3')) if key == 'daily' else list(folder.glob('*/journal.sqlite3'))
+        files = [p for p in files if p.is_file() and not p.is_symlink() and not p.parent.is_symlink()]
+        storage[key] = {'count':len(files), 'bytes':sum(p.stat().st_size for p in files)}
+    storage['backup_budget_bytes']=100*1024*1024
+    storage['backup_budget_exceeded']=sum(v['bytes'] for v in storage.values() if isinstance(v,dict))>storage['backup_budget_bytes']
+    result['storage']=storage
     try:
         s=api('/api/v1/status');a=s.get('automation',{})
         result['service']={k:s.get(k) for k in ('ready','mode','grinder_connected','last_native_read','error','maintenance')}
