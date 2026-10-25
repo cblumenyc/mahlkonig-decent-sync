@@ -3,7 +3,7 @@ import hashlib
 import json
 import sqlite3
 import time
-from contextlib import contextmanager
+from contextlib import contextmanager, closing
 from pathlib import Path
 
 
@@ -228,7 +228,7 @@ class Store:
 def expire_receipts(db, now, limit):
     # Bound structured heartbeat receipts, retaining exact membership as
     # sequence ranges. Opaque legacy event IDs keep their digest receipts.
-    recent = db.execute("""SELECT received,length(payload) FROM controller_events
+    recent = db.execute("""SELECT received,length(payload) FROM controller_events INDEXED BY controller_routine_received
         WHERE shot_id IS NULL ORDER BY received DESC LIMIT 1001""").fetchall()
     cutoff = now-86400
     used = 0
@@ -238,7 +238,7 @@ def expire_receipts(db, now, limit):
             cutoff = max(cutoff, received+0.000001)
             break
     expiry_enabled = db.execute("SELECT value FROM kv WHERE key='receipt_expiry_api'").fetchone()
-    expired = db.execute("""SELECT rowid,controller,event_id,session_id,sequence FROM controller_events
+    expired = db.execute("""SELECT rowid,controller,event_id,session_id,sequence FROM controller_events INDEXED BY controller_routine_received
         WHERE shot_id IS NULL AND received < ?
         AND event_id=session_id||'-'||CAST(sequence AS TEXT)
         AND (substr(payload,1,7)='sha256:' OR json_extract(payload,'$.kind') IN ('profile','status'))
@@ -289,19 +289,19 @@ def prune_diagnostics(db, now):
     return removed
 
 
-def retain_telemetry(path, *, now=None, limit=500):
+def retain_telemetry(path, *, now=None, limit=500, processing_budget=0.1):
     """Bound routine payloads and expire structured telemetry with durable replay guards.
 
     A separate connection runs short batches off the request loop. Lifecycle
     payloads, commissioned profiles, shot records and deliveries are untouched.
     """
     now = time.time() if now is None else now
-    with sqlite3.connect(path, timeout=0.05) as db:
+    with closing(sqlite3.connect(path, timeout=0.05)) as db:
         db.execute('PRAGMA synchronous=FULL')
-        deadline = time.monotonic() + 0.1
+        deadline = time.monotonic() + processing_budget
         db.set_progress_handler(lambda: int(time.monotonic() > deadline), 1000)
         try:
-            rows = db.execute('''SELECT rowid,payload FROM controller_events
+            rows = db.execute('''SELECT rowid,payload FROM controller_events INDEXED BY controller_telemetry_age
                 WHERE shot_id IS NULL AND substr(payload,1,7) != 'sha256:'
                 AND received < ? AND json_extract(payload,'$.kind') IN ('profile','status')
                 ORDER BY received LIMIT ?''', (now-3600, limit)).fetchall()
@@ -343,8 +343,13 @@ def compact_expired(database):
     try:
         store.set('receipt_expiry_api', 1)
         deadline = time.monotonic()+600
+        reported=time.monotonic()
         while True:
-            count = retain_telemetry(database)
+            count = retain_telemetry(database, processing_budget=5)
+            if time.monotonic()-reported>5:
+                remaining=store.db.execute('SELECT count(*) FROM controller_events WHERE shot_id IS NULL').fetchone()[0]
+                print(json.dumps({'remaining_receipts':remaining,'last_batch':count}),flush=True)
+                reported=time.monotonic()
             if count == 0:break
             if time.monotonic()>deadline:raise TimeoutError('Receipt expiry migration timed out')
         store.db.execute('PRAGMA wal_checkpoint(TRUNCATE)').fetchall()

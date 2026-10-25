@@ -139,3 +139,21 @@ def test_telemetry_count_and_payload_budgets_expire_recent_receipts_atomically(t
     # A normal retry slot still retained is not falsely declared expired.
     assert not store.receipt_expired('classic-de1',{'event_id':'session-11','session_id':'session','sequence':11})
     store.close()
+
+
+def test_offline_expiry_handles_historical_scale_with_unique_timestamps(tmp_path):
+    import time
+    from store import compact_expired
+    path=tmp_path/'historical.sqlite3';store=Store(path);installation_id(store)
+    # Historical rows occupy both event-ID/sequence indexes and the age index.
+    session='classic-1791804911-4013291065-26466'
+    store.db.executemany('INSERT INTO controller_events VALUES (?,?,?,?,?,?,?)',
+        (('classic-de1',f'{session}-{seq}',session,seq,None,float(seq),'sha256:'+'a'*64) for seq in range(1,700001)))
+    store.db.commit();store.close()
+    started=time.monotonic();result=compact_expired(path)
+    assert time.monotonic()-started<120
+    restored=Store(path)
+    assert result['database_bytes']<1024*1024
+    assert restored.db.execute('SELECT count(*) FROM controller_events').fetchone()[0]==0
+    assert restored.db.execute('SELECT ranges FROM controller_receipt_expiry').fetchone()[0]=='[[1,700000]]'
+    restored.close()

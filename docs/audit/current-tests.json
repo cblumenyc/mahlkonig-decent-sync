@@ -19,6 +19,11 @@
     "behavior": "daily backup budget prunes only after verified replacement and keeps two",
     "assertions": 4
   },
+  "bridge/tests/test_backup.py::test_offline_expiry_handles_historical_scale_with_unique_timestamps": {
+    "area": "recovery",
+    "behavior": "offline expiry handles historical scale with unique timestamps",
+    "assertions": 4
+  },
   "bridge/tests/test_backup.py::test_retention_and_interrupted_snapshot_do_not_block_recovery": {
     "area": "recovery",
     "behavior": "retention and interrupted snapshot do not block recovery",
